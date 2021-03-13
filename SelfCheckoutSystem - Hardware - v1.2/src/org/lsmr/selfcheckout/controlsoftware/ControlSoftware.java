@@ -13,6 +13,8 @@ public class ControlSoftware {
 	
 	public static void main(String[] args) {
 		
+		// TODO: Refactor all these TODOs into separate classes
+		
 		// Questions for TA: 1. Where does control software folder go
 		
 		// TODO: Welcome Message
@@ -22,9 +24,6 @@ public class ControlSoftware {
 		// Banknote demoninations, coin denominations, kind of currency, max weight, scale-sensitivity
 		
 	
-		
-		
-		
 		BarcodeScanner scannerObject = new BarcodeScanner();
 		Barcode someBarcode = new Barcode("1234");
 		BarcodedItem someItem = new BarcodedItem(someBarcode, 2.0);
@@ -38,7 +37,7 @@ public class ControlSoftware {
 		BarcodedProduct prod = new BarcodedProduct(someBarcode, "Banana", bananaPrice);
 		
 		
-		
+		// TODO: Add list of items to the database
 		Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
 		
 		db.put(someBarcode, prod);
