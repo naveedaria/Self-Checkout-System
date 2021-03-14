@@ -46,7 +46,7 @@ public class ControlSoftware {
 		System.out.println("Product Description is: " + db.get(someBarcode).getPrice());
 		
 		
-		
+		// Test
 		
 		// System.out.println("Barcode is: " + someBarcode.toString());
 		
