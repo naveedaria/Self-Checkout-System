@@ -1,4 +1,4 @@
-package org.lsmr.selfcheckout.controlsoftware;
+package controlSoftware;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -6,7 +6,6 @@ import java.util.Map;
 import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.devices.BarcodeScanner;
-import org.lsmr.selfcheckout.devices.SelfCheckoutStation;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
@@ -59,20 +58,16 @@ public class ControlSoftware {
 		// TODO: Scan item, barcode, weigh-item, checkout (pay and stuff(())
 		
 		
-		SelfCheckoutStation station = new SelfCheckoutStation(null, null, null, 2, 2);
-		
-		station.baggingArea.add(someItem);
-		
-		
-			
 		
 		
 		// TODO: Shopping cart (keeps track of items that are scanned)
 		
+		
 		// TODO: print receipt hardware
-			
+		
+		
+		
 	
 	}
-	
 
 }
