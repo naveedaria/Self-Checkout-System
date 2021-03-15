@@ -17,7 +17,7 @@ import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
 public class ControlSoftware {
-	
+	private static BigDecimal paymentTotal;
 	/*
 	private final Currency c1 = Currency.getInstance("CAD");
 	
@@ -41,7 +41,6 @@ public class ControlSoftware {
 		
 		System.out.println("Scan item: ");
 		
-		// TODO: Hard-code all of the items (initialization)
 		// Banknote demoninations, coin denominations, kind of currency, max weight, scale-sensitivity
 		try {
 		Currency currency = Currency.getInstance("CAD");
@@ -119,7 +118,6 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	private static BigDecimal paymentTotal;
 	public static void setPayment(BigDecimal productPrice) {
 		paymentTotal.add(productPrice);
 	}
