@@ -1,0 +1,55 @@
+package controlSoftware;
+
+import org.lsmr.selfcheckout.devices.AbstractDevice;
+import org.lsmr.selfcheckout.devices.Acceptor;
+import org.lsmr.selfcheckout.devices.BanknoteSlot;
+import org.lsmr.selfcheckout.devices.DisabledException;
+import org.lsmr.selfcheckout.devices.OverloadException;
+import org.lsmr.selfcheckout.devices.listeners.AbstractDeviceListener;
+import org.lsmr.selfcheckout.devices.listeners.BanknoteSlotListener;
+
+public class banknotePaymentStub implements BanknoteSlotListener, Acceptor{
+
+	@Override
+	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
+		// TODO Auto-generated method stub
+		System.out.print("banknote payment enabled ");
+	}
+
+	@Override
+	public void disabled(AbstractDevice<? extends AbstractDeviceListener> device) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void accept(Object thing) throws OverloadException, DisabledException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean hasSpace() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void banknoteInserted(BanknoteSlot slot) {
+		// TODO Auto-generated method stub
+		System.out.print("banknote inserted ");
+	}
+
+	@Override
+	public void banknoteEjected(BanknoteSlot slot) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void banknoteRemoved(BanknoteSlot slot) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
