@@ -10,7 +10,7 @@ public class baggingAreaStub implements ElectronicScaleListener{
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
 		// TODO Auto-generated method stub
-		System.out.print("bagging area enabled");
+		System.out.print("bagging area enabled \n");
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class baggingAreaStub implements ElectronicScaleListener{
 	@Override
 	public void weightChanged(ElectronicScale scale, double weightInGrams) {
 		// TODO Auto-generated method stub
-		System.out.print("weight changed");
+		System.out.print("weight changed \n");
 	}
 
 	@Override

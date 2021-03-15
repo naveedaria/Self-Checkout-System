@@ -13,7 +13,7 @@ public class banknotePaymentStub implements BanknoteSlotListener, Acceptor{
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
 		// TODO Auto-generated method stub
-		System.out.print("banknote payment enabled ");
+		System.out.print("banknote payment enabled \n");
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class banknotePaymentStub implements BanknoteSlotListener, Acceptor{
 	@Override
 	public void banknoteInserted(BanknoteSlot slot) {
 		// TODO Auto-generated method stub
-		System.out.print("banknote inserted ");
+		System.out.print("banknote inserted \n");
 	}
 
 	@Override

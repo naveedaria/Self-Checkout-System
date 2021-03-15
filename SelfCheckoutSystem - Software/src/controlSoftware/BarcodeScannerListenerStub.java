@@ -11,7 +11,7 @@ public class BarcodeScannerListenerStub implements BarcodeScannerListener{
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
 		// TODO Auto-generated method stub
-		System.out.print("test test ");
+		System.out.print("test test \n");
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class BarcodeScannerListenerStub implements BarcodeScannerListener{
 	@Override
 	public void barcodeScanned(BarcodeScanner barcodeScanner, Barcode barcode) {
 		// TODO Auto-generated method stub
-		System.out.print("test test 22");
+		System.out.print("test test 22 \n");
 	}
 
 }
