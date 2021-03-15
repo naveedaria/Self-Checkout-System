@@ -172,7 +172,7 @@ public class ControlSoftware {
 			e.printStackTrace();
 		}catch(IllegalArgumentException e) {
 			System.out.println("Invalid coin entered.");
-			throw new IllegalArgumentException("Invalid coin value");
+			//throw new IllegalArgumentException("Invalid coin value");
 		}
 	}
 	
