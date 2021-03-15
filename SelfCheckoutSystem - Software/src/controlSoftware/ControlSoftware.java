@@ -134,7 +134,7 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	private static void bagMethod(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
+	public static void bagMethod(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
 		baggingAreaStub bagAreaStub = new baggingAreaStub();
 		selfCheckout.baggingArea.register(bagAreaStub);
 		selfCheckout.baggingArea.enable();
@@ -144,7 +144,7 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	private static void coinMethod(SelfCheckoutStation selfCheckout, Currency currency) {
+	public static void coinMethod(SelfCheckoutStation selfCheckout, Currency currency) {
 		BigDecimal coinValue = new BigDecimal(2);
 		Coin someCoin = new Coin(coinValue, currency);
 		CoinPaymentStub coinStub = new CoinPaymentStub();
@@ -161,7 +161,7 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	private static void banknoteMethod(SelfCheckoutStation selfCheckout, Currency currency) {
+	public static void banknoteMethod(SelfCheckoutStation selfCheckout, Currency currency) {
 		try {
 			Banknote someBill = new Banknote(10, currency);
 			banknotePaymentStub billStub = new banknotePaymentStub();
