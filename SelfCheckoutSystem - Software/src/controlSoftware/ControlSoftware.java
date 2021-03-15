@@ -51,7 +51,7 @@ public class ControlSoftware {
 		
 		BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05), new BigDecimal(0.10), new BigDecimal(0.25), new BigDecimal(1.00), new BigDecimal(2.00)};
 		
-		int scaleMaximumWeight = 500; // Don't know the units of the scale, will figure out later
+		int scaleMaximumWeight = 5; // Don't know the units of the scale, will figure out later
 		
 		int scaleSensitivity = 1; // Don't know the units also
 		
