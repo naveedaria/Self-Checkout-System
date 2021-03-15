@@ -20,6 +20,7 @@ import org.lsmr.selfcheckout.products.BarcodedProduct;
 
 public class ControlSoftware {
 	private static BigDecimal paymentTotal;
+	public static BigDecimal coinValue;
 	/*
 	private final Currency c1 = Currency.getInstance("CAD");
 	
@@ -93,7 +94,7 @@ public class ControlSoftware {
 			float coinVal = input.nextFloat();
 			
 			//Coin payment stubs and listeners
-			BigDecimal coinValue = new BigDecimal(coinVal);
+			coinValue = new BigDecimal(coinVal);
 			coinMethod(selfCheckout, currency, coinValue, coinDenominations);
 //			BigDecimal coinValue = new BigDecimal(2);
 //			Coin someCoin = new Coin(coinValue, currency);
