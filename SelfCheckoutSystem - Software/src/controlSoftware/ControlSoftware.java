@@ -21,6 +21,7 @@ import org.lsmr.selfcheckout.products.BarcodedProduct;
 public class ControlSoftware {
 	private static BigDecimal paymentTotal;
 	public static BigDecimal coinValue;
+	public static SelfCheckoutStation station;
 	/*
 	private final Currency c1 = Currency.getInstance("CAD");
 	
@@ -57,8 +58,7 @@ public class ControlSoftware {
 		int scaleSensitivity = 1; // Don't know the units also
 		
 		SelfCheckoutStation selfCheckout = new SelfCheckoutStation(currency, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
-		
-		
+		station = selfCheckout;
 			//System.out.println("Self-checkout Station has been turned on. Scan first item: ");
 			//System.out.print("Scan (or enter barcode) of your item: ");
 			//System.out.println("Product Description is: " + db.get(someBarcode).getPrice());
@@ -113,7 +113,9 @@ public class ControlSoftware {
 			
 		}
 		catch (Exception e) {
-			// TODO: Handle exception message if any
+			if (e instanceof IllegalArgumentException) {
+				throw new IllegalArgumentException("Invalid coin value");
+			}
 		}
 
 		// TODO: Sort payment calculations 
@@ -164,7 +166,7 @@ public class ControlSoftware {
 				Coin someCoin = new Coin(coinValue, currency);
 				CoinPaymentStub coinStub = new CoinPaymentStub();
 				selfCheckout.coinSlot.register(coinStub);
-				selfCheckout.coinSlot.enable();
+				//selfCheckout.coinSlot.enable();
 				selfCheckout.coinSlot.accept(someCoin);
 			}else {
 				throw new IllegalArgumentException("Invalid coin value");
@@ -173,7 +175,7 @@ public class ControlSoftware {
 			e.printStackTrace();
 		}catch(IllegalArgumentException e) {
 			System.out.println("Invalid coin entered.");
-			//throw new IllegalArgumentException("Invalid coin value");
+			throw new IllegalArgumentException("Invalid coin value");
 		}
 	}
 	
