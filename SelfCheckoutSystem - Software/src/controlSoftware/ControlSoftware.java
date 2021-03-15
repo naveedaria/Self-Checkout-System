@@ -41,7 +41,9 @@ public class ControlSoftware {
 		// TODO: Refactor all these TODOs into separate classes
 		
 		// Questions for TA: 1. Where does control software folder go
-		// Questions for TA: 2. Do we implement payment calculations 
+		// Questions for TA: 2. Do we implement payment calculations
+		
+		// Aris Test Comment - First Commit
 		
 		System.out.println("Scan item: ");
 		
