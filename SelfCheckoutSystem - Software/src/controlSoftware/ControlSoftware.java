@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.lsmr.selfcheckout.Banknote;
 import org.lsmr.selfcheckout.Barcode;
@@ -13,6 +14,7 @@ import org.lsmr.selfcheckout.devices.BarcodeScanner;
 import org.lsmr.selfcheckout.devices.DisabledException;
 import org.lsmr.selfcheckout.devices.OverloadException;
 import org.lsmr.selfcheckout.devices.SelfCheckoutStation;
+import org.lsmr.selfcheckout.devices.SimulationException;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
@@ -86,8 +88,13 @@ public class ControlSoftware {
 //			selfCheckout.baggingArea.enable();
 //			selfCheckout.baggingArea.add(someItem);
 			
+			Scanner input = new Scanner(System.in);
+			System.out.println("Please insert a coin (type in numeric value): ");
+			float coinVal = input.nextFloat();
+			
 			//Coin payment stubs and listeners
-			coinMethod(selfCheckout, currency);
+			BigDecimal coinValue = new BigDecimal(coinVal);
+			coinMethod(selfCheckout, currency, coinValue, coinDenominations);
 //			BigDecimal coinValue = new BigDecimal(2);
 //			Coin someCoin = new Coin(coinValue, currency);
 //			CoinPaymentStub coinStub = new CoinPaymentStub();
@@ -142,17 +149,30 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public static void coinMethod(SelfCheckoutStation selfCheckout, Currency currency) {
-		BigDecimal coinValue = new BigDecimal(2);
-		Coin someCoin = new Coin(coinValue, currency);
-		CoinPaymentStub coinStub = new CoinPaymentStub();
-		selfCheckout.coinSlot.register(coinStub);
-		selfCheckout.coinSlot.enable();
+	public static void coinMethod(SelfCheckoutStation selfCheckout, Currency currency, BigDecimal coinValue, BigDecimal[] coinDenominations) {
+		//BigDecimal coinValue = new BigDecimal(2);
 		try {
-			selfCheckout.coinSlot.accept(someCoin);
+			boolean check = false; 
+			//checking if coin value is in list of coin denominations 
+			for (int i = 0; i<coinDenominations.length; i++) {
+				if (coinDenominations[i].compareTo(coinValue)==0) {
+					check = true;
+				}
+			}
+			if (check) {
+				Coin someCoin = new Coin(coinValue, currency);
+				CoinPaymentStub coinStub = new CoinPaymentStub();
+				selfCheckout.coinSlot.register(coinStub);
+				selfCheckout.coinSlot.enable();
+				selfCheckout.coinSlot.accept(someCoin);
+			}else {
+				throw new IllegalArgumentException("Invalid coin value");
+			}
 		} catch (DisabledException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}catch(IllegalArgumentException e) {
+			System.out.println("Invalid coin entered.");
+			throw new IllegalArgumentException("Invalid coin value");
 		}
 	}
 	
