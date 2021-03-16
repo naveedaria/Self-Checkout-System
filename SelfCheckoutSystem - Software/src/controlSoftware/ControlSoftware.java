@@ -176,13 +176,15 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public static void coinMethod(SelfCheckoutStation selfCheckout, Currency currency, BigDecimal[] coinDenominations, Coin someCoin) {
+	public static void coinMethod(SelfCheckoutStation selfCheckout, Currency currency, BigDecimal[] coinDenominations, Coin someCoin) throws DisabledException {
 		try {
+			if (someCoin==null) {
+				throw new SimulationException("Null coin entered.");
+			}
 			boolean validCoinVal = checkCoinVal(someCoin, coinDenominations);
 			if (validCoinVal) {
 				CoinPaymentStub coinStub = new CoinPaymentStub();
 				selfCheckout.coinSlot.register(coinStub);
-				//selfCheckout.coinSlot.enable();
 				selfCheckout.coinSlot.accept(someCoin); 
 			}else {
 				throw new IllegalArgumentException("Invalid coin value");
@@ -190,10 +192,10 @@ public class ControlSoftware {
 		}catch(SimulationException e) {
 			throw new SimulationException("Invalid coin entered.");
 		}catch (DisabledException e) {
-			e.printStackTrace();
+			throw new DisabledException();
 		}catch(IllegalArgumentException e) {
 			System.out.println("Value of coin was invalid.");
-			throw new IllegalArgumentException("Invalid coin value");
+			throw new IllegalArgumentException("Invalid coin value"); 
 		}
 	}
 	
@@ -210,7 +212,7 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public static void banknoteMethod(SelfCheckoutStation selfCheckout, Currency currency, int[] banknoteDenominations, Banknote someBanknote) throws OverloadException {
+	public static void banknoteMethod(SelfCheckoutStation selfCheckout, Currency currency, int[] banknoteDenominations, Banknote someBanknote) throws OverloadException, DisabledException {
 		try {
 			boolean validCoinVal = checkBanknoteVal(someBanknote, banknoteDenominations);
 			if (validCoinVal) {
@@ -227,7 +229,7 @@ public class ControlSoftware {
 		}catch(SimulationException e) {
 			throw new SimulationException("Invalid banknote entered.");
 		}catch (DisabledException e) {
-			e.printStackTrace();
+			throw new DisabledException();
 		}catch(IllegalArgumentException e) {
 			System.out.println("Value of banknote was invalid.");
 			throw new IllegalArgumentException("Invalid banknote value");
