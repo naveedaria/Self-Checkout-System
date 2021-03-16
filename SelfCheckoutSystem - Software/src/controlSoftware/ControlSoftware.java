@@ -22,6 +22,7 @@ import org.lsmr.selfcheckout.products.BarcodedProduct;
 public class ControlSoftware {
 	private static BigDecimal paymentTotal = new BigDecimal(0);
 	private BigDecimal change;
+	private boolean coinProcessed = false;
 	private int numProducts = 0;
 	private ArrayList<Barcode> productBarcodes = new ArrayList<Barcode>();
 	
@@ -189,12 +190,12 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public BigDecimal calculateCoinPayment(BigDecimal coinValue, boolean itemProcessed) {
-		if (itemProcessed==false) {
+	public BigDecimal calculateCoinPayment(BigDecimal coinValue) {
+		if (coinProcessed==false) {
 			BigDecimal balance = getTotalBalance();
 			this.change = balance.subtract(coinValue);
-			itemProcessed = true; 
-		}else if (itemProcessed==true) {
+			this.coinProcessed = true; 
+		}else if (coinProcessed==true) {
 			this.change = this.change.subtract(coinValue);
 		}
 		return this.change;
@@ -203,13 +204,13 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public BigDecimal calculateBillPayment(int banknoteValue, boolean itemProcessed) {
+	public BigDecimal calculateBillPayment(int banknoteValue, boolean billProcessed) {
 		BigDecimal bankNoteVal = new BigDecimal(banknoteValue);
-		if (itemProcessed==false) {
+		if (billProcessed==false) {
 			BigDecimal balance = getTotalBalance();
 			this.change = balance.subtract(bankNoteVal);
-			itemProcessed = true; 
-		}else if (itemProcessed==true) {
+			billProcessed = true; 
+		}else if (billProcessed==true) {
 			this.change = this.change.subtract(bankNoteVal);
 		}
 		return this.change;

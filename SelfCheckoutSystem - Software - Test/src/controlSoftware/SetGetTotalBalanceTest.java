@@ -33,7 +33,7 @@ public class SetGetTotalBalanceTest {
 			float price2 = (float) 1.50;
 			String name2 = "apple";
 			
-			controlSoft.scanProduct(barcode, weight, price, name);
+			controlSoft.scanProduct(barcode, weight, price, name); 
 			controlSoft.scanProduct(barcode2, weight2, price2, name2);
 			controlSoft.setTotalBalance();
 			BigDecimal expected = (new BigDecimal(price)).add(new BigDecimal(price2));
