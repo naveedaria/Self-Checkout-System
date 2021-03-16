@@ -8,6 +8,7 @@ import java.util.Currency;
 //import org.lsmr.selfcheckout.devices.DisabledException;
 
 import org.junit.Test;
+import org.lsmr.selfcheckout.Coin;
 
 public class CoinPaymentTest {
 	private BigDecimal coinValue;
@@ -15,37 +16,36 @@ public class CoinPaymentTest {
 	@Test
 	public void testCoinMethodValidInput() {
 		try {
-			ControlSoftware controlSoft = new ControlSoftware(); 
-			controlSoft.main(null); 
-			coinValue= controlSoft.coinValue;
+			Currency currency = Currency.getInstance("CAD");
+			int[] banknoteDenominations = new int[]{5, 10, 20, 50, 100};
+			BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05), new BigDecimal(0.10), new BigDecimal(0.25), new BigDecimal(1.00), new BigDecimal(2.00)};
+			int scaleMaximumWeight = 500; 
+			int scaleSensitivity = 1; 
+			
+			ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity); 
+			BigDecimal value = new BigDecimal(2);
+			Coin someCoin = new Coin(value,currency);
+			controlSoft.coinMethod(controlSoft.selfCheckout, currency, coinDenominations, someCoin);
 		}catch (Exception e) {
-			BigDecimal testVal1 = new BigDecimal(0.05);
-			BigDecimal testVal2 = new BigDecimal(0.10);
-			BigDecimal testVal3 = new BigDecimal(0.25);
-			BigDecimal testVal4 = new BigDecimal(1.00);
-			BigDecimal testVal5 = new BigDecimal(2.00);
-			if ((this.coinValue.compareTo(testVal1)==0) || (this.coinValue.compareTo(testVal2)==0) || (this.coinValue.compareTo(testVal3)==0) || (this.coinValue.compareTo(testVal4)==0) || (this.coinValue.compareTo(testVal5)==0)) {
-				fail("Coin value was valid - exception not expected");
-			}
+			fail("Coin value was valid - exception not expected");
 		}
 	}
 	
 	@Test
 	public void testCoinMethodInvalidInput() {
 		try {
-			ControlSoftware controlSoft = new ControlSoftware();
-			controlSoft.main(null);
-			coinValue= controlSoft.coinValue;
-		}catch (Exception e) {
-			BigDecimal testVal1 = new BigDecimal(0.05);
-			BigDecimal testVal2 = new BigDecimal(0.10);
-			BigDecimal testVal3 = new BigDecimal(0.25);
-			BigDecimal testVal4 = new BigDecimal(1.00);
-			BigDecimal testVal5 = new BigDecimal(2.00);
-			if ((this.coinValue.compareTo(testVal1)!=0) || (this.coinValue.compareTo(testVal2)!=0) || (this.coinValue.compareTo(testVal3)!=0) || (this.coinValue.compareTo(testVal4)!=0) || (this.coinValue.compareTo(testVal5)!=0)) {
-				assertTrue("Invalid input - IllegalArgumentException expected.\n", e instanceof IllegalArgumentException);
-			}
+			Currency currency = Currency.getInstance("CAD");
+			int[] banknoteDenominations = new int[]{5, 10, 20, 50, 100};
+			BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05), new BigDecimal(0.10), new BigDecimal(0.25), new BigDecimal(1.00), new BigDecimal(2.00)};
+			int scaleMaximumWeight = 500; 
+			int scaleSensitivity = 1; 
 			
+			ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity); 
+			BigDecimal value = new BigDecimal(3);
+			Coin someCoin = new Coin(value,currency);
+			controlSoft.coinMethod(controlSoft.selfCheckout, currency, coinDenominations, someCoin);
+		}catch (Exception e) {
+			assertTrue("Invalid input - IllegalArgumentException expected.\n", e instanceof IllegalArgumentException);
 		}
 	}
 	
