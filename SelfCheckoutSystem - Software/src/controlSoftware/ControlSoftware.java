@@ -70,7 +70,7 @@ public class ControlSoftware {
 		scannerObject.scan(someItem);
 	}
 	
-	
+	/*
 	public static void main(String[] args) {
 		
 		// TODO: Refactor all these TODOs into separate classes
@@ -140,7 +140,7 @@ public class ControlSoftware {
 		// TODO: print receipt hardware
 		
 		
-	}
+	}*/
 	
 	//Functionality: 
 	//@Parameters:
