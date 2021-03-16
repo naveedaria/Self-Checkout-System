@@ -25,9 +25,10 @@ public class CoinPaymentTest {
 			int scaleSensitivity = 1; 
 			
 			ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity); 
-			BigDecimal value = new BigDecimal(2);
-			Coin someCoin = new Coin(value,currency);
-			controlSoft.coinMethod(controlSoft.selfCheckout, currency, coinDenominations, someCoin);
+			BigDecimal expectedVal = new BigDecimal(2);
+			Coin someCoin = new Coin(expectedVal,currency);
+			BigDecimal resultVal = controlSoft.coinMethod(controlSoft.selfCheckout, currency, coinDenominations, someCoin);
+			assertTrue(expectedVal == resultVal);
 		}catch (Exception e) {
 			fail("Coin value was valid - exception not expected");
 		}

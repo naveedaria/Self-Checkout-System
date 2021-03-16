@@ -1,6 +1,7 @@
 package controlSoftware;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.Map;
@@ -19,8 +20,10 @@ import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
 public class ControlSoftware {
-	private static BigDecimal paymentTotal;
+	private static BigDecimal paymentTotal = new BigDecimal(0);
 	private BigDecimal change;
+	private int numProducts = 0;
+	private ArrayList<Barcode> productBarcodes = new ArrayList<Barcode>();
 	
 	private Currency currency;
 	private int[] banknoteDenominations;
@@ -49,19 +52,21 @@ public class ControlSoftware {
 	}
 	
 	
-	public void scanProduct(String barcode, float weight, float price, String name, Map<Barcode, BarcodedProduct> db) {
+	public void scanProduct(String barcode, float weight, float price, String name) {
 		BarcodeScanner scannerObject = new BarcodeScanner();
 		Barcode someBarcode = new Barcode(barcode);
 		BarcodedItem someItem = new BarcodedItem(someBarcode, weight);
 		
 		BigDecimal productPrice = new BigDecimal(price);
 		BarcodedProduct prod = new BarcodedProduct(someBarcode, name, productPrice);
-		db.put(someBarcode, prod);
+		this.db.put(someBarcode, prod);
 		
 		BarcodeScannerListenerStub stub = new BarcodeScannerListenerStub();
 		scannerObject.register(stub);	
 		scannerObject.enable();
 		scannerObject.scan(someItem);
+		this.productBarcodes.add(someBarcode);
+		this.numProducts+=1;
 	}
 	
 	//Functionality: 
@@ -167,12 +172,12 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public static void setTotalBalance(BigDecimal productPrice, Map<Barcode, BarcodedProduct> db) {
-		for (Map.Entry<Barcode,BarcodedProduct> entry : db.entrySet()) {
-			BigDecimal price = entry.getValue().getPrice();
-			paymentTotal.add(price);
+	public void setTotalBalance() {
+		for (int i = 0; i<this.productBarcodes.size();i++) {
+			BigDecimal price = this.db.get(productBarcodes.get(i)).getPrice();
+			this.paymentTotal = this.paymentTotal.add(price);
 		}
-	}
+	} 
 	
 	//Functionality: 
 	//@Parameters:
