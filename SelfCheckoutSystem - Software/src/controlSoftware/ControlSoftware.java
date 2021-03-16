@@ -29,17 +29,13 @@ public class ControlSoftware {
 	private int scaleMaxWeight;
 	private int scaleSensitivity;
 	public SelfCheckoutStation selfCheckout;
+	public Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
 	/*
 	private final Currency c1 = Currency.getInstance("CAD");
-	
 	private final int[] banknoteDenominations = new int[]{5, 10, 20, 50, 100};
-	
 	private final BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05), new BigDecimal(0.10), new BigDecimal(0.25), new BigDecimal(1.00), new BigDecimal(2.00)};
-	
 	private final int scaleMaximumWeight = 500; // Don't know the units of the scale, will figure out later
-	
 	private final int scaleSensitivity = 1; // Don't know the units also
-	
 	private static SelfCheckoutStation selfCheckout = new SelfCheckoutStation(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
 	*/
 	
@@ -54,14 +50,13 @@ public class ControlSoftware {
 	}
 	
 	
-	public void scanProduct(String barcode, float weight, float price, String name) {
+	public void scanProduct(String barcode, float weight, float price, String name, Map<Barcode, BarcodedProduct> db) {
 		BarcodeScanner scannerObject = new BarcodeScanner();
 		Barcode someBarcode = new Barcode(barcode);
 		BarcodedItem someItem = new BarcodedItem(someBarcode, weight);
 		
 		BigDecimal productPrice = new BigDecimal(price);
 		BarcodedProduct prod = new BarcodedProduct(someBarcode, name, productPrice);
-		Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
 		db.put(someBarcode, prod);
 		
 		BarcodeScannerListenerStub stub = new BarcodeScannerListenerStub();
@@ -69,78 +64,6 @@ public class ControlSoftware {
 		scannerObject.enable();
 		scannerObject.scan(someItem);
 	}
-	
-	/*
-	public static void main(String[] args) {
-		
-		// TODO: Refactor all these TODOs into separate classes
-		
-		// Questions for TA: 1. Where does control software folder go
-		// Questions for TA: 2. Do we implement payment calculations
-		
-		// Aris Test Comment - First Commit
-		
-		System.out.println("Scan item: ");
-		
-		// Banknote demoninations, coin denominations, kind of currency, max weight, scale-sensitivity
-		try {
-			Currency currency = Currency.getInstance("CAD");
-			int[] banknoteDenominations = new int[]{5, 10, 20, 50, 100};
-			BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05), new BigDecimal(0.10), new BigDecimal(0.25), new BigDecimal(1.00), new BigDecimal(2.00)};
-			int scaleMaximumWeight = 500; // Don't know the units of the scale, will figure out later
-			int scaleSensitivity = 1; // Don't know the units also
-			
-			SelfCheckoutStation selfCheckout = new SelfCheckoutStation(currency, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
-			//station = selfCheckout;
-
-	
-			BarcodeScanner scannerObject = new BarcodeScanner();
-			Barcode someBarcode = new Barcode("1234");
-			BarcodedItem someItem = new BarcodedItem(someBarcode, 2.0);
-			
-			//-----------------------------------------
-			BigDecimal bananaPrice = new BigDecimal(2.5);
-			BarcodedProduct prod = new BarcodedProduct(someBarcode, "Banana", bananaPrice);
-			Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
-			db.put(someBarcode, prod);
-			//----------------------------------------
-			
-			BarcodeScannerListenerStub stub = new BarcodeScannerListenerStub();
-			scannerObject.register(stub);	
-			scannerObject.enable();
-			scannerObject.scan(someItem);
-			
-			//-----------------------------------------------
-			
-			//BAGGING AREA STUBS AND LISTENERS
-			bagMethod(selfCheckout, someItem);
-			
-			Scanner input = new Scanner(System.in);
-			System.out.println("Please insert a coin (type in numeric value): ");
-			float coinVal = input.nextFloat();
-			
-			//Coin payment stubs and listeners
-			coinValue = new BigDecimal(coinVal);
-			Coin someCoin = new Coin(coinValue, currency);
-			coinMethod(selfCheckout, currency, coinDenominations, someCoin);
-			
-			//Banknote payment stubs and listeners
-			//incomplete**
-			//banknoteMethod(selfCheckout, currency, banknoteDenominations);
-			
-		}
-		catch (Exception e) {
-			if (e instanceof IllegalArgumentException) {
-				throw new IllegalArgumentException("Invalid coin value");
-			}
-		}
-
-		// TODO: Sort payment calculations 
-		// TODO: Shopping cart (keeps track of items that are scanned)
-		// TODO: print receipt hardware
-		
-		
-	}*/
 	
 	//Functionality: 
 	//@Parameters:
