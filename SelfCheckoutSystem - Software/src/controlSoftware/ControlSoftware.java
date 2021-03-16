@@ -21,7 +21,7 @@ import org.lsmr.selfcheckout.products.BarcodedProduct;
 public class ControlSoftware {
 	private static BigDecimal paymentTotal;
 	public static BigDecimal coinValue;
-	public static SelfCheckoutStation station;
+	//public static SelfCheckoutStation station;
 	
 	private Currency currency;
 	private int[] banknoteDenominations;
