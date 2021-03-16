@@ -68,14 +68,17 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public static void setPayment(BigDecimal productPrice) {
-		paymentTotal.add(productPrice);
+	public static void setTotalBalance(BigDecimal productPrice, Map<Barcode, BarcodedProduct> db) {
+		for (Map.Entry<Barcode,BarcodedProduct> entry : db.entrySet()) {
+			BigDecimal price = entry.getValue().getPrice();
+			paymentTotal.add(price);
+		}
 	}
 	
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public BigDecimal getPayment() {
+	public BigDecimal setTotalBalance() {
 		return this.paymentTotal;
 	}
 	
