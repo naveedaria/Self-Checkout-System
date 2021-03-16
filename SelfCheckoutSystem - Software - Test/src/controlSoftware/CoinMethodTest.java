@@ -12,7 +12,7 @@ import org.lsmr.selfcheckout.Coin;
 import org.lsmr.selfcheckout.devices.DisabledException;
 import org.lsmr.selfcheckout.devices.SimulationException;
 
-public class CoinPaymentTest {
+public class CoinMethodTest {
 	private BigDecimal coinValue;
 	
 	@Test
