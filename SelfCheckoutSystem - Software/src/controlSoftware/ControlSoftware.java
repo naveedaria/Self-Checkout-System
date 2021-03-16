@@ -20,8 +20,7 @@ import org.lsmr.selfcheckout.products.BarcodedProduct;
 
 public class ControlSoftware {
 	private static BigDecimal paymentTotal;
-	public static BigDecimal coinValue;
-	//public static SelfCheckoutStation station;
+	private BigDecimal change;
 	
 	private Currency currency;
 	private int[] banknoteDenominations;
@@ -29,7 +28,7 @@ public class ControlSoftware {
 	private int scaleMaxWeight;
 	private int scaleSensitivity;
 	public SelfCheckoutStation selfCheckout;
-	public Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
+	private Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
 	/*
 	private final Currency c1 = Currency.getInstance("CAD");
 	private final int[] banknoteDenominations = new int[]{5, 10, 20, 50, 100};
@@ -68,23 +67,6 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public static void setTotalBalance(BigDecimal productPrice, Map<Barcode, BarcodedProduct> db) {
-		for (Map.Entry<Barcode,BarcodedProduct> entry : db.entrySet()) {
-			BigDecimal price = entry.getValue().getPrice();
-			paymentTotal.add(price);
-		}
-	}
-	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
-	public BigDecimal setTotalBalance() {
-		return this.paymentTotal;
-	}
-	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
 	public static void bagMethod(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
 		baggingAreaStub bagAreaStub = new baggingAreaStub();
 		selfCheckout.baggingArea.register(bagAreaStub);
@@ -92,6 +74,9 @@ public class ControlSoftware {
 		selfCheckout.baggingArea.add(someItem);
 	}
 	
+	//Functionality: 
+	//@Parameters:
+	//@Returns: 
 	public void removeItem(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
 		baggingAreaStub bagAreaStub = new baggingAreaStub();
 		selfCheckout.baggingArea.register(bagAreaStub);
@@ -102,7 +87,7 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public static void coinMethod(SelfCheckoutStation selfCheckout, Currency currency, BigDecimal[] coinDenominations, Coin someCoin) throws DisabledException {
+	public static BigDecimal coinMethod(SelfCheckoutStation selfCheckout, Currency currency, BigDecimal[] coinDenominations, Coin someCoin) throws DisabledException {
 		try {
 			if (someCoin==null) {
 				throw new SimulationException("Null coin entered.");
@@ -112,6 +97,7 @@ public class ControlSoftware {
 				CoinPaymentStub coinStub = new CoinPaymentStub();
 				selfCheckout.coinSlot.register(coinStub);
 				selfCheckout.coinSlot.accept(someCoin); 
+				return someCoin.getValue();
 			}else {
 				throw new IllegalArgumentException("Invalid coin value");
 			}
@@ -125,6 +111,9 @@ public class ControlSoftware {
 		}
 	}
 	
+	//Functionality: 
+	//@Parameters:
+	//@Returns: 
 	public static boolean checkCoinVal(Coin someCoin, BigDecimal[] coinDenominations) {
 		//checking if coin value is in list of coin denominations 
 		for (int i = 0; i<coinDenominations.length; i++) {
@@ -138,15 +127,15 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public static void banknoteMethod(SelfCheckoutStation selfCheckout, Currency currency, int[] banknoteDenominations, Banknote someBanknote) throws OverloadException, DisabledException {
+	public static int banknoteMethod(SelfCheckoutStation selfCheckout, Currency currency, int[] banknoteDenominations, Banknote someBanknote) throws OverloadException, DisabledException {
 		try {
 			boolean validCoinVal = checkBanknoteVal(someBanknote, banknoteDenominations);
 			if (validCoinVal) {
-				//Banknote someBill = new Banknote(10, currency);
 				banknotePaymentStub billStub = new banknotePaymentStub();
 				selfCheckout.banknoteInput.register(billStub);
 				selfCheckout.banknoteInput.enable();
 				selfCheckout.banknoteInput.accept(someBanknote);
+				return someBanknote.getValue();
 			}else {
 				throw new IllegalArgumentException("Invalid banknote value");
 			}
@@ -162,8 +151,11 @@ public class ControlSoftware {
 		}
 	}
 	
+	//Functionality: 
+	//@Parameters:
+	//@Returns: 
 	public static boolean checkBanknoteVal(Banknote someBanknote, int[] banknoteDenominations) {
-		//checking if coin value is in list of coin denominations 
+		//checking if banknote value is in list of banknote denominations 
 		for (int i = 0; i<banknoteDenominations.length; i++) {
 			if (banknoteDenominations[i] == someBanknote.getValue()) {
 				return true; 
@@ -171,5 +163,51 @@ public class ControlSoftware {
 		}
 		return false; 
 	}
-
+	
+	//Functionality: 
+	//@Parameters:
+	//@Returns: 
+	public static void setTotalBalance(BigDecimal productPrice, Map<Barcode, BarcodedProduct> db) {
+		for (Map.Entry<Barcode,BarcodedProduct> entry : db.entrySet()) {
+			BigDecimal price = entry.getValue().getPrice();
+			paymentTotal.add(price);
+		}
+	}
+	
+	//Functionality: 
+	//@Parameters:
+	//@Returns: 
+	public BigDecimal getTotalBalance() {
+		return this.paymentTotal;
+	}
+	
+	//Functionality: 
+	//@Parameters:
+	//@Returns: 
+	public BigDecimal calculateCoinPayment(BigDecimal coinValue, boolean itemProcessed) {
+		if (itemProcessed==false) {
+			BigDecimal balance = getTotalBalance();
+			this.change = balance.subtract(coinValue);
+			itemProcessed = true; 
+		}else if (itemProcessed==true) {
+			this.change = this.change.subtract(coinValue);
+		}
+		return this.change;
+	}
+	
+	//Functionality: 
+	//@Parameters:
+	//@Returns: 
+	public BigDecimal calculateBillPayment(int banknoteValue, boolean itemProcessed) {
+		BigDecimal bankNoteVal = new BigDecimal(banknoteValue);
+		if (itemProcessed==false) {
+			BigDecimal balance = getTotalBalance();
+			this.change = balance.subtract(bankNoteVal);
+			itemProcessed = true; 
+		}else if (itemProcessed==true) {
+			this.change = this.change.subtract(bankNoteVal);
+		}
+		return this.change;
+	}
+	
 }
