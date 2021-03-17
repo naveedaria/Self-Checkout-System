@@ -42,6 +42,20 @@ public class ControlSoftware {
 	private static SelfCheckoutStation selfCheckout = new SelfCheckoutStation(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
 	*/
 	
+	/**
+	 * Constructor that initializes the SelfCheckout Station hardware
+	 * 
+	 * @param currency
+	 * 		  The currency type accepted
+	 * @param banknoteDenominations
+	 * 		  The denominations of bank notes accepted
+	 * @param coinDenominations
+	 * 		  The denominations of coins accepted
+	 * @param scaleMaxWeight
+	 * 		  The maximum weight permitted in the bagging area
+	 * @param scaleSensitivity
+	 * 		  The sensitivity of the scale. 
+	 */
 	public ControlSoftware(Currency currency, int[] banknoteDenominations, BigDecimal[] coinDenominations, int scaleMaxWeight, int scaleSensitivity) {
 		this.currency = currency;
 		this.banknoteDenominations = banknoteDenominations;
@@ -52,7 +66,17 @@ public class ControlSoftware {
 		this.selfCheckout = new SelfCheckoutStation(this.currency, this.banknoteDenominations, this.coinDenominations, this.scaleMaxWeight, this.scaleSensitivity);
 	}
 	
-	
+	/**
+	 * 
+	 * @param barcode
+	 * 		  String input of the Item's barcode
+	 * @param weight
+	 * 		  Weight of the item in grams 
+	 * @param price
+	 * 		  Price of the item
+	 * @param name
+	 * 		  Name of the Item
+	 */
 	public void scanProduct(String barcode, float weight, float price, String name) {
 		BarcodeScanner scannerObject = new BarcodeScanner();
 		Barcode someBarcode = new Barcode(barcode);
@@ -75,35 +99,53 @@ public class ControlSoftware {
 	}
 	
 	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
+	/**
+	 * Method to add items from the bagging area
+	 * 
+	 * @param selfCheckout
+	 * 	      SelfCheckout station input
+	 * @param someItem
+	 * 		  The item to add to the baggingArea 
+	 */
 	public void addItemToBaggingArea(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
-		if (someItem == null || selfCheckout == null) {
-			throw new SimulationException("null arguments");
-		}
 		baggingAreaStub bagAreaStub = new baggingAreaStub();
 		selfCheckout.baggingArea.register(bagAreaStub);
 		//selfCheckout.baggingArea.enable();
 		selfCheckout.baggingArea.add(someItem);
 	}
 	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
+	/**
+	 * Method to remove items from the bagging area
+	 * 
+	 * @param selfCheckout
+	 * 	      SelfCheckout station input
+	 * @param someItem
+	 * 		  The item to add to the baggingArea 
+	 */
 	public void removeItemFromBaggingArea(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
-		if (someItem == null || selfCheckout == null) {
-			throw new SimulationException("null arguments");
-		}
 		baggingAreaStub bagAreaStub = new baggingAreaStub();
 		selfCheckout.baggingArea.register(bagAreaStub);
 		//selfCheckout.baggingArea.enable();
 		selfCheckout.baggingArea.remove(someItem);
 	}
 	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
+
+	/**
+	 * Method to check whether a coin is accepted (correct denomination and currency)
+	 * 
+	 * @param selfCheckout
+	 *  	  SelfCheckout station input
+	 * @param currency
+	 * 		  The type of currency accepted
+	 * @param coinDenominations
+	 * 		  The denomination of coins accepted 
+	 * @param someCoin
+	 * 		  The coin checked and accepted for payment
+	 * @return
+	 * 		  Return true if the coin is correct
+	 * @throws DisabledException
+	 * 		   If the coin machine is filled
+	 */
 	public static BigDecimal coinMethod(SelfCheckoutStation selfCheckout, Currency currency, BigDecimal[] coinDenominations, Coin someCoin) throws DisabledException {
 		try {
 			if (someCoin==null) {
@@ -128,9 +170,15 @@ public class ControlSoftware {
 		}
 	}
 	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
+	/**
+	 * Method returns the value of the coin
+	 * 
+	 * @param someCoin
+	 * 		  A type of coin
+	 * @param coinDenominations
+	 * 		  The denomination of coins accepted
+	 * @return
+	 */
 	public static boolean checkCoinVal(Coin someCoin, BigDecimal[] coinDenominations) {
 		//checking if coin value is in list of coin denominations 
 		for (int i = 0; i<coinDenominations.length; i++) {
@@ -141,9 +189,23 @@ public class ControlSoftware {
 		return false; 
 	}
 	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
+	/**
+	 * Method to verify the bank note is accepted and value
+	 * 
+	 * @param selfCheckout
+	 *  	  SelfCheckout station input
+	 * @param currency
+	 * 		  The type of currency accepted
+	 * @param banknoteDenominations
+	 * 		  The denomination of bank notes accepted 
+	 * @param someBanknote
+	 * 		  The bank note checked and accepted for payment
+	 * @return
+	 * @throws OverloadException
+	 * 		   If the coin machine is filled
+	 * @throws DisabledException
+	 * 		   If the machien is disabled
+	 */
 	public static int banknoteMethod(SelfCheckoutStation selfCheckout, Currency currency, int[] banknoteDenominations, Banknote someBanknote) throws OverloadException, DisabledException {
 		try {
 			if (someBanknote==null) {
@@ -171,9 +233,15 @@ public class ControlSoftware {
 		}
 	}
 	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
+	/**
+	 * Method returns the value of the bank note
+	 * 
+	 * @param someBankote
+	 * 		  A type of bank note
+	 * @param banknoteDenominations
+	 * 		  The denomination of bank notes accepted
+	 * @return
+	 */
 	public static boolean checkBanknoteVal(Banknote someBanknote, int[] banknoteDenominations) {
 		//checking if banknote value is in list of banknote denominations 
 		for (int i = 0; i<banknoteDenominations.length; i++) {
@@ -184,9 +252,10 @@ public class ControlSoftware {
 		return false; 
 	}
 	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
+	/**
+	 * Method that sets the total balance owed by the customer
+	 * 
+	 */
 	public void setTotalBalance() {
 		for (int i = 0; i<this.productBarcodes.size();i++) {
 			BigDecimal price = this.db.get(productBarcodes.get(i)).getPrice();
@@ -194,23 +263,28 @@ public class ControlSoftware {
 		}
 	} 
 	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
+	/**
+	 * Getter for total balance
+	 * @return
+	 */
 	public BigDecimal getTotalBalance() {
 		return this.paymentTotal;
 	}
 	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
+	/**
+	 * Setter for the Customers Change
+	 */
 	public void setChange() {
 		this.change = new BigDecimal(0);
 	}
 	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
+	/**
+	 * Method to calculate payment by coin
+	 * @param coinValue
+	 * 		  The value of coin used to pay 
+	 * @return 
+	 * 		  Returns the change if any
+	 */
 	public BigDecimal calculateCoinPayment(BigDecimal coinValue) {
 		if (coinProcessed==false) {
 			BigDecimal balance = getTotalBalance();
@@ -222,9 +296,15 @@ public class ControlSoftware {
 		return this.change;
 	}
 	
-	//Functionality: 
-	//@Parameters:
-	//@Returns: 
+	/**
+	 * Method for calculating payment by bill
+	 * @param banknoteValue
+	 * 		  The value of bank note used
+	 * @param billProcessed
+	 * 		  Checks whether the bill is acceptable
+	 * @return
+	 * 		  Returns the change if any
+	 */
 	public BigDecimal calculateBillPayment(int banknoteValue, boolean billProcessed) {
 		BigDecimal bankNoteVal = new BigDecimal(banknoteValue);
 		if (billProcessed==false) {
