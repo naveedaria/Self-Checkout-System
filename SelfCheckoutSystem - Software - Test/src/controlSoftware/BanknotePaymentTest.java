@@ -44,7 +44,7 @@ public class BanknotePaymentTest {
 	
 	
 	@Test
-	public void testCalculateBanknotePaymentOneBanknote2() {
+	public void testCalculateBanknotePaymentMultipleBanknote() {
 		try {
 			Currency currency = Currency.getInstance("CAD");
 			int[] banknoteDenominations = new int[]{5, 10, 20, 50, 100};
@@ -82,6 +82,16 @@ public class BanknotePaymentTest {
 			//assertEquals(new BigDecimal(0), result);
 			assertFalse(new BigDecimal(0) == expected);
 			//assertEquals(expected, -7);
+		}catch(Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
+	}
+	
+	@Test
+	public void testCheckBanknoteVal() {
+		try {
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			fail("Exception not expected"); 
