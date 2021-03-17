@@ -39,7 +39,6 @@ public class BanknotePaymentTest {
 			BigDecimal banknoteValue = new BigDecimal(5);
 			int resultValue = controlSoft.banknoteMethod(controlSoft.selfCheckout, currency, banknoteDenominations, someBanknote);
 			BigDecimal result = controlSoft.calculateBillPayment(someBanknote.getValue(), false);
-			//assertEquals(new BigDecimal(0), result);
 			assertFalse(new BigDecimal(0) == result);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -48,7 +47,7 @@ public class BanknotePaymentTest {
 	}
 	
 	@Test
-	public void testCalculateBanknotePaymentOneBanknote2() {
+	public void testCalculateBanknotePaymentBillProcessedFalse() {
 		try {
 			Currency currency = Currency.getInstance("CAD");
 			int[] banknoteDenominations = new int[]{5, 10, 20, 50, 100};
@@ -156,13 +155,8 @@ public class BanknotePaymentTest {
 			int scaleSensitivity = 1;  
 			
 			ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity); 
-			//Banknote someBanknote = new Banknote(17, currency);
 			Banknote someBanknote = null;
-			
-			//controlSoft.selfCheckout.banknoteInput.accept(someBanknote);
-			//controlSoft.selfCheckout.banknoteInput.deregisterAll();
 			controlSoft.banknoteMethod(controlSoft.selfCheckout, currency, banknoteDenominations, someBanknote);
-			
 		}catch(Exception e) {
 			assertTrue("Banknote is null", e instanceof SimulationException);
 		}
