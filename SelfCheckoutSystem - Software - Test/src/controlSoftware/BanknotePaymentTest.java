@@ -10,5 +10,6 @@ public class BanknotePaymentTest {
 	public void testBanknoteMethod() {
 		fail("Not yet implemented");
 	}
+	// test
 
 }
