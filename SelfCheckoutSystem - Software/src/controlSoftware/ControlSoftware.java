@@ -73,7 +73,10 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public static void bagMethod(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
+	public void addItemToBaggingArea(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
+		if (someItem == null || selfCheckout == null) {
+			throw new SimulationException("null arguments");
+		}
 		baggingAreaStub bagAreaStub = new baggingAreaStub();
 		selfCheckout.baggingArea.register(bagAreaStub);
 		//selfCheckout.baggingArea.enable();
@@ -83,7 +86,10 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
-	public void removeItem(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
+	public void removeItemFromBaggingArea(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
+		if (someItem == null || selfCheckout == null) {
+			throw new SimulationException("null arguments");
+		}
 		baggingAreaStub bagAreaStub = new baggingAreaStub();
 		selfCheckout.baggingArea.register(bagAreaStub);
 		//selfCheckout.baggingArea.enable();
