@@ -146,11 +146,14 @@ public class ControlSoftware {
 	//@Returns: 
 	public static int banknoteMethod(SelfCheckoutStation selfCheckout, Currency currency, int[] banknoteDenominations, Banknote someBanknote) throws OverloadException, DisabledException {
 		try {
+			if (someBanknote==null) {
+				throw new SimulationException("Null banknote entered.");
+			}
 			boolean validCoinVal = checkBanknoteVal(someBanknote, banknoteDenominations);
 			if (validCoinVal) {
 				banknotePaymentStub billStub = new banknotePaymentStub();
 				selfCheckout.banknoteInput.register(billStub);
-				selfCheckout.banknoteInput.enable();
+				//selfCheckout.banknoteInput.enable();
 				selfCheckout.banknoteInput.accept(someBanknote);
 				return someBanknote.getValue();
 			}else {
