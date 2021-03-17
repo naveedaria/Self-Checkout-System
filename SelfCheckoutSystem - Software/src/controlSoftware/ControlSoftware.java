@@ -201,6 +201,13 @@ public class ControlSoftware {
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
+	public void setChange() {
+		this.change = new BigDecimal(0);
+	}
+	
+	//Functionality: 
+	//@Parameters:
+	//@Returns: 
 	public BigDecimal calculateCoinPayment(BigDecimal coinValue) {
 		if (coinProcessed==false) {
 			BigDecimal balance = getTotalBalance();
@@ -221,7 +228,7 @@ public class ControlSoftware {
 			BigDecimal balance = getTotalBalance();
 			this.change = balance.subtract(bankNoteVal);
 			billProcessed = true; 
-		}else if (billProcessed==true) {
+		}else {
 			this.change = this.change.subtract(bankNoteVal);
 		}
 		return this.change;
