@@ -13,7 +13,7 @@ public class CoinPaymentStub implements CoinSlotListener, Acceptor{
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
 		// TODO Auto-generated method stub
-		System.out.print("coin payment enabled \n");
+//		System.out.print("coin payment enabled \n");
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class CoinPaymentStub implements CoinSlotListener, Acceptor{
 	@Override
 	public void coinInserted(CoinSlot slot) {
 		// TODO Auto-generated method stub
-		System.out.print("coin inserted \n");
+//		System.out.print("coin inserted \n");
 	}
 
 }
