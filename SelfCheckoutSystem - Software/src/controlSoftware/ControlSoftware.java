@@ -70,6 +70,11 @@ public class ControlSoftware {
 		this.numProducts+=1;
 	}
 	
+	public int getNumOfProducts() {
+		return this.numProducts;
+	}
+	
+	
 	//Functionality: 
 	//@Parameters:
 	//@Returns: 
