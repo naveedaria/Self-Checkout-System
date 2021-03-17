@@ -13,7 +13,6 @@ import org.lsmr.selfcheckout.Barcode;
 
 public class SetGetTotalBalanceTest {
 
-
 	@Test
 	public void testSetGetTotalBalance() {
 		try {

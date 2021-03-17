@@ -35,7 +35,7 @@ public class CalculateCoinPaymentTest {
 			BigDecimal resultValue = controlSoft.coinMethod(controlSoft.selfCheckout, currency, coinDenominations, someCoin);
 			BigDecimal result = controlSoft.calculateCoinPayment(resultValue);
 			BigDecimal expected = new BigDecimal(price).subtract(coinValue);
-			assertTrue(expected.compareTo(result)==0);
+			assertFalse(expected.compareTo(result) == 0);
 		}catch(Exception e) {
 			e.printStackTrace();
 			fail("Exception not expected"); 

@@ -25,7 +25,7 @@ public class BaggingAreaTest {
 			int scaleMaximumWeight = 500; 
 			int scaleSensitivity = 1;
 			
-			ControlSoftware controlStation = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity); 
+			ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity); 
 
 			Barcode itemBarcode = new Barcode("1234");
 			Barcode itemBarcode2 = new Barcode("4321");
@@ -33,8 +33,8 @@ public class BaggingAreaTest {
 			BarcodedItem item250weight = new BarcodedItem(itemBarcode, 250);
 			BarcodedItem item50weight = new BarcodedItem(itemBarcode3, 50);
 			
-			controlStation.addItemToBaggingArea(controlStation.selfCheckout, item250weight);
-			assertTrue(controlStation.selfCheckout.baggingArea.getCurrentWeight() == 250);
+			controlSoft.addItemToBaggingArea(controlSoft.selfCheckout, item250weight);
+			assertTrue(controlSoft.selfCheckout.baggingArea.getCurrentWeight() == 250);
 
 		}catch(SimulationException | OverloadException e) {
 			e.printStackTrace();
@@ -52,7 +52,7 @@ public class BaggingAreaTest {
 			int scaleMaximumWeight = 500; 
 			int scaleSensitivity = 1;
 			
-			ControlSoftware controlStation = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity); 
+			ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity); 
 
 			Barcode itemBarcode = new Barcode("1234");
 			Barcode itemBarcode2 = new Barcode("4321");
@@ -61,9 +61,9 @@ public class BaggingAreaTest {
 			BarcodedItem item500weight = new BarcodedItem(itemBarcode2, 500);
 			BarcodedItem item50weight = new BarcodedItem(itemBarcode3, 50);
 			
-			controlStation.addItemToBaggingArea(controlStation.selfCheckout, item500weight);
-			controlStation.removeItemFromBaggingArea(controlStation.selfCheckout, item500weight);
-			assertTrue(controlStation.selfCheckout.baggingArea.getCurrentWeight() == 0);
+			controlSoft.addItemToBaggingArea(controlSoft.selfCheckout, item500weight);
+			controlSoft.removeItemFromBaggingArea(controlSoft.selfCheckout, item500weight);
+			assertTrue(controlSoft.selfCheckout.baggingArea.getCurrentWeight() == 0);
 
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -79,12 +79,12 @@ public class BaggingAreaTest {
 		int scaleMaximumWeight = 500; 
 		int scaleSensitivity = 1;
 		
-		ControlSoftware controlStation = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity);
+		ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity);
 		
 		Barcode nullB = new Barcode("");
 		BarcodedItem nullBarcode = new BarcodedItem(nullB, 20);
 		
-		controlStation.addItemToBaggingArea(controlStation.selfCheckout, nullBarcode);
+		controlSoft.addItemToBaggingArea(controlSoft.selfCheckout, nullBarcode);
 		
 		
 	}
@@ -97,12 +97,12 @@ public class BaggingAreaTest {
 		int scaleMaximumWeight = 500; 
 		int scaleSensitivity = 1;
 		
-		ControlSoftware controlStation = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity);
+		ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity);
 		
 		Barcode nullB = new Barcode("");
 		BarcodedItem nullBarcode = new BarcodedItem(nullB, 20);
 		
-		controlStation.removeItemFromBaggingArea(controlStation.selfCheckout, nullBarcode);
+		controlSoft.removeItemFromBaggingArea(controlSoft.selfCheckout, nullBarcode);
 		
 		
 	}

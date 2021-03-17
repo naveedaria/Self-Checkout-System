@@ -47,6 +47,7 @@ public class BanknotePaymentTest {
 		}
 	}
 	
+	@SuppressWarnings("static-access")
 	@Test
 	public void testCalculateBanknotePaymentBillProcessedFalse() {
 		try {
@@ -76,6 +77,7 @@ public class BanknotePaymentTest {
 		}
 	}
 	
+	@SuppressWarnings("static-access")
 	@Test
 	public void testCheckBanknoteVal() {
 		try {
@@ -95,10 +97,8 @@ public class BanknotePaymentTest {
 			
 			controlSoft.setChange();
 			Banknote someBanknote = new Banknote(200, currency);
-			BigDecimal banknoteValue = new BigDecimal(5);
-			int resultValue = controlSoft.banknoteMethod(controlSoft.selfCheckout, currency, banknoteDenominations, someBanknote);
-			BigDecimal result = controlSoft.calculateBillPayment(someBanknote.getValue(), true);
-			assertFalse(controlSoft.checkBanknoteVal(someBanknote, banknoteDenominations));
+			Boolean testTrue = true;
+			assertFalse(controlSoft.checkBanknoteVal(someBanknote, banknoteDenominations) == testTrue);
 		}catch(Exception e) {
 			e.printStackTrace();
 			fail("Exception not expected"); 
