@@ -9,7 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	CoinMethodTest.class, ScanProductTest.class})
 public class AllTests {
 	
-//	public static String BASEDIR = "/Users/naveed/git/SENG300Project";
+	public static String BASEDIR = "/Users/naveed/git/SENG300Project";
 
 
 }
