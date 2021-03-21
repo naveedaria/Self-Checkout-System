@@ -8,6 +8,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SelfCheckoutSystem - Software"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/SelfCheckoutSystem - Hardware - v1.2"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SelfCheckoutSystem - Hardware - v2.1"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
