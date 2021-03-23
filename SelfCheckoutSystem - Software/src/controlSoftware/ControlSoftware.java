@@ -40,7 +40,7 @@ public class ControlSoftware {
 	private final int scaleMaximumWeight = 500; // Don't know the units of the scale, will figure out later
 	private final int scaleSensitivity = 1; // Don't know the units also
 	private static SelfCheckoutStation selfCheckout = new SelfCheckoutStation(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
-	*/
+	*/ 
 	
 	/**
 	 * Constructor that initializes the SelfCheckout Station hardware
