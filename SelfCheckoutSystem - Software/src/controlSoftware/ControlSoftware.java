@@ -42,6 +42,8 @@ public class ControlSoftware {
 	private static SelfCheckoutStation selfCheckout = new SelfCheckoutStation(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
 	*/ 
 	
+	//Test commit on aris-branch-1
+	
 	/**
 	 * Constructor that initializes the SelfCheckout Station hardware
 	 * 
