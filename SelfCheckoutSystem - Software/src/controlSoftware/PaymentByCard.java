@@ -96,15 +96,9 @@ public class PaymentByCard {
 	//payment total
 	//BigDecimal pmt = new BigDecimal(15.00);
 	//--------------------------------------------------------
+	
+	//authorize the hold
 	public int authorizeCardPayment() throws IOException {
-		//authorize the hold
-		// go through errors with returning -1
-//		try {
-//			int payTotal = authorizingHold();
-//			if() {
-//				
-//			}
-//		}
 		try {
 			CardData data = this.cardReader.insert(this.inputCard, this.pin);
 			int checkPayment = cardIssuer.authorizeHold(data.getNumber(), amt);
@@ -151,10 +145,10 @@ public class PaymentByCard {
 			boolean checkReleaseHold = cardIssuer.releaseHold(data.getNumber(), holdNumber);
 			if (checkReleaseHold == false) {
 				System.out.println("Releasing hold on amount on card failed.\n");
-				// failed payment
+				// failed release of holds
 				return false;
 			}
-			// successful payment
+			// successful release of holds
 			else return true;
 		}
 		catch(SimulationException e) {
