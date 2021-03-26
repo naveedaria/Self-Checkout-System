@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
@@ -24,62 +25,101 @@ public class ShoppingCart {
 	 * 
 	 */
 	
-	float totalPayment;
+	BigDecimal totalPayment;
+	int numOfItems;
+	BigDecimal itemPrice;
 	
-	private Map<Barcode, BarcodedItem> SHOPPING_CART = new HashMap<>();
-	public SelfCheckoutStation station;
+	private Map<Barcode, BarcodedProduct> SHOPPING_CART = new HashMap<>();
+	
+	ArrayList<BarcodedProduct> SHOPPING_CART_LIST = new ArrayList<>();
 	ElectronicScaleListener baggingAreaScale;
 	
 	
-	public ShoppingCart(SelfCheckoutStation station) {
+	public ShoppingCart() {
 		
-		SHOPPING_CART = null;
-		this.totalPayment = 0;
-		this.station = station;
+		SHOPPING_CART_LIST = null;
+		this.totalPayment = null;
+		this.numOfItems = 0;
 			
 	}
 	
-	public void addBarcodedItemToShoppingCart(Barcode barcode, BarcodedItem item, BarcodedProduct prod) {
+	public void addBarcodedItemToShoppingCart(Barcode someBarcode, BarcodedItem item, BarcodedProduct prod) {
 		
-		SHOPPING_CART.put(barcode, item);
+		if (someBarcode == null) {
+			throw new IllegalArgumentException("null barcode)");
+		}
 		
-		// Error handling: Item or Product can be null.
+		if (item == null) {
+			throw new IllegalArgumentException("null barcoded item)");
+		}
 		
+		if (prod == null) {
+			throw new IllegalArgumentException("null barcoded product)");
+		}
+		
+//		SHOPPING_CART.put(someBarcode, prod);
+		SHOPPING_CART_LIST.add(prod);
+		
+		numOfItems++;
+		
+		if (addToScalePrompt(item)) {
+//			addToBaggingArea(item); //Fix addToBaggingArea -- We can just merge Ali's files
+		}
 
-		// Add to Receipt
-		// Do you want to add your item to the bagging Area? Yes / No
-		//	selfCheckout.baggingArea.add(someItem);
-		//  if not do nothing? -- don't add to scale
 		BigDecimal price = prod.getPrice();
-//		totalPayment += price;
+		totalPayment.add(price);
 	}
 	
-	public void addToScalePrompt(Item item) {
-		System.out.println("Please add item to the bagging area");
+	public boolean addToScalePrompt(Item item) {
+		System.out.println("Please add item to the bagging area \n");
 		
 		boolean addedToScale = false;
 		
+		while(addedToScale == false) {
+			
+			@SuppressWarnings("resource")
+			Scanner scaleUserInput = new Scanner(System.in);
+			
+			System.out.println("Press 1 if you will not bag, 0 if you will \n");
+			
+			int userInput = scaleUserInput.nextInt();
+			
+			if (userInput == 0) {
+				
+				addedToScale = true;
+								
+			} else continue;
+			
+			// Disable scanner until input (GUI this would a button)
+			// If weightChanged() returns something then we close out of the loop
+			
+		} return true;
 		
 	}
 	
-	public void addPLUItemToShoppingCart(Barcode barcode, float price, String productName) {
+	public BarcodedItem customerBag() {
 		
-		// HASHMAP or MAP idk add Barcode as Key
-		// Receipt
+		Barcode bag = new Barcode("customerBag");
+		BarcodedItem customerBag = new BarcodedItem(bag, 5.00);
 		
-		
-		totalPayment += price;
+		return customerBag;
+	}
+	
+	public boolean doneAddingItems(boolean ooo) {
+		return ooo;
+	}
+	
+	public String shoppingCartToString() {
+		return SHOPPING_CART_LIST.toString();
 		
 	}
 	
 	
-	public float getTotalPrice() {
+	public BigDecimal getTotalPrice() {
 		return totalPayment;
 	}
-	
 
-	public void ifBag() {
-		// Changes sensitivity or add weight
-		// Prompt at beginning or end
+	public int getNumOfItems() {
+		return numOfItems;
 	}
 }
