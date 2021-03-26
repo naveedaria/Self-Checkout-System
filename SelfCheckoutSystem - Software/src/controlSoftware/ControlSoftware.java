@@ -42,8 +42,6 @@ public class ControlSoftware {
 	private static SelfCheckoutStation selfCheckout = new SelfCheckoutStation(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
 	*/ 
 	
-	//Test commit on aris-branch-1
-	
 	/**
 	 * Constructor that initializes the SelfCheckout Station hardware
 	 * 
@@ -80,10 +78,18 @@ public class ControlSoftware {
 	 * 		  Name of the Item
 	 */
 	public void scanProduct(String barcode, float weight, float price, String name) {
+		
+		//Aris Comment: Step 1. This method should take only Barcode barcode, and some int quantity
+		
+		// Aris Comment Step 2: Using the barcode, we would make a call to ProductDatabases (using barcode as the key),
+		// and check the method of BarcodedProduct/Product, isPerUnit() to see if it is true or false
+		
 		BarcodeScanner scannerObject = new BarcodeScanner();
 		Barcode someBarcode = new Barcode(barcode);
 		BarcodedItem someItem = new BarcodedItem(someBarcode, weight);
 		
+		
+		//Aris Comment: Step 3. Then instead of this code below, we would make a call to the database using barcode as input
 		BigDecimal productPrice = new BigDecimal(price);
 		BarcodedProduct prod = new BarcodedProduct(someBarcode, name, productPrice);
 		this.db.put(someBarcode, prod);
@@ -92,8 +98,23 @@ public class ControlSoftware {
 		scannerObject.register(stub);	
 		scannerObject.enable();
 		scannerObject.scan(someItem);
+		
 		this.productBarcodes.add(someBarcode);
 		this.numProducts+=1;
+		
+		// Aris Comment: Step 4. If the product is produce (ie. isPerUnit() == false), then it would have to be weighed here, and price would be calculated taking into account weight
+		// Otherwise, just calculate price, and quantity
+		
+		// Aris Comment: Step 5: If it needed to be weighted, the control is transferred back to user. They will need to put item on scale. This would happen on GUI.
+		// For now, we can either use command line to input it, or hard-code it
+		
+		// Aris Comment: Step 6: The result of scanProduct is to update shopping cart. So we would call the method: addBarcodedItemToShoppingCart here
+		// At this point, we know: price per item, the quantity entered by user (default is 1), and the weight.
+		// We can either calculate the total price here for this one scan, and pass that to method, ie. addBarcodedItemToShoppingCart(totalPriceScanned)
+		// This is 1 design. It depends what you guys want to appear on the receipt/GUI menu
+		
+		// Aris comment: Alternative step 6: Or another design would be: addBarcodedItemToShoppingCart(pricePerItem, quantity, weight)
+		// This would allow the information in the parameter set to be displayed through shopping cart, receipt, and screen, etc.
 	}
 	
 	public int getNumOfProducts() {
