@@ -22,6 +22,7 @@ public class PaymentByCard {
 	private String pin;
 	private CardIssuer cardIssuer;
 	
+	// NOTE: Register card reader in driver *****
 	public void PaymentByCard(SelfCheckoutStation selfCheckout, String cardCompany) {
 		//register the CardReaderListenerStub 
 		CardReaderListenerStub cardReaderListener = new CardReaderListenerStub();
@@ -42,7 +43,7 @@ public class PaymentByCard {
 		}
 	}
 	
-	public boolean tapToPay() throws ChipFailureException, IOException {
+	public boolean tapToPay(BigDecimal amount) throws ChipFailureException, IOException {
 		boolean paymentSuccessfullyProcessed = true; 
 		try {
 			CardData data= this.cardReader.tap(this.inputCard);
@@ -51,28 +52,37 @@ public class PaymentByCard {
 				System.out.println("Tap is not enabled.\n");
 				return paymentSuccessfullyProcessed;
 			}
+			validateCard();
+			boolean verifyPayment = authorizeCardPayment(data, amount);
+			if(verifyPayment == false) {
+				return false;
+			}
+			else return paymentSuccessfullyProcessed;
 		}catch(IOException e) {
 			throw new ChipFailureException();
 		}
-		
-		validateCard();
-		authorizeCardPayment();
+
 		//set change to 0 in ControlSoftware if true is returned
-		return paymentSuccessfullyProcessed;
+		//return paymentSuccessfullyProcessed;
 	}
 	
-	public boolean swipeToPay(BufferedImage signature) throws MagneticStripeFailureException, IOException{
+	public boolean swipeToPay(BufferedImage signature, BigDecimal amount) throws MagneticStripeFailureException, IOException{
 		boolean paymentSuccessfullyProcessed = true; 
 		try {
 			CardData data= this.cardReader.swipe(this.inputCard, signature);
+			
+			validateCard();
+			boolean verifyPayment = authorizeCardPayment(data, amount);
+			if(verifyPayment == false) {
+				return false;
+			}
+			else return paymentSuccessfullyProcessed;
 		}catch(IOException e) {
 			throw new MagneticStripeFailureException();
 		}
-		
-		validateCard();
-		authorizeCardPayment();
+
 		//set change to 0 in ControlSoftware if true is returned
-		return paymentSuccessfullyProcessed;
+
 	}
 	
 	public void validateCard() throws IOException {
@@ -98,65 +108,49 @@ public class PaymentByCard {
 	//--------------------------------------------------------
 	
 	//authorize the hold
-	public int authorizeCardPayment() throws IOException {
+	public boolean authorizeCardPayment(CardData data, BigDecimal actualAmount) throws IOException {
 		try {
-			CardData data = this.cardReader.insert(this.inputCard, this.pin);
-			int checkPayment = cardIssuer.authorizeHold(data.getNumber(), amt);
-			if (checkPayment == -1) {
+			//CardData data = this.cardReader.insert(this.inputCard, this.pin);
+			int holdNumber = cardIssuer.authorizeHold(data.getNumber(), amt);
+			if (holdNumber == -1) {	
 				System.out.println("Payment failed - card has insufficient funds, is blocked, or does not exist.\n");
-				return -1;
+				throw new BlockedCardException();
 			}
 			else {
-				return checkPayment;
+				// post transaction
+				boolean successOrFailPayment = cardIssuer.postTransaction(data.getNumber(), holdNumber, actualAmount);
+				
+				// successful payment
+				return successOrFailPayment;
 			}
 		}
 		catch(SimulationException e) {
 			throw e;
 		}
-		catch(BlockedCardException e) {
-			throw e;
-		}
-	}
-
-	//post the transaction
-	public boolean postingTransaction(int holdNumber, BigDecimal actualAmount) throws IOException {
-		try {
-			CardData data = this.cardReader.insert(this.inputCard, this.pin);
-			boolean checkTransaction = cardIssuer.postTransaction(data.getNumber(), holdNumber, actualAmount);
-			if (checkTransaction == false) {
-				System.out.println("Payment failed - card has insufficient funds, is blocked, or does not exist.\n");
-				// failed payment
-				return false;
-			}
-			// successful payment
-			else return true;
-		}
-		catch(SimulationException e) {
-			throw e;
-		}
-		catch(BlockedCardException e) {
-			throw e;
-		}
+//		catch(BlockedCardException e) {
+//			throw e;
+//		}
 	}
 	
-	public boolean cancelReleasePayment(int holdNumber) throws IOException {
-		try {
-			CardData data = this.cardReader.insert(this.inputCard, this.pin);
-			boolean checkReleaseHold = cardIssuer.releaseHold(data.getNumber(), holdNumber);
-			if (checkReleaseHold == false) {
-				System.out.println("Releasing hold on amount on card failed.\n");
-				// failed release of holds
-				return false;
-			}
-			// successful release of holds
-			else return true;
-		}
-		catch(SimulationException e) {
-			throw e;
-		}
-		catch(BlockedCardException e) {
-			throw e;
-		}
-	}
+	// FOR THIRD ITERATION
+//	public boolean cancelReleasePayment(int holdNumber, CardData data) throws IOException {
+//		try {
+//			//CardData data = this.cardReader.insert(this.inputCard, this.pin);
+//			boolean checkReleaseHold = cardIssuer.releaseHold(data.getNumber(), holdNumber);
+//			if (checkReleaseHold == false) {
+//				System.out.println("Releasing hold on amount on card failed.\n");
+//				// failed release of holds
+//				return false;
+//			}
+//			// successful release of holds
+//			else return true;
+//		}
+//		catch(SimulationException e) {
+//			throw e;
+//		}
+//		catch(BlockedCardException e) {
+//			throw e;
+//		}
+//	}
 	
 }
