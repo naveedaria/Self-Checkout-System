@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+import org.lsmr.selfcheckout.BlockedCardException;
 import org.lsmr.selfcheckout.Card;
 import org.lsmr.selfcheckout.ChipFailureException;
 import org.lsmr.selfcheckout.MagneticStripeFailureException;
@@ -88,8 +89,80 @@ public class PaymentByCard {
 		}
 	}
 	
-	public void authorizeCardPayment() {
+	
+	// amount here is just used below to test that it works for now
+	//card hold number
+	BigDecimal amt = new BigDecimal(25.00);
+	//payment total
+	//BigDecimal pmt = new BigDecimal(15.00);
+	//--------------------------------------------------------
+	public int authorizeCardPayment() throws IOException {
 		//authorize the hold
-		//post the transaction
+		// go through errors with returning -1
+//		try {
+//			int payTotal = authorizingHold();
+//			if() {
+//				
+//			}
+//		}
+		try {
+			CardData data = this.cardReader.insert(this.inputCard, this.pin);
+			int checkPayment = cardIssuer.authorizeHold(data.getNumber(), amt);
+			if (checkPayment == -1) {
+				System.out.println("Payment failed - card has insufficient funds, is blocked, or does not exist.\n");
+				return -1;
+			}
+			else {
+				return checkPayment;
+			}
+		}
+		catch(SimulationException e) {
+			throw e;
+		}
+		catch(BlockedCardException e) {
+			throw e;
+		}
 	}
+
+	//post the transaction
+	public boolean postingTransaction(int holdNumber, BigDecimal actualAmount) throws IOException {
+		try {
+			CardData data = this.cardReader.insert(this.inputCard, this.pin);
+			boolean checkTransaction = cardIssuer.postTransaction(data.getNumber(), holdNumber, actualAmount);
+			if (checkTransaction == false) {
+				System.out.println("Payment failed - card has insufficient funds, is blocked, or does not exist.\n");
+				// failed payment
+				return false;
+			}
+			// successful payment
+			else return true;
+		}
+		catch(SimulationException e) {
+			throw e;
+		}
+		catch(BlockedCardException e) {
+			throw e;
+		}
+	}
+	
+	public boolean cancelReleasePayment(int holdNumber) throws IOException {
+		try {
+			CardData data = this.cardReader.insert(this.inputCard, this.pin);
+			boolean checkReleaseHold = cardIssuer.releaseHold(data.getNumber(), holdNumber);
+			if (checkReleaseHold == false) {
+				System.out.println("Releasing hold on amount on card failed.\n");
+				// failed payment
+				return false;
+			}
+			// successful payment
+			else return true;
+		}
+		catch(SimulationException e) {
+			throw e;
+		}
+		catch(BlockedCardException e) {
+			throw e;
+		}
+	}
+	
 }
