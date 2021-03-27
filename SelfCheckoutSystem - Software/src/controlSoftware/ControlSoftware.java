@@ -198,6 +198,10 @@ public class ControlSoftware {
 		selfCheckout.scale.remove(barcodedItem);
 		
 		// You can either call shopping cart here, or wait until customer puts it into bagging area.
+		
+		// If call to shopping cart, pass barcodedItem, which will have a weight
+		// Inside of shopping cart, the price calculation will be done, and kept track of
+		// Receipt will use the getters in shopping cart to populate its data
 	}
 	
 
