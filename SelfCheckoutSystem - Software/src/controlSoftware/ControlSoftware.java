@@ -41,7 +41,8 @@ public class ControlSoftware {
 	private final int scaleSensitivity = 1; // Don't know the units also
 	private static SelfCheckoutStation selfCheckout = new SelfCheckoutStation(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
 	*/ 
-	//Test Commit Ali
+	//Test Commit Ali 
+	// Second Test
 	
 	/**
 	 * Constructor that initializes the SelfCheckout Station hardware
