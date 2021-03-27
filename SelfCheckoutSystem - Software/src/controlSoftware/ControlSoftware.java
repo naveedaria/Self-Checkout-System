@@ -79,13 +79,14 @@ public class ControlSoftware {
 	 * @param name
 	 * 		  Name of the Item
 	 */
-	public void scanProduct(String barcode, float weight, float price, String name) {
+	public void scanProduct(String barcode, int quantity) {
+		//float weight, float price, String name
 		
 		// Branch 2 test commit
 		
 		// Aris comment: Step 1: Before any of this, we need to populate the database. It would work for now (iteration 2), but not at runtime
 		
-		//Aris Comment: Step 2. This method should take only Barcode barcode, and some int quantity
+		// Aris Comment: Step 2. This method should take only Barcode barcode, and some int quantity
 		
 		// Aris Comment Step 3: Using the barcode, we would make a call to ProductDatabases (using barcode as the key),
 		// and check the method of BarcodedProduct/Product, isPerUnit() to see if it is true or false
@@ -100,6 +101,7 @@ public class ControlSoftware {
 		BarcodedProduct prod = new BarcodedProduct(someBarcode, name, productPrice);
 		this.db.put(someBarcode, prod);
 		
+		// This should be in the constructor
 		BarcodeScannerListenerStub stub = new BarcodeScannerListenerStub();
 		scannerObject.register(stub);	
 		scannerObject.enable();
