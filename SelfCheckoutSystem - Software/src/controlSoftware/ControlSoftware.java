@@ -206,6 +206,7 @@ public class ControlSoftware {
 	
 
 	
+	
 	/**
 	 * Method to add items from the bagging area
 	 * 
@@ -215,7 +216,10 @@ public class ControlSoftware {
 	 * 		  The item to add to the baggingArea 
 	 */
 	public void addItemToBaggingArea(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
+		// Aris comment: shouldn't need selfCheckout, just BarcodedItem is fine
 		baggingAreaStub bagAreaStub = new baggingAreaStub();
+		
+		// Aris comment: put in constructor
 		selfCheckout.baggingArea.register(bagAreaStub);
 		//selfCheckout.baggingArea.enable();
 		selfCheckout.baggingArea.add(someItem);
@@ -230,6 +234,8 @@ public class ControlSoftware {
 	 * 		  The item to add to the baggingArea 
 	 */
 	public void removeItemFromBaggingArea(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
+		
+		// Aris comment: Put both in constructor
 		baggingAreaStub bagAreaStub = new baggingAreaStub();
 		selfCheckout.baggingArea.register(bagAreaStub);
 		//selfCheckout.baggingArea.enable();
@@ -254,12 +260,15 @@ public class ControlSoftware {
 	 * 		   If the coin machine is filled
 	 */
 	public static BigDecimal coinMethod(SelfCheckoutStation selfCheckout, Currency currency, BigDecimal[] coinDenominations, Coin someCoin) throws DisabledException {
+		// Aris comment: we shouldn't need to pass selfCheckout into this. Use the global variable of this class
+		// For currency, and coinDenominations. ie. to access them, we would use the constructed currency and coinDenominations
 		try {
 			if (someCoin==null) {
 				throw new SimulationException("Null coin entered.");
 			}
 			boolean validCoinVal = checkCoinVal(someCoin, coinDenominations);
 			if (validCoinVal) {
+				// Aris comment: put in constructor
 				CoinPaymentStub coinStub = new CoinPaymentStub();
 				selfCheckout.coinSlot.register(coinStub);
 				selfCheckout.coinSlot.accept(someCoin); 
@@ -287,6 +296,7 @@ public class ControlSoftware {
 	 * @return
 	 */
 	public static boolean checkCoinVal(Coin someCoin, BigDecimal[] coinDenominations) {
+		// Aris comment: Should only need someCoin. coinDenominations can be used from the constructed field of this class
 		//checking if coin value is in list of coin denominations 
 		for (int i = 0; i<coinDenominations.length; i++) {
 			if (coinDenominations[i].compareTo(someCoin.getValue())==0) {
@@ -314,6 +324,7 @@ public class ControlSoftware {
 	 * 		   If the machien is disabled
 	 */
 	public static int banknoteMethod(SelfCheckoutStation selfCheckout, Currency currency, int[] banknoteDenominations, Banknote someBanknote) throws OverloadException, DisabledException {
+		// Aris comment: same comments as above. Don't need selfCheckout, currency, banknoteDenominations. Only someBanknote
 		try {
 			if (someBanknote==null) {
 				throw new SimulationException("Null banknote entered.");
@@ -350,6 +361,7 @@ public class ControlSoftware {
 	 * @return
 	 */
 	public static boolean checkBanknoteVal(Banknote someBanknote, int[] banknoteDenominations) {
+		// Aris comment: Same comments as abobe: only need someBanknote. For banknoteDenominations, use field/instance variable constructed by this class
 		//checking if banknote value is in list of banknote denominations 
 		for (int i = 0; i<banknoteDenominations.length; i++) {
 			if (banknoteDenominations[i] == someBanknote.getValue()) {
@@ -364,6 +376,7 @@ public class ControlSoftware {
 	 * 
 	 */
 	public void setTotalBalance() {
+		// Aris comment: the logic for this should be done in the shopping cart. You can remove this
 		for (int i = 0; i<this.productBarcodes.size();i++) {
 			BigDecimal price = this.db.get(productBarcodes.get(i)).getPrice();
 			this.paymentTotal = this.paymentTotal.add(price);
@@ -375,6 +388,7 @@ public class ControlSoftware {
 	 * @return
 	 */
 	public BigDecimal getTotalBalance() {
+		// Aris comment: this is okay, but the accessor should be from a getter in shoping cart
 		return this.paymentTotal;
 	}
 	
@@ -382,6 +396,9 @@ public class ControlSoftware {
 	 * Setter for the Customers Change
 	 */
 	public void setChange() {
+		// Aris comment: For calculating change, another model-type would need to be made. In here, we would handle the logic for check-out
+		// Somewhere, there would be a getter to get the change. Not set it. So you could have a method in software that accesses this via
+		// an object of the checkout class
 		this.change = new BigDecimal(0);
 	}
 	
@@ -393,6 +410,8 @@ public class ControlSoftware {
 	 * 		  Returns the change if any
 	 */
 	public BigDecimal calculateCoinPayment(BigDecimal coinValue) {
+		// Aris comment: for this, it's okay to have the method calculateCoinPayment, but the outcome should be a call to Checkout checkout
+		// which either updates the remaining balance (like in a vending machine) and prints to GUI, or accumulates it until the balance has been met
 		if (coinProcessed==false) {
 			BigDecimal balance = getTotalBalance();
 			this.change = balance.subtract(coinValue);
@@ -413,6 +432,7 @@ public class ControlSoftware {
 	 * 		  Returns the change if any
 	 */
 	public BigDecimal calculateBillPayment(int banknoteValue, boolean billProcessed) {
+		// Aris comment: same as the above, except for bills
 		BigDecimal bankNoteVal = new BigDecimal(banknoteValue);
 		if (billProcessed==false) {
 			BigDecimal balance = getTotalBalance();
