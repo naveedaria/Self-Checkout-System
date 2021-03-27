@@ -43,7 +43,7 @@ public class commandLineDriver {
         System.out.println("Self-checkout is ready! Scan your item...");
         
         /*===============================================================
-         *                START OF CONTROL FLOW
+         *                START OF CONTROL FLOW: Scanning
          *===============================================================*/
         
          // Hard-coding Test Case #1: User wants to buy 2 bananas
@@ -53,6 +53,25 @@ public class commandLineDriver {
         
         controlSoftware.scanProduct(customerItem1, customerItem1quantity);
         
+        // if scanProduct returns True, it will be added to shopping cart
+        // else if scanProduct returns False, it is an item which needs to be weighed.
+        
+        double customerItem1weight = controlSoftware.weighItem(customerItem1);
+        
+        // Remove item from scale. This event should trigger add to shopping cart
+        
+        // If checkout button not pressed, loop and prompt the scan for next item
+        // else, invoke logic for payment
+        
+        /*===============================================================
+         *                START OF CONTROL FLOW: Checkout/Payment
+         *===============================================================*/
+        
+        
+        
+        /*===============================================================
+         *                END OF CONTROL FLOW: Print Receipt
+         *===============================================================*/
         
         
         

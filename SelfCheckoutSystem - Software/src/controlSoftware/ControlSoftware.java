@@ -111,13 +111,33 @@ public class ControlSoftware {
 		
 		// Aris Comment Step 3: Now we would perform a scan. In here, use the scan of the mainsScanner inside of selfCheckout
 		// scannerObject.scan(barcodedItem); 
-	
-		selfCheckout.mainScanner.scan(barcodedItem);
 		
 		// Aris Comment Step 4: After scanning, we can either check if the item is of type pricePerUnit() or if its just a regular item
 		// in the Listener (ie. override the method), or we can do it here. For now, let's do it here
 		
-		// BarcodedProduct bp = new BarcodedProduct(barcodedItem.getBarcode(), )
+		
+		
+		
+		
+		// 1. All this does is notify the listener. You can either implement the event handler there or here.
+		selfCheckout.mainScanner.scan(barcodedItem);
+		
+		// 2. Going to put the DB here for now
+		// Look up the isPerUnit()
+		
+		if(ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode()).isPerUnit()) {
+			// Call to shopping cart here, and pass barcodedItem, quantity, price
+			// return true;
+		}//else
+			//return false;
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -159,6 +179,18 @@ public class ControlSoftware {
 	
 	public int getNumOfProducts() {
 		return this.numProducts;
+	}
+	
+	//TODO: complete exceptions
+	public double weighItem(BarcodedItem barcodedItem) {
+		double weight = 0;
+		selfCheckout.scale.add(barcodedItem);
+		try {
+			weight = selfCheckout.scale.getCurrentWeight();
+		}catch(Exception e) {
+			
+		}
+		return weight;
 	}
 	
 
