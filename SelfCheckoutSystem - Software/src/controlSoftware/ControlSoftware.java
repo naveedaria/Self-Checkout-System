@@ -193,6 +193,13 @@ public class ControlSoftware {
 		return weight;
 	}
 	
+	
+	public void removeItemFromScale(BarcodedItem barcodedItem) {
+		selfCheckout.scale.remove(barcodedItem);
+		
+		// You can either call shopping cart here, or wait until customer puts it into bagging area.
+	}
+	
 
 	
 	/**

@@ -60,6 +60,8 @@ public class commandLineDriver {
         
         // Remove item from scale. This event should trigger add to shopping cart
         
+        controlSoftware.remove
+        
         // If checkout button not pressed, loop and prompt the scan for next item
         // else, invoke logic for payment
         
