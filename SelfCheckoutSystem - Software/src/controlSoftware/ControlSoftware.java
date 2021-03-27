@@ -81,6 +81,8 @@ public class ControlSoftware {
 	 */
 	public void scanProduct(String barcode, float weight, float price, String name) {
 		
+		// Branch 2 test commit
+		
 		// Aris comment: Step 1: Before any of this, we need to populate the database. It would work for now (iteration 2), but not at runtime
 		
 		//Aris Comment: Step 2. This method should take only Barcode barcode, and some int quantity
