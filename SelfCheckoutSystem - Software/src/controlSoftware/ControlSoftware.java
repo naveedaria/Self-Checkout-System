@@ -79,9 +79,11 @@ public class ControlSoftware {
 	 */
 	public void scanProduct(String barcode, float weight, float price, String name) {
 		
-		//Aris Comment: Step 1. This method should take only Barcode barcode, and some int quantity
+		// Aris comment: Step 1: Before any of this, we need to populate the database. It would work for now (iteration 2), but not at runtime
 		
-		// Aris Comment Step 2: Using the barcode, we would make a call to ProductDatabases (using barcode as the key),
+		//Aris Comment: Step 2. This method should take only Barcode barcode, and some int quantity
+		
+		// Aris Comment Step 3: Using the barcode, we would make a call to ProductDatabases (using barcode as the key),
 		// and check the method of BarcodedProduct/Product, isPerUnit() to see if it is true or false
 		
 		BarcodeScanner scannerObject = new BarcodeScanner();
@@ -89,7 +91,7 @@ public class ControlSoftware {
 		BarcodedItem someItem = new BarcodedItem(someBarcode, weight);
 		
 		
-		//Aris Comment: Step 3. Then instead of this code below, we would make a call to the database using barcode as input
+		//Aris Comment: Step 4. Then instead of this code below, we would make a call to the database using barcode as input
 		BigDecimal productPrice = new BigDecimal(price);
 		BarcodedProduct prod = new BarcodedProduct(someBarcode, name, productPrice);
 		this.db.put(someBarcode, prod);
@@ -102,18 +104,19 @@ public class ControlSoftware {
 		this.productBarcodes.add(someBarcode);
 		this.numProducts+=1;
 		
-		// Aris Comment: Step 4. If the product is produce (ie. isPerUnit() == false), then it would have to be weighed here, and price would be calculated taking into account weight
+		// Aris Comment: Step 5. If the product is produce (ie. isPerUnit() == false), then it would have to be weighed here, and price would be calculated taking into account weight
 		// Otherwise, just calculate price, and quantity
 		
-		// Aris Comment: Step 5: If it needed to be weighted, the control is transferred back to user. They will need to put item on scale. This would happen on GUI.
+		// Aris Comment: Step 6: If it needed to be weighted, the control is transferred back to user. They will need to put item on scale. This would happen on GUI.
 		// For now, we can either use command line to input it, or hard-code it
 		
-		// Aris Comment: Step 6: The result of scanProduct is to update shopping cart. So we would call the method: addBarcodedItemToShoppingCart here
+		// Aris Comment: Step 7: The result of scanProduct is to update shopping cart. So we would call the method: addBarcodedItemToShoppingCart here
 		// At this point, we know: price per item, the quantity entered by user (default is 1), and the weight.
+		
 		// We can either calculate the total price here for this one scan, and pass that to method, ie. addBarcodedItemToShoppingCart(totalPriceScanned)
 		// This is 1 design. It depends what you guys want to appear on the receipt/GUI menu
 		
-		// Aris comment: Alternative step 6: Or another design would be: addBarcodedItemToShoppingCart(pricePerItem, quantity, weight)
+		// Aris comment: Alternative step 7: Or another design would be: shopingcart.addBarcodedItemToShoppingCart(barcode, pricePerItem, quantity, weight)
 		// This would allow the information in the parameter set to be displayed through shopping cart, receipt, and screen, etc.
 	}
 	
@@ -121,6 +124,7 @@ public class ControlSoftware {
 		return this.numProducts;
 	}
 	
+
 	
 	/**
 	 * Method to add items from the bagging area
