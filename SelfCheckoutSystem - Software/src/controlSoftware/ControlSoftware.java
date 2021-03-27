@@ -32,7 +32,14 @@ public class ControlSoftware {
 	private int scaleMaxWeight;
 	private int scaleSensitivity;
 	public SelfCheckoutStation selfCheckout;
+	
+	//Aris Comment: This shouldn't be here. We will construct the database at initialization
 	private Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
+	
+	
+	private BarcodeScanner scannerObject;
+	
+	
 	/*
 	private final Currency c1 = Currency.getInstance("CAD");
 	private final int[] banknoteDenominations = new int[]{5, 10, 20, 50, 100};
@@ -66,6 +73,18 @@ public class ControlSoftware {
 		this.scaleSensitivity = scaleSensitivity; 
 		
 		this.selfCheckout = new SelfCheckoutStation(this.currency, this.banknoteDenominations, this.coinDenominations, this.scaleMaxWeight, this.scaleSensitivity);
+		
+		// Aris comment: I think we should register all devices right here. This is simulating the software turning on, and connecting to all devices
+		// Will do for the scanner, then show to the Team on Saturday's meeting
+		
+		// We already have a mainScanner as part of self-checkout
+		//scannerObject = new BarcodeScanner();
+		BarcodeScannerListenerStub stub = new BarcodeScannerListenerStub();
+		//scannerObject.register(stub);	
+		//scannerObject.enable();
+		
+		selfCheckout.mainScanner.register(stub);
+		selfCheckout.mainScanner.enable();
 	}
 	
 	/**
@@ -79,36 +98,48 @@ public class ControlSoftware {
 	 * @param name
 	 * 		  Name of the Item
 	 */
-	public void scanProduct(String barcode, int quantity) {
+	public void scanProduct(BarcodedItem barcodedItem, int quantity) {
 		//float weight, float price, String name
 		
 		// Branch 2 test commit
 		
 		// Aris comment: Step 1: Before any of this, we need to populate the database. It would work for now (iteration 2), but not at runtime
+		// DONE.
 		
-		// Aris Comment: Step 2. This method should take only Barcode barcode, and some int quantity
+		// Aris Comment: Step 2. This method should take only BarcodedItem barcodeItem, and some int quantity
+		// DONE.
 		
-		// Aris Comment Step 3: Using the barcode, we would make a call to ProductDatabases (using barcode as the key),
-		// and check the method of BarcodedProduct/Product, isPerUnit() to see if it is true or false
+		// Aris Comment Step 3: Now we would perform a scan. In here, use the scan of the mainsScanner inside of selfCheckout
+		// scannerObject.scan(barcodedItem); 
+	
+		selfCheckout.mainScanner.scan(barcodedItem);
 		
-		BarcodeScanner scannerObject = new BarcodeScanner();
-		Barcode someBarcode = new Barcode(barcode);
-		BarcodedItem someItem = new BarcodedItem(someBarcode, weight);
+		// Aris Comment Step 4: After scanning, we can either check if the item is of type pricePerUnit() or if its just a regular item
+		// in the Listener (ie. override the method), or we can do it here. For now, let's do it here
+		
+		// BarcodedProduct bp = new BarcodedProduct(barcodedItem.getBarcode(), )
+		
+		
+		
+		//BarcodeScanner scannerObject = new BarcodeScanner();
+		//Barcode someBarcode = new Barcode(barcode);
+		//BarcodedItem someItem = new BarcodedItem(someBarcode, weight);
 		
 		
 		//Aris Comment: Step 4. Then instead of this code below, we would make a call to the database using barcode as input
-		BigDecimal productPrice = new BigDecimal(price);
-		BarcodedProduct prod = new BarcodedProduct(someBarcode, name, productPrice);
-		this.db.put(someBarcode, prod);
+		//BigDecimal productPrice = new BigDecimal(price);
+		// BarcodedProduct prod = new BarcodedProduct(someBarcode, name, productPrice);
+		// this.db.put(someBarcode, prod);
 		
 		// This should be in the constructor
-		BarcodeScannerListenerStub stub = new BarcodeScannerListenerStub();
-		scannerObject.register(stub);	
-		scannerObject.enable();
-		scannerObject.scan(someItem);
+//		BarcodeScannerListenerStub stub = new BarcodeScannerListenerStub();
+//		scannerObject.register(stub);	
+//		scannerObject.enable();
+//		scannerObject.scan(someItem);
 		
-		this.productBarcodes.add(someBarcode);
-		this.numProducts+=1;
+		// No need for this
+		//this.productBarcodes.add(someBarcode);
+		//this.numProducts+=1;
 		
 		// Aris Comment: Step 5. If the product is produce (ie. isPerUnit() == false), then it would have to be weighed here, and price would be calculated taking into account weight
 		// Otherwise, just calculate price, and quantity

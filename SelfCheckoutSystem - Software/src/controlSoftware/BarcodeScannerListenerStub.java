@@ -23,7 +23,11 @@ public class BarcodeScannerListenerStub implements BarcodeScannerListener{
 	@Override
 	public void barcodeScanned(BarcodeScanner barcodeScanner, Barcode barcode) {
 		// TODO Auto-generated method stub
-//		System.out.print("test test 22 \n");
+		System.out.print("Test: BarcodeScannerListener succcessfully heard a scan event");
+		
+		// Aris Comment: This is where we would implement the logic for handling a scanning event
+		
+		// Step 1: Read request to DB to first check isPerUnit. If so, 
 	}
 
 }
