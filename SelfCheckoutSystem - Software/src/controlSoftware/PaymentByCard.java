@@ -15,7 +15,6 @@ import org.lsmr.selfcheckout.devices.SelfCheckoutStation;
 import org.lsmr.selfcheckout.devices.SimulationException;
 import org.lsmr.selfcheckout.external.CardIssuer;
 
-//should work for both debit and credit, unless they need unique payment software specifications 
 public class PaymentByCard {
 	private CardReader cardReader;
 	private Card inputCard;
@@ -23,11 +22,17 @@ public class PaymentByCard {
 	private CardIssuer cardIssuer;
 	
 	// amount here is just used below to test that it works for now
-	//card hold number
 	BigDecimal amt = new BigDecimal(25.00);
 	//payment total
 	//BigDecimal pmt = new BigDecimal(15.00);
 	
+	/**
+	 * Constructor 
+	 * @param 
+	 * 		  
+	 * @return 
+	 * 		   
+	 */
 	// NOTE: Register card reader in driver *****
 	public void PaymentByCard(SelfCheckoutStation selfCheckout, String cardCompany) {
 		CardReaderListenerStub cardReaderListener = new CardReaderListenerStub();
@@ -72,7 +77,7 @@ public class PaymentByCard {
 	}
 	
 	/**
-	 * Method to calculate payment by coin
+	 * Method to tap to make payment.
 	 * @param amount
 	 * 		  The total balance amount for payment.
 	 * @return 
@@ -101,9 +106,9 @@ public class PaymentByCard {
 	}
 	
 	/**
-	 * Method to calculate payment by coin
+	 * Method to swipe to make payment.
 	 * @param signature
-	 * 		  Image of signature required for swiping.
+	 * 		  Image of signature required for swiping - typically for credit cards.
 	 * @param amount
 	 * 		  The total balance amount for payment.
 	 * @return 
@@ -128,11 +133,7 @@ public class PaymentByCard {
 	}
 	
 	/**
-	 * Method to calculate payment by coin
-	 * @param coinValue
-	 * 		  The value of coin used to pay 
-	 * @return 
-	 * 		  Returns the change if any
+	 * Method to validate card by using pin verification if the card has a chip.
 	 */
 	public void validateCard() throws IOException {
 		try {
@@ -149,24 +150,25 @@ public class PaymentByCard {
 	}
 	
 	/**
-	 * Method to calculate payment by coin
-	 * @param coinValue
-	 * 		  The value of coin used to pay 
+	 * Method to place the amount hold for company financial records and post the transaction.
+	 * @param data
+	 * 		  The card data for the card recently swiped or tapped. 
+	 * @param actualAmount
+	 * 		  The amount for the total balance payment.
 	 * @return 
-	 * 		  Returns the change if any
+	 * 		  True if payment was successfully processed and posted for records - false otherwise. 
 	 */
 	public boolean authorizeCardPayment(CardData data, BigDecimal actualAmount) throws IOException {
 		try {
-			int holdNumber = cardIssuer.authorizeHold(data.getNumber(), amt);
+			int holdNumber = cardIssuer.authorizeHold(data.getNumber(), actualAmount);
 			if (holdNumber == -1) {	
 				System.out.println("Payment failed - card has insufficient funds, is blocked, or does not exist.\n");
 				throw new BlockedCardException();
 			}
 			else {
 				// post transaction
-				boolean successOrFailPayment = cardIssuer.postTransaction(data.getNumber(), holdNumber, actualAmount);
-				// successful payment
-				return successOrFailPayment;
+				boolean successfulPayment = cardIssuer.postTransaction(data.getNumber(), holdNumber, actualAmount);
+				return successfulPayment;
 			}
 		}
 		catch(SimulationException e) {
