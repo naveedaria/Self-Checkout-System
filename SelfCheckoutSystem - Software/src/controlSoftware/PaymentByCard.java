@@ -31,6 +31,8 @@ public class PaymentByCard {
 		this.cardIssuer = new CardIssuer(cardCompany);
 	}
 	
+	// Aris comment: For things like cardLimt, this is where external API calls would be made to financial db
+	// Detecting a card I think its enough to just do type, number, cardholder, cvv, and expiry
 	//set the attributes of the user's card
 	public void detectCard(String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
 			boolean hasChip, Calendar expiry, BigDecimal cardLimit) {

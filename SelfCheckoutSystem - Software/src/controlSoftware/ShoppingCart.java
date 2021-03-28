@@ -36,7 +36,6 @@ public class ShoppingCart {
 	
 	
 	public ShoppingCart() {
-		
 		SHOPPING_CART_LIST = null;
 		this.totalPayment = null;
 		this.numOfItems = 0;

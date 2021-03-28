@@ -29,7 +29,7 @@ public class BarcodeScannerListenerStub implements BarcodeScannerListener{
 		// Aris Comment: This is where we would implement the event handler for a scanning event
 		
 		// Step 1: Read request to DB to first check isPerUnit. If so, 
-		// System.out.println("Attempting to read from the DB. The product description is: " + ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode).getPrice());
+		System.out.println("Attempting to read from the DB. The product description is: " + ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode).getPrice());
 	}
 	
 	//private boolean getProductType() {

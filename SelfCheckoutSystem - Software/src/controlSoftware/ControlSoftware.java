@@ -98,7 +98,8 @@ public class ControlSoftware {
 	 * @param name
 	 * 		  Name of the Item
 	 */
-	public void scanProduct(BarcodedItem barcodedItem, int quantity) {
+	// Changing this to (BarcodedItem barcodedItem, int quantity)
+	public void scanProduct(String barcode, float weight, float price, String name) {
 		//float weight, float price, String name
 		
 		// Branch 2 test commit
@@ -116,19 +117,16 @@ public class ControlSoftware {
 		// in the Listener (ie. override the method), or we can do it here. For now, let's do it here
 		
 		
-		
-		
-		
 		// 1. All this does is notify the listener. You can either implement the event handler there or here.
-		selfCheckout.mainScanner.scan(barcodedItem);
+		//selfCheckout.mainScanner.scan(barcodedItem);
 		
 		// 2. Going to put the DB here for now
 		// Look up the isPerUnit()
 		
-		if(ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode()).isPerUnit()) {
+		//if(ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode()).isPerUnit()) {
 			// Call to shopping cart here, and pass barcodedItem, quantity, price
 			// return true;
-		}//else
+		//}//else
 			//return false;
 		
 		
@@ -225,6 +223,9 @@ public class ControlSoftware {
 		selfCheckout.baggingArea.add(someItem);
 	}
 	
+	
+	
+	
 	/**
 	 * Method to remove items from the bagging area
 	 * 
@@ -260,7 +261,7 @@ public class ControlSoftware {
 	 * 		   If the coin machine is filled
 	 */
 	public static BigDecimal coinMethod(SelfCheckoutStation selfCheckout, Currency currency, BigDecimal[] coinDenominations, Coin someCoin) throws DisabledException {
-		// Aris comment: we shouldn't need to pass selfCheckout into this. Use the global variable of this class
+		// Aris comment: we shouldn't need to pass selfCheckout into this. Use the global variable of this class 
 		// For currency, and coinDenominations. ie. to access them, we would use the constructed currency and coinDenominations
 		try {
 			if (someCoin==null) {
@@ -388,9 +389,12 @@ public class ControlSoftware {
 	 * @return
 	 */
 	public BigDecimal getTotalBalance() {
-		// Aris comment: this is okay, but the accessor should be from a getter in shoping cart
+		// Aris comment: this is okay, but the accessor should be from a getter in shopping cart
 		return this.paymentTotal;
 	}
+	
+	
+	
 	
 	/**
 	 * Setter for the Customers Change
@@ -401,6 +405,9 @@ public class ControlSoftware {
 		// an object of the checkout class
 		this.change = new BigDecimal(0);
 	}
+	
+	
+	
 	
 	/**
 	 * Method to calculate payment by coin
