@@ -22,15 +22,44 @@ public class PaymentByCard {
 	private String pin;
 	private CardIssuer cardIssuer;
 	
+	// amount here is just used below to test that it works for now
+	//card hold number
+	BigDecimal amt = new BigDecimal(25.00);
+	//payment total
+	//BigDecimal pmt = new BigDecimal(15.00);
+	
 	// NOTE: Register card reader in driver *****
 	public void PaymentByCard(SelfCheckoutStation selfCheckout, String cardCompany) {
-		//register the CardReaderListenerStub 
 		CardReaderListenerStub cardReaderListener = new CardReaderListenerStub();
 		selfCheckout.cardReader.register(cardReaderListener);
 		this.cardReader = selfCheckout.cardReader;
 		this.cardIssuer = new CardIssuer(cardCompany);
 	}
 	
+	/**
+	 * Detecting the card by creating a Card object for use in payment process
+	 * @param type 
+	 * 		  The type of card (credit or debit).
+	 * @param number 
+	 * 		  The card identification number.
+	 * 	@param cardholder 
+	 * 		  The name of the cardholder.
+	 * 	@param cvv 
+	 * 		  The card verification value (CVV), a 3- or 4-digit value often on
+	 *            the back of the card. This can be null.
+	 * 	@param pin 
+	 * 		  The personal identification number (PIN) for access to the card.
+	 *            This can be null if the card has no chip.
+	 *  @param isTapEnabled
+	 *            Whether this card is capable of being tapped.
+	 *  @param hasChip
+	 *            Whether this card has a chip.
+	 * 	@param expiry
+	 * 		  The expiry date of card.
+	 * 	@param cardLimit 
+	 * 		  For a credit card, this represents the credit limit. For a debit
+	 *            card, this is how much money is available.
+	 */
 	public void detectCard(String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
 			boolean hasChip, Calendar expiry, BigDecimal cardLimit) {
 		try {
@@ -42,6 +71,13 @@ public class PaymentByCard {
 		}
 	}
 	
+	/**
+	 * Method to calculate payment by coin
+	 * @param amount
+	 * 		  The total balance amount for payment.
+	 * @return 
+	 * 		  True if payment successfully processed, false otherwise. 
+	 */
 	public boolean tapToPay(BigDecimal amount) throws ChipFailureException, IOException {
 		boolean paymentSuccessfullyProcessed = true; 
 		try {
@@ -62,9 +98,17 @@ public class PaymentByCard {
 		}
 
 		//set change to 0 in ControlSoftware if true is returned
-		//return paymentSuccessfullyProcessed;
 	}
 	
+	/**
+	 * Method to calculate payment by coin
+	 * @param signature
+	 * 		  Image of signature required for swiping.
+	 * @param amount
+	 * 		  The total balance amount for payment.
+	 * @return 
+	 * 		  True if payment successfully processed, false otherwise. 
+	 */
 	public boolean swipeToPay(BufferedImage signature, BigDecimal amount) throws MagneticStripeFailureException, IOException{
 		boolean paymentSuccessfullyProcessed = true; 
 		try {
@@ -81,9 +125,15 @@ public class PaymentByCard {
 		}
 
 		//set change to 0 in ControlSoftware if true is returned
-
 	}
 	
+	/**
+	 * Method to calculate payment by coin
+	 * @param coinValue
+	 * 		  The value of coin used to pay 
+	 * @return 
+	 * 		  Returns the change if any
+	 */
 	public void validateCard() throws IOException {
 		try {
 			CardData data= this.cardReader.insert(this.inputCard, this.pin);
@@ -98,18 +148,15 @@ public class PaymentByCard {
 		}
 	}
 	
-	
-	// amount here is just used below to test that it works for now
-	//card hold number
-	BigDecimal amt = new BigDecimal(25.00);
-	//payment total
-	//BigDecimal pmt = new BigDecimal(15.00);
-	//--------------------------------------------------------
-	
-	//authorize the hold
+	/**
+	 * Method to calculate payment by coin
+	 * @param coinValue
+	 * 		  The value of coin used to pay 
+	 * @return 
+	 * 		  Returns the change if any
+	 */
 	public boolean authorizeCardPayment(CardData data, BigDecimal actualAmount) throws IOException {
 		try {
-			//CardData data = this.cardReader.insert(this.inputCard, this.pin);
 			int holdNumber = cardIssuer.authorizeHold(data.getNumber(), amt);
 			if (holdNumber == -1) {	
 				System.out.println("Payment failed - card has insufficient funds, is blocked, or does not exist.\n");
@@ -118,7 +165,6 @@ public class PaymentByCard {
 			else {
 				// post transaction
 				boolean successOrFailPayment = cardIssuer.postTransaction(data.getNumber(), holdNumber, actualAmount);
-				
 				// successful payment
 				return successOrFailPayment;
 			}
@@ -126,15 +172,11 @@ public class PaymentByCard {
 		catch(SimulationException e) {
 			throw e;
 		}
-//		catch(BlockedCardException e) {
-//			throw e;
-//		}
 	}
 	
 	// FOR THIRD ITERATION
 //	public boolean cancelReleasePayment(int holdNumber, CardData data) throws IOException {
 //		try {
-//			//CardData data = this.cardReader.insert(this.inputCard, this.pin);
 //			boolean checkReleaseHold = cardIssuer.releaseHold(data.getNumber(), holdNumber);
 //			if (checkReleaseHold == false) {
 //				System.out.println("Releasing hold on amount on card failed.\n");
@@ -145,9 +187,6 @@ public class PaymentByCard {
 //			else return true;
 //		}
 //		catch(SimulationException e) {
-//			throw e;
-//		}
-//		catch(BlockedCardException e) {
 //			throw e;
 //		}
 //	}
