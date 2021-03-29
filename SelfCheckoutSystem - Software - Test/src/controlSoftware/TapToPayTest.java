@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.lsmr.selfcheckout.BlockedCardException;
 import org.lsmr.selfcheckout.ChipFailureException;
+import org.lsmr.selfcheckout.InvalidPINException;
 import org.lsmr.selfcheckout.devices.SimulationException;
 
 public class TapToPayTest {
@@ -74,7 +75,7 @@ public class TapToPayTest {
 			fail("Exception not expected"); 
 		}
 		boolean expected = false;
-		boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, true);
+		boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, true, pin);
 		assertTrue(expected == successfulPayment);
 	}
 	
@@ -100,9 +101,36 @@ public class TapToPayTest {
 		}
 		
 		try {
-			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, true);
+			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, true, pin);
 		}catch(Exception e) {
 			assertTrue("Invalid card insertion.\n", e instanceof ChipFailureException);
+		}
+	}
+	
+	@Test
+	public void testInvalidPinEntry() {
+		String type = "Credit Card";
+		String number = "24689";
+		String cardholder = "Bob";
+		String cvv = "321";
+		String pin = "1234";
+		boolean isTapEnabled = true;
+		boolean hasChip = true; 
+		Calendar expiry = Calendar.getInstance();
+		expiry.set(Calendar.YEAR, 2023);
+		BigDecimal cardLimit = new BigDecimal(1000);
+		
+		try {
+			this.cardPayment.detectCard(type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit);
+		}catch(Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected");  
+		}
+		
+		try {
+			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, true, "3456");
+		}catch(Exception e) {
+			assertTrue("Invalid PIN entered.\n", e instanceof InvalidPINException);
 		}
 	}
 	
@@ -128,7 +156,7 @@ public class TapToPayTest {
 		}
 		
 		try {
-			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, true);
+			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, true, pin);
 		}catch(Exception e) {
 			assertTrue("Card limit is less than total balance payment.\n", e instanceof BlockedCardException);
 		}
@@ -155,7 +183,7 @@ public class TapToPayTest {
 		}
 		
 		try {
-			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, true);
+			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, true,pin);
 		}catch(Exception e) {
 			e.printStackTrace();
 			fail("Exception not expected"); 
@@ -184,7 +212,7 @@ public class TapToPayTest {
 		
 		try {
 			//don't insert card because hasChip==false
-			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, false);
+			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, false, null);
 		}catch(Exception e) {
 			e.printStackTrace();
 			fail("Exception not expected");  

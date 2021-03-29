@@ -8,6 +8,7 @@ import java.util.Calendar;
 import org.lsmr.selfcheckout.BlockedCardException;
 import org.lsmr.selfcheckout.Card;
 import org.lsmr.selfcheckout.ChipFailureException;
+import org.lsmr.selfcheckout.InvalidPINException;
 import org.lsmr.selfcheckout.MagneticStripeFailureException;
 import org.lsmr.selfcheckout.Card.CardData;
 import org.lsmr.selfcheckout.devices.CardReader;
@@ -80,10 +81,12 @@ public class PaymentByCard {
 	 * 		  The total balance amount for payment.
 	 * @param insertCard
 	 * 		  True if user requested to insert the card (pin validation) - false otherwise
+	 * @param pinInput
+	 * 		  The PIN the user enters - can be null if insertCard==false
 	 * @return 
 	 * 		  True if payment successfully processed, false otherwise. 
 	 */
-	public boolean tapToPay(BigDecimal amount, boolean insertCard) throws ChipFailureException, IOException {
+	public boolean tapToPay(BigDecimal amount, boolean insertCard, String pinInput) throws ChipFailureException, IOException {
 		boolean paymentSuccessfullyProcessed = true; 
 		try {
 			CardData data= this.cardReader.tap(this.inputCard);
@@ -93,7 +96,7 @@ public class PaymentByCard {
 				return paymentSuccessfullyProcessed;
 			}
 			if (insertCard==true) {
-				validateCard();
+				validateCard(pinInput);
 			}
 			paymentSuccessfullyProcessed = authorizeCardPayment(data, amount);
 			return paymentSuccessfullyProcessed;
@@ -101,6 +104,8 @@ public class PaymentByCard {
 			throw e;
 		}catch(BlockedCardException e) {
 			throw e; 
+		}catch(InvalidPINException e) {
+			throw e;
 		}
 
 		//set change to 0 in ControlSoftware if true is returned
@@ -114,19 +119,23 @@ public class PaymentByCard {
 	 * 		  The total balance amount for payment.
 	 * @param insertCard
 	 * 		  True if user requested to insert the card (pin validation) - false otherwise
-	 * @return 
+	 * @param pinInput
+	 * 		  The PIN the user enters - can be null if insertCard==false
+	 * @return  
 	 * 		  True if payment successfully processed, false otherwise. 
 	 */
-	public boolean swipeToPay(BufferedImage signature, BigDecimal amount, boolean insertCard) throws MagneticStripeFailureException, IOException{
+	public boolean swipeToPay(BufferedImage signature, BigDecimal amount, boolean insertCard, String pinInput) throws MagneticStripeFailureException, IOException{
 		boolean paymentSuccessfullyProcessed = true; 
 		try {
 			CardData data= this.cardReader.swipe(this.inputCard, signature);
 			
 			if (insertCard==true) {
-				validateCard();
+				validateCard(pinInput);
 			}
 			paymentSuccessfullyProcessed = authorizeCardPayment(data, amount);
 			return paymentSuccessfullyProcessed;
+		}catch(InvalidPINException e) {
+			throw e;
 		}catch(IOException e) {
 			throw new MagneticStripeFailureException();
 		}
@@ -137,9 +146,9 @@ public class PaymentByCard {
 	/**
 	 * Method to validate card by using pin verification if the card has a chip.
 	 */
-	public void validateCard() throws IOException {
+	public void validateCard(String pinInput) throws IOException {
 		try {
-			CardData data= this.cardReader.insert(this.inputCard, this.pin);
+			CardData data= this.cardReader.insert(this.inputCard, pinInput);
 			this.cardReader.remove();
 		}
 		//Will be incorporated once GUI is created
@@ -148,6 +157,9 @@ public class PaymentByCard {
 		}*/
 		catch(ChipFailureException e) {
 			System.out.println("Card does not have a chip or simulation probability exceeded.\n");
+			throw e;
+		}catch(InvalidPINException e) {
+			System.out.println("Incorrect PIN entered.\n");
 			throw e;
 		}
 	}
