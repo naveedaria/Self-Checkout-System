@@ -89,38 +89,22 @@ public class ControlSoftware {
 	
 	/**
 	 * 
-	 * @param barcode
-	 * 		  String input of the Item's barcode
-	 * @param weight
-	 * 		  Weight of the item in grams 
-	 * @param price
-	 * 		  Price of the item
-	 * @param name
-	 * 		  Name of the Item
+	 * @param barcodedItem
+	 * 		  Object of BarcodedItem
+	 * @param quantity
+	 * 		  Quantity entered at the GUI/driver
 	 */
 	// Changing this to (BarcodedItem barcodedItem, int quantity)
-	public void scanProduct(String barcode, float weight, float price, String name) {
-		//float weight, float price, String name
-		
-		// Branch 2 test commit
-		
-		// Aris comment: Step 1: Before any of this, we need to populate the database. It would work for now (iteration 2), but not at runtime
-		// DONE.
-		
-		// Aris Comment: Step 2. This method should take only BarcodedItem barcodeItem, and some int quantity
-		// DONE.
-		
-		// Aris Comment Step 3: Now we would perform a scan. In here, use the scan of the mainsScanner inside of selfCheckout
-		// scannerObject.scan(barcodedItem); 
-		
-		// Aris Comment Step 4: After scanning, we can either check if the item is of type pricePerUnit() or if its just a regular item
-		// in the Listener (ie. override the method), or we can do it here. For now, let's do it here
+	public boolean scanProduct(BarcodedItem barcodedItem, int quantity) {
+
+	
 		
 		
 		// 1. All this does is notify the listener. You can either implement the event handler there or here.
-		//selfCheckout.mainScanner.scan(barcodedItem);
+		selfCheckout.mainScanner.scan(barcodedItem);
 		
-		// 2. Going to put the DB here for now
+		// 2. Going to put the DB here for now. In production, this will make a call to shopping cart class, who will
+		// check if isPerUnit() is True or False, and return a boolean to scanProduct
 		// Look up the isPerUnit()
 		
 		//if(ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode()).isPerUnit()) {
@@ -129,38 +113,17 @@ public class ControlSoftware {
 		//}//else
 			//return false;
 		
+  
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		//BarcodeScanner scannerObject = new BarcodeScanner();
-		//Barcode someBarcode = new Barcode(barcode);
-		//BarcodedItem someItem = new BarcodedItem(someBarcode, weight);
-		
-		
-		//Aris Comment: Step 4. Then instead of this code below, we would make a call to the database using barcode as input
-		//BigDecimal productPrice = new BigDecimal(price);
-		// BarcodedProduct prod = new BarcodedProduct(someBarcode, name, productPrice);
-		// this.db.put(someBarcode, prod);
-		
-		// This should be in the constructor
-//		BarcodeScannerListenerStub stub = new BarcodeScannerListenerStub();
-//		scannerObject.register(stub);	
-//		scannerObject.enable();
-//		scannerObject.scan(someItem);
-		
-		// No need for this
-		//this.productBarcodes.add(someBarcode);
-		//this.numProducts+=1;
-		
-		// Aris Comment: Step 5. If the product is produce (ie. isPerUnit() == false), then it would have to be weighed here, and price would be calculated taking into account weight
+		// Aris Comment: Step 5. If the product is produce (ie. isPerUnit() == false), then it would have to call weigh item here, and price would be calculated taking into account weight
 		// Otherwise, just calculate price, and quantity
+		
+		if(true) {
+			// Pass execution flow back to user, and prompt to put item on scale (in main/driver)
+		}else {
+			shopingcart.addBarcodedItemToShoppingCart(barcodedItem, quantity);
+		}
 		
 		// Aris Comment: Step 6: If it needed to be weighted, the control is transferred back to user. They will need to put item on scale. This would happen on GUI.
 		// For now, we can either use command line to input it, or hard-code it
@@ -180,30 +143,56 @@ public class ControlSoftware {
 	}
 	
 	//TODO: complete exceptions
-	public double weighItem(BarcodedItem barcodedItem) {
-		double weight = 0;
+	public boolean weighItem(BarcodedItem barcodedItem) {
 		selfCheckout.scale.add(barcodedItem);
 		try {
-			weight = selfCheckout.scale.getCurrentWeight();
-		}catch(Exception e) {
 			
+			// This will throw an exception if item weight exceeds MAX scale weight
+			selfCheckout.scale.add(barcodedItem);
+			
+			// Will return 0 if nothing is on scale. Note that this isn't currently used, because we don't have GUI set up
+			double weight = selfCheckout.scale.getCurrentWeight();
+			
+			// Design preference: Call GUI and/or pass the weight and barcodedItem to the view (iteration 3)
+			// something like: updateGUIweight(barcodedItem, weight)
+			
+			// Then return flow of execution back to main/driver, and prompt for user to remove from scale, and place into bagging area
+			return true;
+		}catch(Exception e) {
+			// Handle exceptions here
+			return false;
 		}
-		return weight;
 	}
 	
 	
-	public void removeItemFromScale(BarcodedItem barcodedItem) {
+	public boolean removeItemFromScale(BarcodedItem barcodedItem) {
 		selfCheckout.scale.remove(barcodedItem);
 		
 		// You can either call shopping cart here, or wait until customer puts it into bagging area.
 		
-		// If call to shopping cart, pass barcodedItem, which will have a weight
-		// Inside of shopping cart, the price calculation will be done, and kept track of
-		// Receipt will use the getters in shopping cart to populate its data
+		try {
+			// Remove item
+			selfCheckout.scale.remove(barcodedItem);
+			
+			// If removal succeeds, add it to the shopping cart (use overloaded method)
+			shopingcart.addBarcodedItemToShoppingCart(barcodedItem);
+			
+			// Return flow of execution back to driver. As an aside, in the driver, the customer will now
+			// be asked to place item into bagging area
+			return true;
+			
+		}catch (Exception e) {
+			
+			return false;
+		}
+	
 	}
 	
-
 	
+	
+	
+	
+	// Aris-comment: For this method, we can use this also for the "customer own bag" use-case
 	
 	/**
 	 * Method to add items from the bagging area
@@ -244,6 +233,10 @@ public class ControlSoftware {
 	}
 	
 
+	
+	
+	
+	
 	/**
 	 * Method to check whether a coin is accepted (correct denomination and currency)
 	 * 
