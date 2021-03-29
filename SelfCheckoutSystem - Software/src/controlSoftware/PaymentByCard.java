@@ -81,7 +81,7 @@ public class PaymentByCard {
 	 * @return 
 	 * 		  True if payment successfully processed, false otherwise. 
 	 */
-	public boolean tapToPay(BigDecimal amount) throws ChipFailureException, IOException {
+	public boolean tapToPay(BigDecimal amount, boolean insertCard) throws ChipFailureException, IOException {
 		boolean paymentSuccessfullyProcessed = true; 
 		try {
 			CardData data= this.cardReader.tap(this.inputCard);
@@ -90,14 +90,15 @@ public class PaymentByCard {
 				System.out.println("Tap is not enabled.\n");
 				return paymentSuccessfullyProcessed;
 			}
-			validateCard();
-			boolean verifyPayment = authorizeCardPayment(data, amount);
-			if(verifyPayment == false) {
-				return false;
+			if (insertCard==true) {
+				validateCard();
 			}
-			else return paymentSuccessfullyProcessed;
-		}catch(IOException e) {
-			throw new ChipFailureException();
+			paymentSuccessfullyProcessed = authorizeCardPayment(data, amount);
+			return paymentSuccessfullyProcessed;
+		}catch(ChipFailureException e) {
+			throw e;
+		}catch(BlockedCardException e) {
+			throw e; 
 		}
 
 		//set change to 0 in ControlSoftware if true is returned
@@ -137,12 +138,13 @@ public class PaymentByCard {
 		try {
 			CardData data= this.cardReader.insert(this.inputCard, this.pin);
 			this.cardReader.remove();
-			if (data==null) {
-				System.out.println("Card does not have a chip, pin entry not required.\n");
-			}
-		}catch(SimulationException e) {
+		}
+		//Will be incorporated once GUI is created
+		/*catch(SimulationException e) {
 			throw e;
-		}catch(ChipFailureException e) {
+		}*/
+		catch(ChipFailureException e) {
+			System.out.println("Card does not have a chip or simulation probability exceeded.\n");
 			throw e;
 		}
 	}
@@ -155,8 +157,9 @@ public class PaymentByCard {
 	 * 		  The amount for the total balance payment.
 	 * @return 
 	 * 		  True if payment was successfully processed and posted for records - false otherwise. 
+	 * @throws BlockedCardException 
 	 */
-	public boolean authorizeCardPayment(CardData data, BigDecimal actualAmount) throws IOException {
+	public boolean authorizeCardPayment(CardData data, BigDecimal actualAmount) throws BlockedCardException {
 		try {
 			int holdNumber = cardIssuer.authorizeHold(data.getNumber(), actualAmount);
 			if (holdNumber == -1) {	
@@ -168,8 +171,7 @@ public class PaymentByCard {
 				boolean successfulPayment = cardIssuer.postTransaction(data.getNumber(), holdNumber, actualAmount);
 				return successfulPayment;
 			}
-		}
-		catch(SimulationException e) {
+		}catch(BlockedCardException e) {
 			throw e;
 		}
 	}
