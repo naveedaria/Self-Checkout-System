@@ -21,10 +21,10 @@ public class PaymentByCard {
 	private String pin;
 	private CardIssuer cardIssuer;
 	
+	//Preet Comment: do we still need this here?
 	// amount here is just used below to test that it works for now
 	BigDecimal amt = new BigDecimal(25.00);
-	//payment total
-	//BigDecimal pmt = new BigDecimal(15.00);
+	
 	
 	/**
 	 * Constructor 
@@ -125,11 +125,8 @@ public class PaymentByCard {
 			if (insertCard==true) {
 				validateCard();
 			}
-			boolean verifyPayment = authorizeCardPayment(data, amount);
-			if(verifyPayment == false) {
-				return false;
-			}
-			else return paymentSuccessfullyProcessed;
+			paymentSuccessfullyProcessed = authorizeCardPayment(data, amount);
+			return paymentSuccessfullyProcessed;
 		}catch(IOException e) {
 			throw new MagneticStripeFailureException();
 		}
@@ -173,7 +170,6 @@ public class PaymentByCard {
 				throw new BlockedCardException();
 			}
 			else {
-				// post transaction
 				boolean successfulPayment = cardIssuer.postTransaction(data.getNumber(), holdNumber, actualAmount);
 				return successfulPayment;
 			}
