@@ -11,6 +11,7 @@ import org.lsmr.selfcheckout.Banknote;
 import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.Coin;
+import org.lsmr.selfcheckout.Item;
 import org.lsmr.selfcheckout.devices.BarcodeScanner;
 import org.lsmr.selfcheckout.devices.DisabledException;
 import org.lsmr.selfcheckout.devices.OverloadException;
@@ -191,56 +192,64 @@ public class ControlSoftware {
 		return weight;
 	}
 	
+	//Use Case: Customer Doesn't put item on the bagging area scale
+	//Still need 
 	
-	public void removeItemFromScale(BarcodedItem barcodedItem) {
-		selfCheckout.scale.remove(barcodedItem);
+	public boolean addToScalePrompt(Item item) {
+		System.out.println("Please add item to the bagging area \n");
 		
-		// You can either call shopping cart here, or wait until customer puts it into bagging area.
+		boolean addedToScale = false;
 		
-		// If call to shopping cart, pass barcodedItem, which will have a weight
-		// Inside of shopping cart, the price calculation will be done, and kept track of
-		// Receipt will use the getters in shopping cart to populate its data
-	}
-	
+		while(addedToScale == false) {
+			
+			selfCheckout.mainScanner.disable();
+			
+			@SuppressWarnings("resource")
+			Scanner scaleUserInput = new Scanner(System.in);
+			
+			System.out.println("Press 1 if you will not bag, 0 if you will \n");
+			
+			int userInput = scaleUserInput.nextInt();
+			
+			if (userInput == 0) {
+				
+				addedToScale = true;
+				selfCheckout.mainScanner.enable();
 
-	
-	
-	/**
-	 * Method to add items from the bagging area
-	 * 
-	 * @param selfCheckout
-	 * 	      SelfCheckout station input
-	 * @param someItem
-	 * 		  The item to add to the baggingArea 
-	 */
-	public void addItemToBaggingArea(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
-		// Aris comment: shouldn't need selfCheckout, just BarcodedItem is fine
-		baggingAreaStub bagAreaStub = new baggingAreaStub();
+								
+			} else continue;
+			
+			// Disable scanner until input (GUI this would a button)
+			// If weightChanged() returns something then we close out of the loop
+			
+		} return true;
 		
-		// Aris comment: put in constructor
-		selfCheckout.baggingArea.register(bagAreaStub);
-		//selfCheckout.baggingArea.enable();
-		selfCheckout.baggingArea.add(someItem);
 	}
 	
+	// Use Case: Customer Has their Own Bag
 	
-	
-	
-	/**
-	 * Method to remove items from the bagging area
-	 * 
-	 * @param selfCheckout
-	 * 	      SelfCheckout station input
-	 * @param someItem
-	 * 		  The item to add to the baggingArea 
-	 */
-	public void removeItemFromBaggingArea(SelfCheckoutStation selfCheckout, BarcodedItem someItem) {
+	public BarcodedItem customerBag() {
 		
-		// Aris comment: Put both in constructor
-		baggingAreaStub bagAreaStub = new baggingAreaStub();
-		selfCheckout.baggingArea.register(bagAreaStub);
-		//selfCheckout.baggingArea.enable();
-		selfCheckout.baggingArea.remove(someItem);
+		Barcode bag = new Barcode("customerBag");
+		BarcodedItem customerBag = new BarcodedItem(bag, 5.00);
+		
+		return customerBag;
+	}
+	
+	public boolean doneAddingItems(boolean ooo) {
+		return ooo;
+	}
+	
+	public void addToBaggingArea(BarcodedItem item) {
+		
+		selfCheckout.baggingArea.add(item);
+		
+	}
+	
+	public void removeFromBaggingArea(BarcodedItem item) {
+		
+		selfCheckout.baggingArea.remove(item);
+		
 	}
 	
 

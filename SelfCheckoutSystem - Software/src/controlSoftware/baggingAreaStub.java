@@ -6,11 +6,14 @@ import org.lsmr.selfcheckout.devices.listeners.AbstractDeviceListener;
 import org.lsmr.selfcheckout.devices.listeners.ElectronicScaleListener;
 
 public class baggingAreaStub implements ElectronicScaleListener{
+	
+	double currentWeight;
+	int weightLimit;
+	int sensitivity;
 
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
 		// TODO Auto-generated method stub
-//		System.out.print("bagging area enabled \n");
 	}
 
 	@Override
@@ -21,8 +24,7 @@ public class baggingAreaStub implements ElectronicScaleListener{
 
 	@Override
 	public void weightChanged(ElectronicScale scale, double weightInGrams) {
-		// TODO Auto-generated method stub
-//		System.out.print("weight changed \n");
+		
 	}
 
 	@Override
