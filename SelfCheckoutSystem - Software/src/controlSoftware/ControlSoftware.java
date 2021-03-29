@@ -240,7 +240,7 @@ public class ControlSoftware {
 		return ooo;
 	}
 	
-	public void addToBaggingArea(BarcodedItem item) {
+	public void addToBaggingArea(BarcodedItem item) throws OverloadException {
 		
 		selfCheckout.baggingArea.add(item);
 		

@@ -1,28 +1,27 @@
 package controlSoftware;
 
 import java.math.BigDecimal;
-import java.util.Scanner;
 
-import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
-import org.lsmr.selfcheckout.Item;
 import org.lsmr.selfcheckout.devices.SimulationException;
 import org.lsmr.selfcheckout.devices.listeners.ElectronicScaleListener;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
+
+
+
+/**
+ * Creates a Shopping Cart with most of the functionality
+ * Tracks total payment the Customer owes
+ * Tracks the items in the shopping cart
+ * 
+ * @author naveed
+ *
+ */
 public class ShoppingCart {
 	
-	/**
-	 * Tracks total price, all the items scanned, PLUCode
-	 * 
-	 * Find a suitable data structure
-	 * 
-	 * Workout logic of scanning -> ShoppingCart -> Scale
-	 * 
-	 * 
-	 */
-	
+
 	BigDecimal totalPayment;
 	int totalNumOfItems;
 	BigDecimal itemPrice;
@@ -31,7 +30,10 @@ public class ShoppingCart {
 	
 	ElectronicScaleListener baggingAreaScale;
 	
-	
+	/**
+	 * Initializes Shopping Cart
+	 * 
+	 */
 	public ShoppingCart() {
 		SHOPPING_CART_ARRAY = new String[30][2];
 		this.totalPayment = new BigDecimal("0.00");
@@ -40,44 +42,142 @@ public class ShoppingCart {
 			
 	}
 	
-	public void addBarcodedItemToShoppingCart(BarcodedItem item, int quantity) {
+	/**
+	 * Adds item to Shopping cart array
+	 * @param item
+	 * 		BarcodedItem input, can access database from barcode
+	 * @param quantity
+	 * 		The number of times item was scanned
+	 */
+	public void addToShoppingCart(BarcodedItem item, int quantity) {
 		
 		BarcodedProduct prod = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode());
-				
-		SHOPPING_CART_ARRAY[i][0] = prod.getDescription();
-		SHOPPING_CART_ARRAY[i][1] = Integer.toString(quantity);
+		try {
+			
+			SHOPPING_CART_ARRAY[i][0] = prod.getDescription();
+			SHOPPING_CART_ARRAY[i][1] = Integer.toString(quantity);
+			
+		} catch (NullPointerException e) {
+			throw new SimulationException(e);
+		}
 		
 		i++;
 		
-		if (i >= 31) {
-			throw new SimulationException("Too many items added to the shopping cart");
+
+	}
+	
+	/**
+	 * Removes item from Shopping cart. Loops through the array and if the inputs match
+	 * elements in the array then remove it from the array.
+	 * @param item
+	 * 		BarcodedItem input
+	 * @param quantity
+	 * 		Quantity of the item you want to remove
+	 */
+	@SuppressWarnings("unused")
+	public void removeFromShoppingCart(BarcodedItem item, int quantity) {
+		
+		BarcodedProduct prod = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode());
+		
+		try {
+			
+			for (int j = 0; j < SHOPPING_CART_ARRAY.length; j++) {
+				if (prod.getDescription().equals(SHOPPING_CART_ARRAY[j][0]) && 
+						Integer.toString(quantity).equals(SHOPPING_CART_ARRAY[j][1])) {
+					SHOPPING_CART_ARRAY[j][0] = null;
+					SHOPPING_CART_ARRAY[j][1] = null;
+					totalNumOfItems = totalNumOfItems - quantity;
+					break;
+				} else 
+					throw new NullPointerException("Item is not on shopping cart");
+			} 
+		} catch (NullPointerException e) {
+			throw new SimulationException(e);
 		}
+
 
 	}
 		
-	
-	public int addQuantity(int quantity) {
+	/**
+	 * Adds quantity to total quantity
+	 * @param quantity
+	 * 		number to add to quantity
+	 * @return
+	 * 		return the total number of items in cart
+	 */
+	public void addQuantity(int quantity) {
 		if (quantity < 0) {
 			throw new IllegalArgumentException("null barcode");
 		}
 		totalNumOfItems += quantity;
-		return totalNumOfItems;
 	}
 	
-	//Quantity fix
-	public void updateTotalPayment(BarcodedItem barcde, int quantity) {
+	/**
+	 * Removes quantity from total quantity
+	 * @param quantity
+	 * 		Number to remove from total quantity
+	 * @return
+	 * 		return total quantity 
+	 */
+	public void decreaseQuantity(int quantity) {
+		if (quantity < 0) {
+			throw new IllegalArgumentException("null barcode");
+		}
+		totalNumOfItems -= quantity;
+	}
+	
+	/**
+	 * Updates the total payment. Calculates the correct price with respect to the quantity
+	 * of item and adds it to the totalpayment.
+	 * @param barcodedItem
+	 * 		BarcodedItem to find the price
+	 * @param quantity
+	 * 		quantity of item
+	 */
+	public void updateTotalPayment(BarcodedItem barcodedItem, int quantity) {
 
-		BigDecimal price = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcde.getBarcode()).getPrice().multiply(new BigDecimal(quantity));
-				
+		BigDecimal price = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode())
+				.getPrice().multiply(new BigDecimal(quantity));
+		
+		price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+						
 		totalPayment = totalPayment.add(price);
 	
 	}
 	
+	/**
+	 * Updates the total payment. Calculates the correct price with respect to the quantity
+	 * of item and subtracts it from the total payment.
+	 * @param barcodedItem
+	 * 		BarcodedItem to find the price
+	 * @param quantity
+	 * 		quantity of item
+	 */
+	public void decreaseTotalPayment(BarcodedItem barcodedItem, int quantity) {
+
+		BigDecimal price = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode())
+				.getPrice().multiply(new BigDecimal(quantity));
+		
+		price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+						
+		totalPayment = totalPayment.subtract(price);
+	
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * 		Return the total payment
+	 */
 	public BigDecimal getTotalPayment() {
 		return totalPayment;
 	}
 	
-	
+	/**
+	 * 
+	 * @return
+	 * 		return the total Quantity
+	 */
 	public int getTotalQuantity() {
 		return totalNumOfItems;
 	}
