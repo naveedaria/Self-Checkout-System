@@ -29,12 +29,10 @@ public class PaymentByCard {
 	/**
 	 * Constructor 
 	 * @param 
-	 * 		  
-	 * @return 
-	 * 		   
+	 * 		     
 	 */
 	// NOTE: Register card reader in driver *****
-	public void PaymentByCard(SelfCheckoutStation selfCheckout, String cardCompany) {
+	public PaymentByCard(SelfCheckoutStation selfCheckout, String cardCompany) {
 		CardReaderListenerStub cardReaderListener = new CardReaderListenerStub();
 		selfCheckout.cardReader.register(cardReaderListener);
 		this.cardReader = selfCheckout.cardReader;
