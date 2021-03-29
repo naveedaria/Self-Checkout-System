@@ -78,6 +78,8 @@ public class PaymentByCard {
 	 * Method to tap to make payment.
 	 * @param amount
 	 * 		  The total balance amount for payment.
+	 * @param insertCard
+	 * 		  True if user requested to insert the card (pin validation) - false otherwise
 	 * @return 
 	 * 		  True if payment successfully processed, false otherwise. 
 	 */
@@ -110,15 +112,19 @@ public class PaymentByCard {
 	 * 		  Image of signature required for swiping - typically for credit cards.
 	 * @param amount
 	 * 		  The total balance amount for payment.
+	 * @param insertCard
+	 * 		  True if user requested to insert the card (pin validation) - false otherwise
 	 * @return 
 	 * 		  True if payment successfully processed, false otherwise. 
 	 */
-	public boolean swipeToPay(BufferedImage signature, BigDecimal amount) throws MagneticStripeFailureException, IOException{
+	public boolean swipeToPay(BufferedImage signature, BigDecimal amount, boolean insertCard) throws MagneticStripeFailureException, IOException{
 		boolean paymentSuccessfullyProcessed = true; 
 		try {
 			CardData data= this.cardReader.swipe(this.inputCard, signature);
 			
-			validateCard();
+			if (insertCard==true) {
+				validateCard();
+			}
 			boolean verifyPayment = authorizeCardPayment(data, amount);
 			if(verifyPayment == false) {
 				return false;

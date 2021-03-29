@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Currency;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.lsmr.selfcheckout.BlockedCardException;
