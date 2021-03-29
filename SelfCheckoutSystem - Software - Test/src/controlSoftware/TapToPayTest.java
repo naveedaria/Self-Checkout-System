@@ -187,7 +187,7 @@ public class TapToPayTest {
 			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, false);
 		}catch(Exception e) {
 			e.printStackTrace();
-			fail("Exception not expected"); 
+			fail("Exception not expected");  
 		}
 	}
 
