@@ -510,36 +510,39 @@ public class ControlSoftware {
 		
 	}
 	
-	
+	// Method to print the receipt
 	public void printReceipt() {
+		// Some strings used to format the recipt 
 		String s1 = "------------------------------------";
+		// 2-D Array from the shopping cart class
 		String[][] cart = shoppingCart.SHOPPING_CART_ARRAY;
+		// Barcoded Item array from shopping cart class
 		BarcodedItem[] item = shoppingCart.BARCODEDITEM_ARRAY;
+		// A single barcoded temporary item
 		BarcodedItem tempItem;
+		// A barcoded product
 		BarcodedProduct prod;
+		// Printing 
 		System.out.println(s1);
 		String s2 = String.format("%-1s %1s %10s\n","Qty", "Item", "Price");
 		System.out.println(s2);
 		String line;
 		
 		for (int i = 0; i < cart.length; i++) {
+			// Accessing the barcoded item from the array
 			tempItem = item[i];
+			// Getting the product from the Database
 			prod = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(tempItem.getBarcode());
-			prod.getPrice();
+			// String format for each line printed in the receipt
+			// Quantity and Name are accessed from the shopping cart array
+			// Price is accessed from the product class
 			line = String.format("%-1s %1s %10s\n", cart[i][0], cart[i][1], prod.getPrice());
+			// Print line
 			System.out.println(line);
 		}
-		
+		// Print end line
 		System.out.println(s1);
-		//Array list, [[barcodeditem, quantity]] type of string
-		
-		//shoppingCart.SHOPPING_CART_ARRAY;
-		
-		
+	
 	}
-	
-	
-	
-	
 	
 }
