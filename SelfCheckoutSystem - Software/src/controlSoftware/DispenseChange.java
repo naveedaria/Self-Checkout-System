@@ -33,10 +33,11 @@ public class DispenseChange {
 	}
 	
 	public void calculateChangeDenominations() {
-		
+		//fill the arrays 
 	}
 	
 	public void dispenseDenominations() {
+		//use arrays to dispense appropriate coins/banknotes
 		//major issue - the dispensers don't track the values of the coins/banknotes !!!
 		
 	}
