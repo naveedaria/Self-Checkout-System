@@ -37,8 +37,10 @@ public class ControlSoftware {
 	//Aris Comment: This shouldn't be here. We will construct the database at initialization
 	private Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
 	
-	
+	// Aris comment: Delete this
 	private BarcodeScanner scannerObject;
+	
+	private ShoppingCart shoppingCart;
 	
 	
 	/*
@@ -78,6 +80,11 @@ public class ControlSoftware {
 		// Aris comment: I think we should register all devices right here. This is simulating the software turning on, and connecting to all devices
 		// Will do for the scanner, then show to the Team on Saturday's meeting
 		
+		
+		// Create shopping cart object
+		shoppingCart = new ShoppingCart();
+		
+		
 		// We already have a mainScanner as part of self-checkout
 		//scannerObject = new BarcodeScanner();
 		BarcodeScannerListenerStub stub = new BarcodeScannerListenerStub();
@@ -100,7 +107,8 @@ public class ControlSoftware {
 	 * 		  Name of the Item
 	 */
 	// Changing this to (BarcodedItem barcodedItem, int quantity)
-	public boolean scanProduct(BarcodedItem barcodedItem, int quantity) {
+	// Aris comment: This should (probably) be changed to boolean when using with main() or GUI
+	public void scanProduct(BarcodedItem barcodedItem, int quantity) {
 
 	
 		
@@ -124,11 +132,14 @@ public class ControlSoftware {
 		// Aris Comment: Step 5. If the product is produce (ie. isPerUnit() == false), then it would have to call weigh item here, and price would be calculated taking into account weight
 		// Otherwise, just calculate price, and quantity
 		
-		if(true) {
-			// Pass execution flow back to user, and prompt to put item on scale (in main/driver)
-		}else {
-			shoppingcart.addBarcodedItemToShoppingCart(barcodedItem, quantity);
-		}
+//		if(true) {
+//			// Pass execution flow back to user, and prompt to put item on scale (in main/driver)
+//			System.out.println("placeholder for handler");
+//		}else {
+//			shoppingCart.addToShoppingCart(barcodedItem, quantity);
+//		}
+		
+		shoppingCart.addToShoppingCart(barcodedItem, quantity);
 		
 		// Aris Comment: Step 6: If it needed to be weighted, the control is transferred back to user. They will need to put item on scale. This would happen on GUI.
 		// For now, we can either use command line to input it, or hard-code it
@@ -182,7 +193,7 @@ public class ControlSoftware {
 				selfCheckout.scale.remove(barcodedItem);
 				
 				// If removal succeeds, add it to the shopping cart (use overloaded method)
-				shoppingcart.addBarcodedItemToShoppingCart(barcodedItem);
+				shoppingCart.addToShoppingCart(barcodedItem);
 				
 				// Return flow of execution back to driver. As an aside, in the driver, the customer will now
 				// be asked to place item into bagging area
