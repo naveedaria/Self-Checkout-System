@@ -500,11 +500,8 @@ public class ControlSoftware {
 		}
 		
 		//at this point, the this.change value should actually be the final change 
+		DispenseChange changeDispenser = new DispenseChange(this.selfCheckout, this.change);
 
-		
-		//within change class, need to call connect, load, emit sequentially for both CoinDispenser and BanknoteDispenser 
-		
-		
 		//change is now 0, proceed to receipt 
 	}
 	
