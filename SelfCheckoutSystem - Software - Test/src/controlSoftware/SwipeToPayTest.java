@@ -122,6 +122,7 @@ public class SwipeToPayTest {
 		}
 	}
 	
+	
 	@Test
 	public void testSwipeToPayMagStripeFail() {
 		String type = "Credit Card";
