@@ -49,14 +49,14 @@ public class commandLineDriver {
          // Hard-coding Test Case #1: User wants to buy 2 bananas
         
         BarcodedItem customerItem1 = new BarcodedItem(b1, 500);
-        int customerItem1quantity = 2;
+        int customerItem1quantity = 1;
         
         //controlSoftware.scanProduct(customerItem1, customerItem1quantity);
         
         // if scanProduct returns True, it will be added to shopping cart
         // else if scanProduct returns False, it is an item which needs to be weighed.
         
-        double customerItem1weight = controlSoftware.weighItem(customerItem1);
+        //double customerItem1weight = controlSoftware.weighItem(customerItem1);
         
         // Remove item from scale. This event should trigger add to shopping cart
         
@@ -68,7 +68,7 @@ public class commandLineDriver {
          *                START OF CONTROL FLOW: Checkout/Payment (TODO)
          *===============================================================*/
         
-         
+         // Customer is done scanning items, and is ready to pay. So they press a checkout button
         
         
         

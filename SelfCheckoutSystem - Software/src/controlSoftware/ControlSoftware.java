@@ -193,6 +193,8 @@ public class ControlSoftware {
 	
 	
 	// Aris-comment: For this method, we can use this also for the "customer own bag" use-case
+	// Change the return type to boolean. If user places item into bagging area, method will return true
+	// Otherwise if anything goes wrong, or they don't add it, method will return false
 	
 	/**
 	 * Method to add items from the bagging area
@@ -443,5 +445,20 @@ public class ControlSoftware {
 		}
 		return this.change;
 	}
+	
+	
+	
+	
+	public void customerFinishedAddingItems() {
+		// Step 1. Get total price from shopping cart (with tax)
+		// Step 2. Get payment method from user. Should come from main/driver
+		// Step 3. If card, call the cardReader from selfCheckout
+		selfCheckout.cardReader
+	}
+	
+	
+	
+	
+	
 	
 }
