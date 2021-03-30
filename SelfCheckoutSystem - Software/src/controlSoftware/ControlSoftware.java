@@ -211,7 +211,11 @@ public class ControlSoftware {
 		// Aris comment: put in constructor
 		selfCheckout.baggingArea.register(bagAreaStub);
 		//selfCheckout.baggingArea.enable();
+		
+		
+		
 		selfCheckout.baggingArea.add(someItem);
+		
 	}
 	
 	
@@ -447,14 +451,31 @@ public class ControlSoftware {
 	}
 	
 	
+//	tranasaction(){
+//		
+//		calculateChange(){
+//			
+//		}
+//	}
 	
+//	public void customerFinishedAddingItems() {
+//		// Step 1. Get total price from shopping cart (with tax)
+//		BigDecimal totalBalanceDue = shoppingCart.getTotalPayment();
+//		
+//		// Step 2. Get payment method from user. Should come from main/driver
+//		
+//		// Step 3. If card, call the cardReader from selfCheckout
+//		selfCheckout.cardReader.tap(null)
+//	}
+//	
+//	
+//	
+//	
+//	public boolean isCheckoutBtnPressed() {
+//		transaction();
+//	}
+//	
 	
-	public void customerFinishedAddingItems() {
-		// Step 1. Get total price from shopping cart (with tax)
-		// Step 2. Get payment method from user. Should come from main/driver
-		// Step 3. If card, call the cardReader from selfCheckout
-		selfCheckout.cardReader
-	}
 	
 	
 	

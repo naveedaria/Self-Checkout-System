@@ -51,6 +51,9 @@ public class commandLineDriver {
         BarcodedItem customerItem1 = new BarcodedItem(b1, 500);
         int customerItem1quantity = 1;
         
+        Card card = new Card("Visa", "1234 5678 9102 2212", "Aris", , String pin, boolean isTapEnabled,
+        		boolean hasChip)
+        
         //controlSoftware.scanProduct(customerItem1, customerItem1quantity);
         
         // if scanProduct returns True, it will be added to shopping cart
@@ -69,7 +72,7 @@ public class commandLineDriver {
          *===============================================================*/
         
          // Customer is done scanning items, and is ready to pay. So they press a checkout button
-        
+        checkoutBtnPressed = true;
         
         
         /*===============================================================
