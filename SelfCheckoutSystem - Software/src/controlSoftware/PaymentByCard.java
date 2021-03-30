@@ -141,7 +141,7 @@ public class PaymentByCard {
 	/**
 	 * Method to validate card by using pin verification if the card has a chip.
 	 */
-	public void validateCard(String pinInput) throws IOException {
+	private void validateCard(String pinInput) throws IOException {
 		try {
 			CardData data= this.cardReader.insert(this.inputCard, pinInput);
 			this.cardReader.remove();
@@ -169,7 +169,7 @@ public class PaymentByCard {
 	 * 		  True if payment was successfully processed and posted for records - false otherwise. 
 	 * @throws BlockedCardException 
 	 */
-	public boolean authorizeCardPayment(CardData data, BigDecimal actualAmount) throws BlockedCardException {
+	private boolean authorizeCardPayment(CardData data, BigDecimal actualAmount) throws BlockedCardException {
 		try {
 			int holdNumber = cardIssuer.authorizeHold(data.getNumber(), actualAmount);
 			if (holdNumber == -1) {	

@@ -31,7 +31,7 @@ public class ScanMembershipCard {
 	 * @param selfCheckout 
 	 * 		  The specific checkout station instance.
 	 */
-	public void ScanMembershipCard(SelfCheckoutStation selfCheckout) {
+	public ScanMembershipCard(SelfCheckoutStation selfCheckout) {
 		CardReaderListenerStub cardReaderListener = new CardReaderListenerStub();
 		selfCheckout.cardReader.register(cardReaderListener);
 		this.cardReader = selfCheckout.cardReader;

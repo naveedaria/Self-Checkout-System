@@ -1,7 +1,10 @@
 package controlSoftware;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.Map;
@@ -262,19 +265,19 @@ public class ControlSoftware {
 	 * @throws DisabledException
 	 * 		   If the coin machine is filled
 	 */
-	public static BigDecimal coinMethod(SelfCheckoutStation selfCheckout, Currency currency, BigDecimal[] coinDenominations, Coin someCoin) throws DisabledException {
+	public BigDecimal coinMethod(Coin someCoin) throws DisabledException {
 		// Aris comment: we shouldn't need to pass selfCheckout into this. Use the global variable of this class 
 		// For currency, and coinDenominations. ie. to access them, we would use the constructed currency and coinDenominations
 		try {
 			if (someCoin==null) {
 				throw new SimulationException("Null coin entered.");
 			}
-			boolean validCoinVal = checkCoinVal(someCoin, coinDenominations);
+			boolean validCoinVal = checkCoinVal(someCoin);
 			if (validCoinVal) {
 				// Aris comment: put in constructor
 				CoinPaymentStub coinStub = new CoinPaymentStub();
-				selfCheckout.coinSlot.register(coinStub);
-				selfCheckout.coinSlot.accept(someCoin); 
+				this.selfCheckout.coinSlot.register(coinStub);
+				this.selfCheckout.coinSlot.accept(someCoin); 
 				return someCoin.getValue();
 			}else {
 				throw new IllegalArgumentException("Invalid coin value");
@@ -298,11 +301,11 @@ public class ControlSoftware {
 	 * 		  The denomination of coins accepted
 	 * @return
 	 */
-	public static boolean checkCoinVal(Coin someCoin, BigDecimal[] coinDenominations) {
+	private boolean checkCoinVal(Coin someCoin) {
 		// Aris comment: Should only need someCoin. coinDenominations can be used from the constructed field of this class
 		//checking if coin value is in list of coin denominations 
 		for (int i = 0; i<coinDenominations.length; i++) {
-			if (coinDenominations[i].compareTo(someCoin.getValue())==0) {
+			if (this.coinDenominations[i].compareTo(someCoin.getValue())==0) {
 				return true; 
 			}
 		}
@@ -363,7 +366,7 @@ public class ControlSoftware {
 	 * 		  The denomination of bank notes accepted
 	 * @return
 	 */
-	public static boolean checkBanknoteVal(Banknote someBanknote, int[] banknoteDenominations) {
+	private static boolean checkBanknoteVal(Banknote someBanknote, int[] banknoteDenominations) {
 		// Aris comment: Same comments as abobe: only need someBanknote. For banknoteDenominations, use field/instance variable constructed by this class
 		//checking if banknote value is in list of banknote denominations 
 		for (int i = 0; i<banknoteDenominations.length; i++) {
@@ -455,11 +458,54 @@ public class ControlSoftware {
 		return this.change;
 	}
 	
+	//Pay by card 
+	//Preet Comment: Need to create Card before? Too many parameters 
+	public BigDecimal finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean tap, String cardCompany, String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
+			boolean hasChip, Calendar expiry, BigDecimal cardLimit, BufferedImage signature, BigDecimal amount, boolean insertCard, String pinInput) throws IOException {
+		
+		BigDecimal balance = this.shoppingCart.getTotalPayment();
+		PaymentByCard cardPaymentHandler = new PaymentByCard(this.selfCheckout, cardCompany);
+		cardPaymentHandler.detectCard(type, number, cardholder, cvv, pinInput, isTapEnabled, hasChip, expiry, cardLimit);
+		
+		if (useMembershipCard) {
+			//THIRD ITERATION - no discount or points implemented yet 
+			//Preet Comment: where do we want these values to be collected? 
+			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
+			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
+		}
+		
+		if (tap) {
+			cardPaymentHandler.tapToPay(balance, insertCard, pinInput);
+			this.change = new BigDecimal(0);
+		}else {
+			cardPaymentHandler.swipeToPay(signature, amount, insertCard, pinInput);
+			this.change = new BigDecimal(0);
+		}
+		
+		return this.change;
+	}
 	
-	public void finishedAddingItems() {
+	
+	//Pay by cash 
+	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean insertCoin, boolean insertBill, Coin coin, Banknote banknote) throws IOException {
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
 		
+		if (useMembershipCard) {
+			//THIRD ITERATION - no discount or points implemented yet 
+			
+			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
+			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
+		}
 		
+		if (insertCoin) {
+			
+		}
+		
+		if (insertBill) {
+			
+		}
+		
+
 		
 		
 		
