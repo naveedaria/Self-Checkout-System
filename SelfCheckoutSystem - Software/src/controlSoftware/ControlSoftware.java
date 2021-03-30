@@ -109,53 +109,25 @@ public class ControlSoftware {
 	// Changing this to (BarcodedItem barcodedItem, int quantity)
 	// Aris comment: This should (probably) be changed to boolean when using with main() or GUI
 	public void scanProduct(BarcodedItem barcodedItem, int quantity) {
-
-	
-		
 		
 		// 1. All this does is notify the listener. You can either implement the event handler there or here.
 		selfCheckout.mainScanner.scan(barcodedItem);
 		
-		// 2. Going to put the DB here for now. In production, this will make a call to shopping cart class, who will
-		// check if isPerUnit() is True or False, and return a boolean to scanProduct
-		// Look up the isPerUnit()
-		
-		//if(ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode()).isPerUnit()) {
-			// Call to shopping cart here, and pass barcodedItem, quantity, price
-			// return true;
-		//}//else
-			//return false;
-		
-  
-		
-		
-		// Aris Comment: Step 5. If the product is produce (ie. isPerUnit() == false), then it would have to call weigh item here, and price would be calculated taking into account weight
+		// Aris Comment: If the product is produce (ie. isPerUnit() == false), then it would have to call weigh item here, and price would be calculated taking into account weight
 		// Otherwise, just calculate price, and quantity
 		
-//		if(true) {
-//			// Pass execution flow back to user, and prompt to put item on scale (in main/driver)
-//			System.out.println("placeholder for handler");
-//		}else {
-//			shoppingCart.addToShoppingCart(barcodedItem, quantity);
-//		}
+		if(!shoppingCart.doesItemNeedToBeWeighed(barcodedItem)) {
+			// Pass execution flow back to user, and prompt to put item on scale (in main/driver/GUI)
+			// This can be done by setting a return to True (changing return type to Boolean)
+		}else {
+			shoppingCart.addToShoppingCart(barcodedItem, quantity);
+		}
 		
-		shoppingCart.addToShoppingCart(barcodedItem, quantity);
-		
-		// Aris Comment: Step 6: If it needed to be weighted, the control is transferred back to user. They will need to put item on scale. This would happen on GUI.
-		// For now, we can either use command line to input it, or hard-code it
-		
-		// Aris Comment: Step 7: The result of scanProduct is to update shopping cart. So we would call the method: addBarcodedItemToShoppingCart here
-		// At this point, we know: price per item, the quantity entered by user (default is 1), and the weight.
-		
-		// We can either calculate the total price here for this one scan, and pass that to method, ie. addBarcodedItemToShoppingCart(totalPriceScanned)
-		// This is 1 design. It depends what you guys want to appear on the receipt/GUI menu
-		
-		// Aris comment: Alternative step 7: Or another design would be: shopingcart.addBarcodedItemToShoppingCart(barcode, pricePerItem, quantity, weight)
-		// This would allow the information in the parameter set to be displayed through shopping cart, receipt, and screen, etc.
+	
 	}
 
 
-	
+	// This can eventually be removed
 	public int getNumOfProducts() {
 		return this.numProducts;
 	}

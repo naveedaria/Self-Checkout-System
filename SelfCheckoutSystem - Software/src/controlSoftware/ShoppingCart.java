@@ -67,9 +67,19 @@ public class ShoppingCart {
 
 	}
 	
+	
+	
+	
 	public void addToShoppingCart(BarcodedItem item) {
 		item.getWeight();
 	}
+	
+	
+	// Aris added: This method makes a call to the DB to check if isPerUnit is True or False
+	public boolean doesItemNeedToBeWeighed(BarcodedItem item) {
+		return ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode()).isPerUnit();
+	}
+	
 	
 	/**
 	 * Removes item from Shopping cart. Loops through the array and if the inputs match
