@@ -424,7 +424,7 @@ public class ControlSoftware {
 		// Aris comment: for this, it's okay to have the method calculateCoinPayment, but the outcome should be a call to Checkout checkout
 		// which either updates the remaining balance (like in a vending machine) and prints to GUI, or accumulates it until the balance has been met
 		if (coinProcessed==false) {
-			BigDecimal balance = getTotalBalance();
+			BigDecimal balance = this.shoppingCart.getTotalPayment();
 			this.change = balance.subtract(coinValue);
 			this.coinProcessed = true; 
 		}else if (coinProcessed==true) {
@@ -446,7 +446,7 @@ public class ControlSoftware {
 		// Aris comment: same as the above, except for bills
 		BigDecimal bankNoteVal = new BigDecimal(banknoteValue);
 		if (billProcessed==false) {
-			BigDecimal balance = getTotalBalance();
+			BigDecimal balance = this.shoppingCart.getTotalPayment();
 			this.change = balance.subtract(bankNoteVal);
 			billProcessed = true; 
 		}else {
