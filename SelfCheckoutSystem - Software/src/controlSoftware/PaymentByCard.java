@@ -22,11 +22,6 @@ public class PaymentByCard {
 	private String pin;
 	private CardIssuer cardIssuer;
 	
-	//Preet Comment: do we still need this here?
-	// amount here is just used below to test that it works for now
-	BigDecimal amt = new BigDecimal(25.00);
-	
-	
 	/**
 	 * Constructor 
 	 * @param 

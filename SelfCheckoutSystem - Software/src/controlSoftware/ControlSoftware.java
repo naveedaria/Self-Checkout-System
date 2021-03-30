@@ -456,9 +456,14 @@ public class ControlSoftware {
 	}
 	
 	
-
-	
-	
+	public void finishedAddingItems() {
+		BigDecimal balance = this.shoppingCart.getTotalPayment();
+		
+		
+		
+		
+		
+	}
 	
 	
 	
