@@ -26,6 +26,7 @@ public class ShoppingCart {
 	BigDecimal totalPayment;
 	int totalNumOfItems;
 	String[][] SHOPPING_CART_ARRAY;
+	BarcodedItem[] BARCODEDITEM_ARRAY;
 	int i;
 	
 	ElectronicScaleListener baggingAreaScale;
@@ -56,7 +57,7 @@ public class ShoppingCart {
 			
 			SHOPPING_CART_ARRAY[i][0] = prod.getDescription();
 			SHOPPING_CART_ARRAY[i][1] = Integer.toString(quantity);
-			
+			BARCODEDITEM_ARRAY[i] = item;
 			updateTotalPayment(item, quantity);
 			
 		} catch (NullPointerException e) {

@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
@@ -54,8 +55,6 @@ public class ControlSoftware {
 	private final int scaleSensitivity = 1; // Don't know the units also
 	private static SelfCheckoutStation selfCheckout = new SelfCheckoutStation(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
 	*/ 
-	//Test Commit Ali 
-	// Second Test
 	
 	/**
 	 * Constructor that initializes the SelfCheckout Station hardware
@@ -510,6 +509,36 @@ public class ControlSoftware {
 		
 		
 	}
+	
+	
+	public void printReceipt() {
+		String s1 = "------------------------------------";
+		String[][] cart = shoppingCart.SHOPPING_CART_ARRAY;
+		BarcodedItem[] item = shoppingCart.BARCODEDITEM_ARRAY;
+		BarcodedItem tempItem;
+		BarcodedProduct prod;
+		System.out.println(s1);
+		String s2 = String.format("%-1s %1s %10s\n","Qty", "Item", "Price");
+		System.out.println(s2);
+		String line;
+		
+		for (int i = 0; i < cart.length; i++) {
+			tempItem = item[i];
+			prod = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(tempItem.getBarcode());
+			prod.getPrice();
+			line = String.format("%-1s %1s %10s\n", cart[i][0], cart[i][1], prod.getPrice());
+			System.out.println(line);
+		}
+		
+		System.out.println(s1);
+		//Array list, [[barcodeditem, quantity]] type of string
+		
+		//shoppingCart.SHOPPING_CART_ARRAY;
+		
+		
+	}
+	
+	
 	
 	
 	
