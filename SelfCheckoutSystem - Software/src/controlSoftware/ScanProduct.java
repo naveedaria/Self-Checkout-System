@@ -29,7 +29,9 @@ public class ScanProduct extends ShoppingCart{
 		scannerObject.enable();
 		scannerObject.scan(someItem);
 		
-		addBarcodedItemToShoppingCart(someBarcode, someItem, prod);
+		int quantity = 3;
+		
+		addToShoppingCart(someItem, quantity);
 		
 	}
 	

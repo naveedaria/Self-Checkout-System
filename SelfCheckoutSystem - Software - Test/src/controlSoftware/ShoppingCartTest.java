@@ -112,8 +112,9 @@ public class ShoppingCartTest {
 		int add = -1;
 		cart.decreaseQuantity(add);
 	}
-	
-	@Test
+
+/*
+	//@Test
 	public void testUpdatePayment() {
 		cart.updateTotalPayment(bItem, quantity);
 		
@@ -127,7 +128,7 @@ public class ShoppingCartTest {
 		
 		assertEquals(new BigDecimal("0.00"), cart.getTotalPayment());
 		
-	}
+	} */
 
 	
 

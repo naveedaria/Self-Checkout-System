@@ -53,23 +53,20 @@ public class TestMain {
 		db.put(testBarcode3, prod3);
 		
 
-		cart.addBarcodedItemToShoppingCart(item, quantity);
+		cart.addToShoppingCart(item, quantity);
 		
-		cart.updateTotalPayment(item, quantity);
 		
 		cart.addQuantity(quantity);
 		
 
-		cart.addBarcodedItemToShoppingCart(item2, quantity2);
+		cart.addToShoppingCart(item2, quantity2);
 		
-		cart.updateTotalPayment(item2, quantity2);
 		
 		cart.addQuantity(quantity2);
 
 
-		cart.addBarcodedItemToShoppingCart(item, quantity3);
+		cart.addToShoppingCart(item, quantity3);
 		
-		cart.updateTotalPayment(item3, quantity3);
 		
 		cart.addQuantity(quantity3);
 

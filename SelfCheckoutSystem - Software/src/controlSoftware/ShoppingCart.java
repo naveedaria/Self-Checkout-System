@@ -8,7 +8,8 @@ import org.lsmr.selfcheckout.devices.listeners.ElectronicScaleListener;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
-
+// Payment calculation for weighted items
+// Test case for weighed Items
 
 
 /**
@@ -24,7 +25,6 @@ public class ShoppingCart {
 
 	BigDecimal totalPayment;
 	int totalNumOfItems;
-	BigDecimal itemPrice;
 	String[][] SHOPPING_CART_ARRAY;
 	int i;
 	
@@ -57,13 +57,18 @@ public class ShoppingCart {
 			SHOPPING_CART_ARRAY[i][0] = prod.getDescription();
 			SHOPPING_CART_ARRAY[i][1] = Integer.toString(quantity);
 			
+			updateTotalPayment(item, quantity);
+			
 		} catch (NullPointerException e) {
 			throw new SimulationException(e);
 		}
 		
 		i++;
-		
 
+	}
+	
+	public void addToShoppingCart(BarcodedItem item) {
+		item.getWeight();
 	}
 	
 	/**
@@ -87,6 +92,8 @@ public class ShoppingCart {
 					SHOPPING_CART_ARRAY[j][0] = null;
 					SHOPPING_CART_ARRAY[j][1] = null;
 					totalNumOfItems = totalNumOfItems - quantity;
+					decreaseTotalPayment(item, quantity);
+					
 					break;
 				} else 
 					throw new NullPointerException("Item is not on shopping cart");
@@ -134,12 +141,12 @@ public class ShoppingCart {
 	 * @param quantity
 	 * 		quantity of item
 	 */
-	public void updateTotalPayment(BarcodedItem barcodedItem, int quantity) {
+	private void updateTotalPayment(BarcodedItem barcodedItem, int quantity) {
 
 		BigDecimal price = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode())
 				.getPrice().multiply(new BigDecimal(quantity));
 		
-		price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+		price = price.setScale(2, BigDecimal.ROUND_HALF_UP); 
 						
 		totalPayment = totalPayment.add(price);
 	
@@ -153,7 +160,8 @@ public class ShoppingCart {
 	 * @param quantity
 	 * 		quantity of item
 	 */
-	public void decreaseTotalPayment(BarcodedItem barcodedItem, int quantity) {
+	@SuppressWarnings("unused")
+	private void decreaseTotalPayment(BarcodedItem barcodedItem, int quantity) {
 
 		BigDecimal price = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode())
 				.getPrice().multiply(new BigDecimal(quantity));
