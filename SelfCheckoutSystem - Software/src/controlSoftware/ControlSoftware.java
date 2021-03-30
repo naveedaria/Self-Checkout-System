@@ -375,7 +375,7 @@ public class ControlSoftware {
 	}
 	
 	
-	
+// Deleted before submission (commented out during meeting)	
 //	/**
 //	 * Method that sets the total balance owed by the customer
 //	 * 
