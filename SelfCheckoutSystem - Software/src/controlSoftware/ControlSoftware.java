@@ -27,6 +27,7 @@ public class ControlSoftware {
 	private static BigDecimal paymentTotal = new BigDecimal(0);
 	private BigDecimal change;
 	private boolean coinProcessed = false;
+	private boolean billProcessed = false;
 	private int numProducts = 0;
 	private ArrayList<Barcode> productBarcodes = new ArrayList<Barcode>();
 	
@@ -261,7 +262,7 @@ public class ControlSoftware {
 	 * @param someCoin
 	 * 		  The coin checked and accepted for payment
 	 * @return
-	 * 		  Return true if the coin is correct
+	 * 		  Return coin value 
 	 * @throws DisabledException
 	 * 		   If the coin machine is filled
 	 */
@@ -329,18 +330,18 @@ public class ControlSoftware {
 	 * @throws DisabledException
 	 * 		   If the machien is disabled
 	 */
-	public static int banknoteMethod(SelfCheckoutStation selfCheckout, Currency currency, int[] banknoteDenominations, Banknote someBanknote) throws OverloadException, DisabledException {
+	public int banknoteMethod(Banknote someBanknote) throws OverloadException, DisabledException {
 		// Aris comment: same comments as above. Don't need selfCheckout, currency, banknoteDenominations. Only someBanknote
 		try {
 			if (someBanknote==null) {
 				throw new SimulationException("Null banknote entered.");
 			}
-			boolean validCoinVal = checkBanknoteVal(someBanknote, banknoteDenominations);
+			boolean validCoinVal = checkBanknoteVal(someBanknote, this.banknoteDenominations);
 			if (validCoinVal) {
 				banknotePaymentStub billStub = new banknotePaymentStub();
-				selfCheckout.banknoteInput.register(billStub);
+				this.selfCheckout.banknoteInput.register(billStub);
 				//selfCheckout.banknoteInput.enable();
-				selfCheckout.banknoteInput.accept(someBanknote);
+				this.selfCheckout.banknoteInput.accept(someBanknote);
 				return someBanknote.getValue();
 			}else {
 				throw new IllegalArgumentException("Invalid banknote value");
@@ -420,10 +421,8 @@ public class ControlSoftware {
 	 * Method to calculate payment by coin
 	 * @param coinValue
 	 * 		  The value of coin used to pay 
-	 * @return 
-	 * 		  Returns the change if any
 	 */
-	public BigDecimal calculateCoinPayment(BigDecimal coinValue) {
+	public void calculateCoinPayment(BigDecimal coinValue) {
 		// Aris comment: for this, it's okay to have the method calculateCoinPayment, but the outcome should be a call to Checkout checkout
 		// which either updates the remaining balance (like in a vending machine) and prints to GUI, or accumulates it until the balance has been met
 		if (coinProcessed==false) {
@@ -433,7 +432,6 @@ public class ControlSoftware {
 		}else if (coinProcessed==true) {
 			this.change = this.change.subtract(coinValue);
 		}
-		return this.change;
 	}
 	
 	/**
@@ -442,11 +440,8 @@ public class ControlSoftware {
 	 * 		  The value of bank note used
 	 * @param billProcessed
 	 * 		  Checks whether the bill is acceptable
-	 * @return
-	 * 		  Returns the change if any
 	 */
-	public BigDecimal calculateBillPayment(int banknoteValue, boolean billProcessed) {
-		// Aris comment: same as the above, except for bills
+	public void calculateBillPayment(int banknoteValue) {
 		BigDecimal bankNoteVal = new BigDecimal(banknoteValue);
 		if (billProcessed==false) {
 			BigDecimal balance = this.shoppingCart.getTotalPayment();
@@ -455,12 +450,11 @@ public class ControlSoftware {
 		}else {
 			this.change = this.change.subtract(bankNoteVal);
 		}
-		return this.change;
 	}
 	
 	//Pay by card 
 	//Preet Comment: Need to create Card before? Too many parameters 
-	public BigDecimal finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean tap, String cardCompany, String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
+	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean tap, String cardCompany, String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
 			boolean hasChip, Calendar expiry, BigDecimal cardLimit, BufferedImage signature, BigDecimal amount, boolean insertCard, String pinInput) throws IOException {
 		
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
@@ -469,7 +463,6 @@ public class ControlSoftware {
 		
 		if (useMembershipCard) {
 			//THIRD ITERATION - no discount or points implemented yet 
-			//Preet Comment: where do we want these values to be collected? 
 			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
 			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
 		}
@@ -481,13 +474,12 @@ public class ControlSoftware {
 			cardPaymentHandler.swipeToPay(signature, amount, insertCard, pinInput);
 			this.change = new BigDecimal(0);
 		}
-		
-		return this.change;
+		//change is now 0, proceed to receipt 	
 	}
 	
 	
 	//Pay by cash 
-	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean insertCoin, boolean insertBill, Coin coin, Banknote banknote) throws IOException {
+	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, Coin[] coins, Banknote[] banknotes) throws IOException, DisabledException, OverloadException {
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
 		
 		if (useMembershipCard) {
@@ -496,19 +488,24 @@ public class ControlSoftware {
 			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
 			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
 		}
-		
-		if (insertCoin) {
-			
+
+		for (int i=0; i<coins.length; i++) {
+			BigDecimal coinVal = coinMethod(coins[i]);
+			calculateCoinPayment(coinVal);
 		}
 		
-		if (insertBill) {
-			
+		for (int i=0; i<banknotes.length; i++) {
+			int billVal = banknoteMethod(banknotes[i]);
+			calculateBillPayment(billVal);
 		}
 		
+		//at this point, the this.change value should actually be the final change 
 
 		
+		//within change class, need to call connect, load, emit sequentially for both CoinDispenser and BanknoteDispenser 
 		
 		
+		//change is now 0, proceed to receipt 
 	}
 	
 	
