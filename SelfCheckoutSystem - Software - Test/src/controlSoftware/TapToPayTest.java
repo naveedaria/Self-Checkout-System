@@ -192,7 +192,7 @@ public class TapToPayTest {
 	
 	@Test
 	public void testValidPaymentWithoutChip() {
-		String type = "Credit Card";
+		String type = "Credit Card"; 
 		String number = "24689";
 		String cardholder = "Bob";
 		String cvv = "321";
