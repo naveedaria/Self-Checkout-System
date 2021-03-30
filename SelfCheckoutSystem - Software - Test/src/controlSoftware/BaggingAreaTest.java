@@ -33,7 +33,7 @@ public class BaggingAreaTest {
 			BarcodedItem item250weight = new BarcodedItem(itemBarcode, 250);
 			BarcodedItem item50weight = new BarcodedItem(itemBarcode3, 50);
 			
-			controlSoft.addItemToBaggingArea(controlSoft.selfCheckout, item250weight);
+			controlSoft.addToBaggingArea(item250weight);
 			assertTrue(controlSoft.selfCheckout.baggingArea.getCurrentWeight() == 250);
 
 		}catch(SimulationException | OverloadException e) {
@@ -61,8 +61,8 @@ public class BaggingAreaTest {
 			BarcodedItem item500weight = new BarcodedItem(itemBarcode2, 500);
 			BarcodedItem item50weight = new BarcodedItem(itemBarcode3, 50);
 			
-			controlSoft.addItemToBaggingArea(controlSoft.selfCheckout, item500weight);
-			controlSoft.removeItemFromBaggingArea(controlSoft.selfCheckout, item500weight);
+			controlSoft.addToBaggingArea(item500weight);
+			controlSoft.removeFromBaggingArea(item500weight);
 			assertTrue(controlSoft.selfCheckout.baggingArea.getCurrentWeight() == 0);
 
 		}catch(Exception e) {
@@ -72,7 +72,7 @@ public class BaggingAreaTest {
 	}
 	
 	@Test(expected = SimulationException.class)
-	public void testAddNullItem() {
+	public void testAddNullItem() throws OverloadException {
 		Currency currency = Currency.getInstance("CAD");
 		int[] banknoteDenominations = new int[]{5, 10, 20, 50, 100};
 		BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05), new BigDecimal(0.10), new BigDecimal(0.25), new BigDecimal(1.00), new BigDecimal(2.00)};
@@ -84,7 +84,7 @@ public class BaggingAreaTest {
 		Barcode nullB = new Barcode("");
 		BarcodedItem nullBarcode = new BarcodedItem(nullB, 20);
 		
-		controlSoft.addItemToBaggingArea(controlSoft.selfCheckout, nullBarcode);
+		controlSoft.addToBaggingArea(nullBarcode);
 		
 		
 	}
@@ -102,7 +102,7 @@ public class BaggingAreaTest {
 		Barcode nullB = new Barcode("");
 		BarcodedItem nullBarcode = new BarcodedItem(nullB, 20);
 		
-		controlSoft.removeItemFromBaggingArea(controlSoft.selfCheckout, nullBarcode);
+		controlSoft.removeFromBaggingArea(nullBarcode);
 		
 		
 	}
