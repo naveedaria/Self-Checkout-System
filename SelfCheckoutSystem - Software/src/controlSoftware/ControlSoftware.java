@@ -428,7 +428,7 @@ public class ControlSoftware {
 	}
 	
 	//Pay by card 
-	//Preet Comment: Need to create Card before? Too many parameters 
+	//Create Card before for Iteration 3
 	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean tap, String cardCompany, String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
 			boolean hasChip, Calendar expiry, BigDecimal cardLimit, BufferedImage signature, BigDecimal amount, boolean insertCard, String pinInput) throws IOException {
 		
