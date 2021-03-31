@@ -143,7 +143,7 @@ public class DispenseChange {
 		}
 		for (Banknote hundred: this.hundreds) {
 			this.banknoteDispensers.get(100).emit();
-		}		
+		} 		
 	}
 	
 
