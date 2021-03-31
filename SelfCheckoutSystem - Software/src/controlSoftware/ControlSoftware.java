@@ -120,12 +120,12 @@ public class ControlSoftware {
 		// Aris Comment: If the product is produce (ie. isPerUnit() == false), then it would have to call weigh item here, and price would be calculated taking into account weight
 		// Otherwise, just calculate price, and quantity
 		
-		if(!shoppingCart.doesItemNeedToBeWeighed(barcodedItem)) {
+		//if(!shoppingCart.doesItemNeedToBeWeighed(barcodedItem)) {
 			// Pass execution flow back to user, and prompt to put item on scale (in main/driver/GUI)
 			// This can be done by setting a return to True (changing return type to Boolean)
-		}else {
+		//}else {
 			shoppingCart.addToShoppingCart(barcodedItem, quantity);
-		}
+		//}
 		
 	
 	}
@@ -169,7 +169,7 @@ public class ControlSoftware {
 				selfCheckout.scale.remove(barcodedItem);
 				
 				// If removal succeeds, add it to the shopping cart (use overloaded method)
-				shoppingCart.addToShoppingCart(barcodedItem);
+				shoppingCart.addToShoppingCart(barcodedItem, 1);
 				
 				// Return flow of execution back to driver. As an aside, in the driver, the customer will now
 				// be asked to place item into bagging area
