@@ -62,6 +62,7 @@ public class DispenseChangeTest {
 	private Banknote hundred2 = new Banknote(100, currency);
 	private Banknote[] hundredLoaded = new Banknote[] { hundred1, hundred2 };
 	
+	
 //	//private Coin[] nickelsLoaded;
 //	private Coin[] dimesLoaded;
 //	private Coin[] quartersLoaded;
@@ -105,19 +106,63 @@ public class DispenseChangeTest {
 		}	
 	}
 	
-	
 	@Test
-	public void testLoadDispensersNotFull() throws SimulationException, OverloadException {
+	public void testLoadDispensersOLExcep() throws SimulationException, OverloadException {
 			BigDecimal testChange = new BigDecimal(3.45);
 			DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
-		try {
 			
-			dispenseChange.loadDispensers(selfCheckout, nickelsLoaded, dimesLoaded, quartersLoaded, looniesLoaded, tooniesLoaded, fivesLoaded, tensLoaded, twentyLoaded, fiftyLoaded, hundredLoaded);
+//			Coin nickelWrong = new Coin(null, currency);
+			Coin[] nickelsLoadedSimExcep = new Coin[] { nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,};
+		try {
+			dispenseChange.loadDispensers(selfCheckout, nickelsLoadedSimExcep, dimesLoaded, quartersLoaded, looniesLoaded, tooniesLoaded, fivesLoaded, tensLoaded, twentyLoaded, fiftyLoaded, hundredLoaded);
 		}
 		catch(Exception e) {
-			assertTrue("Swipe card failed.\n", e instanceof SimulationException); 
+			assertTrue("Capacity of dispenser is exceeded by load.\n", e instanceof OverloadException); 
 		}	
 	}
+	
+	@Test(expected = SimulationException.class)
+	public void testLoadDispensersSimEx() {
+//			BigDecimal testChange = new BigDecimal(3.45);
+//			DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
+		
+////			Coin nickelWrong = new Coin(null, currency);
+//			Coin[] nickelsLoadedSimExcep = new Coin[] { nickel1, nickel2, new Coin(null, currency) };
+		try {
+			BigDecimal testChange = new BigDecimal(3.45);
+			DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
+
+			Coin[] nickelsLoadedSimExcep = new Coin[] { new Coin(null, null) };
+			dispenseChange.loadDispensers(selfCheckout, nickelsLoadedSimExcep, dimesLoaded, quartersLoaded, looniesLoaded, tooniesLoaded, fivesLoaded, tensLoaded, twentyLoaded, fiftyLoaded, hundredLoaded);
+		}
+		catch(Exception e) {
+			assertTrue("One or many coin is null.\n", e instanceof SimulationException); 
+		}	
+	}
+	
 	//=================================================================================
 	
 	//================== calculateChangeDemoninations Tests =============================
