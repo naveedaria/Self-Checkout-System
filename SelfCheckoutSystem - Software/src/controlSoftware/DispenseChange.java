@@ -1,15 +1,37 @@
 package controlSoftware;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Map;
 
 import org.lsmr.selfcheckout.Banknote;
 import org.lsmr.selfcheckout.Coin;
+import org.lsmr.selfcheckout.devices.BanknoteDispenser;
+import org.lsmr.selfcheckout.devices.CoinDispenser;
+import org.lsmr.selfcheckout.devices.OverloadException;
 import org.lsmr.selfcheckout.devices.SelfCheckoutStation;
+import org.lsmr.selfcheckout.devices.SimulationException;
 
 
 //within change class, need to call connect, load, emit sequentially for both CoinDispenser and BanknoteDispenser 
 public class DispenseChange {
-	BigDecimal change;
+	private BigDecimal change;
+	private Map<BigDecimal, CoinDispenser> coinDispensers;
+	private Map<Integer, BanknoteDispenser> banknoteDispensers;
+	
+	/*Coin[] nickelsLoaded;
+	Coin[] dimesLoaded;
+	Coin[] quartersLoaded;
+	Coin[] looniesLoaded;
+	Coin[] tooniesLoaded;
+	
+	Banknote[] fivesLoaded;
+	Banknote[] tensLoaded;
+	Banknote[] twentyLoaded;
+	Banknote[] fiftyLoaded;
+	Banknote[] hundredsLoaded;*/
+	
+	//Use to keep track of coins to dispense for hardware 
 	Coin[] nickels;
 	Coin[] dimes;
 	Coin[] quarters;
@@ -22,23 +44,66 @@ public class DispenseChange {
 	Banknote[] fifty;
 	Banknote[] hundreds;
 	
-	public DispenseChange(SelfCheckoutStation selfCheckout, BigDecimal change) {
+	public DispenseChange(SelfCheckoutStation selfCheckout, BigDecimal change) throws SimulationException, OverloadException {
 		this.change = change; 
+		this.coinDispensers = selfCheckout.coinDispensers;
+		this.banknoteDispensers = selfCheckout.banknoteDispensers;
+		//connect the coin tray to the coin dispenser - DONE in SelfCheckout
+		//load the coin dispensers and banknote dispensers - USE loadDispensers method 
+		//connect an inverted banknote slot to the banknote dispenser - DONE in SelfCheckout
+	}
+	
+	public void loadDispensers(SelfCheckoutStation selfCheckout, Coin[] nickelsLoaded, Coin[] dimesLoaded, Coin[] quartersLoaded, Coin[] looniesLoaded, Coin[] tooniesLoaded,
+			Banknote[] fivesLoaded, Banknote[] tensLoaded, Banknote[] twentyLoaded, Banknote[] fiftyLoaded, Banknote[] hundredLoaded) throws SimulationException, OverloadException {
+		int coinDenominationsCounter = 1;
+		for (BigDecimal coinType: selfCheckout.coinDenominations) {
+			CoinDispenser aDispenser = selfCheckout.coinDispensers.get(coinType);
+			switch(coinDenominationsCounter) {
+			case 1:
+				aDispenser.load(nickelsLoaded);
+				coinDenominationsCounter++;
+			case 2:
+				aDispenser.load(dimesLoaded);
+				coinDenominationsCounter++;
+			case 3:
+				aDispenser.load(quartersLoaded);
+				coinDenominationsCounter++;
+			case 4:
+				aDispenser.load(looniesLoaded);
+				coinDenominationsCounter++;
+			case 5: 	
+				aDispenser.load(tooniesLoaded);
+			}
+		}
 		
-		//connect the coin tray to the coin dispenser
-		//load the coin dispenser
-		
-		//connect an inverted banknote slot to the banknote dispenser 
-		//load the banknote dispenser 
+		int banknoteDenominationsCounter = 1;
+		for (int banknoteType: selfCheckout.banknoteDenominations) {
+			BanknoteDispenser aDispenser = selfCheckout.banknoteDispensers.get(banknoteType);
+			switch(banknoteDenominationsCounter) {
+			case 1:
+				aDispenser.load(fivesLoaded);
+				banknoteDenominationsCounter++;
+			case 2:
+				aDispenser.load(tensLoaded);
+				banknoteDenominationsCounter++;
+			case 3:
+				aDispenser.load(twentyLoaded);
+				banknoteDenominationsCounter++;
+			case 4:
+				aDispenser.load(fiftyLoaded);
+				banknoteDenominationsCounter++;
+			case 5: 	
+				aDispenser.load(hundredLoaded);
+			}
+		}
 	}
 	
 	public void calculateChangeDenominations() {
-		//fill the arrays 
+		//fill the arrays with number of coins/banknotes of each type to fill
 	}
 	
 	public void dispenseDenominations() {
-		//use arrays to dispense appropriate coins/banknotes
-		//major issue - the dispensers don't track the values of the coins/banknotes !!!
+		
 		
 	}
 	
