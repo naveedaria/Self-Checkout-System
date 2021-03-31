@@ -50,6 +50,17 @@ public class DispenseChange {
 		this.change = change; 
 		this.coinDispensers = selfCheckout.coinDispensers;
 		this.banknoteDispensers = selfCheckout.banknoteDispensers;
+		
+		//register listeners for each dispenser 
+		for (BigDecimal coinType: selfCheckout.coinDenominations) {
+			CoinDispenserListenerStub coinDispenserListener = new CoinDispenserListenerStub();
+			selfCheckout.coinDispensers.get(coinType).register(coinDispenserListener);
+		}
+		
+		for (int banknoteType: selfCheckout.banknoteDenominations) {
+			BanknoteDispenserListenerStub banknoteDispenserListener = new BanknoteDispenserListenerStub();
+			selfCheckout.banknoteDispensers.get(banknoteType).register(banknoteDispenserListener);
+		}	
 		//connect the coin tray to the coin dispenser - DONE in SelfCheckout
 		//load the coin dispensers and banknote dispensers - USE loadDispensers method 
 		//connect an inverted banknote slot to the banknote dispenser - DONE in SelfCheckout
