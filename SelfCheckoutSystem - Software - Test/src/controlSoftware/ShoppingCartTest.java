@@ -112,23 +112,20 @@ public class ShoppingCartTest {
 		int add = -1;
 		cart.decreaseQuantity(add);
 	}
-
-/*
-	//@Test
-	public void testUpdatePayment() {
-		cart.updateTotalPayment(bItem, quantity);
+	
+	@Test
+	public void testPaymentGetter() {
 		
-		BigDecimal price = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bItem.getBarcode())
-				.getPrice().multiply(new BigDecimal(quantity));
-		price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+		db.put(barcode, barcodeProd);
 		
-		assertEquals(price, cart.getTotalPayment());
+		cart.addToShoppingCart(bItem, 1);
 		
-		cart.decreaseTotalPayment(bItem, quantity);
+		BigDecimal expectedPrice = db.get(bItem.getBarcode()).getPrice();
 		
-		assertEquals(new BigDecimal("0.00"), cart.getTotalPayment());
+		assertEquals(expectedPrice, cart.getTotalPayment());
 		
-	} */
+		
+	}
 
 	
 

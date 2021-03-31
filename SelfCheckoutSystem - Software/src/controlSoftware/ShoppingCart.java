@@ -17,7 +17,6 @@ import org.lsmr.selfcheckout.products.BarcodedProduct;
  * Tracks total payment the Customer owes
  * Tracks the items in the shopping cart
  * 
- * @author naveed
  *
  */
 public class ShoppingCart {
@@ -70,15 +69,15 @@ public class ShoppingCart {
 	
 	
 	
-	public void addToShoppingCart(BarcodedItem item) {
-		item.getWeight();
-	}
+//	public void addToShoppingCart(BarcodedItem item) {
+//		item.getWeight();
+//	}
 	
 	
 	// Aris added: This method makes a call to the DB to check if isPerUnit is True or False
-	public boolean doesItemNeedToBeWeighed(BarcodedItem item) {
-		return ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode()).isPerUnit();
-	}
+//	public boolean doesItemNeedToBeWeighed(BarcodedItem item) {
+//		return ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode()).isPerUnit();
+//	}
 	
 	
 	/**
