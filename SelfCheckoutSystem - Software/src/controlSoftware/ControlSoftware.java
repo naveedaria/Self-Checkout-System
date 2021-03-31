@@ -479,7 +479,7 @@ public class ControlSoftware {
 		DispenseChange changeDispenser = new DispenseChange(this.selfCheckout, this.change);
 		this.change = changeDispenser.calculateChangeDenominations();
 		//change is now 0, proceed to receipt 
-	}
+	} 
 	
 	
 	

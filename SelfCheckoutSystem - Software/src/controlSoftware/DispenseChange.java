@@ -102,7 +102,7 @@ public class DispenseChange {
 		}catch(OverloadException e) {
 			throw e;
 		}catch(SimulationException e) {
-			throw e;
+			throw e; 
 		}
 		
 	}
