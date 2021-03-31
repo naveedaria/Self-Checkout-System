@@ -58,6 +58,8 @@ public class ShoppingCart {
 			
 			updateTotalPayment(item, quantity);
 			
+			totalNumOfItems += quantity;
+			
 		} catch (NullPointerException e) {
 			throw new SimulationException(e);
 		}
@@ -154,10 +156,14 @@ public class ShoppingCart {
 
 		BigDecimal price = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode())
 				.getPrice().multiply(new BigDecimal(quantity));
+	
 		
 		price = price.setScale(2, BigDecimal.ROUND_HALF_UP); 
+	
 						
 		totalPayment = totalPayment.add(price);
+		
+		System.out.println("Total Payment = " + totalPayment.toString());
 	
 	}
 	

@@ -97,6 +97,11 @@ public class ControlSoftware {
 		
 		selfCheckout.mainScanner.register(stub);
 		selfCheckout.mainScanner.enable();
+		
+		ElectronicScaleListenerStub electronicScaleStub = new ElectronicScaleListenerStub();
+		
+		selfCheckout.scale.register(electronicScaleStub);
+		selfCheckout.scale.enable();
 	}
 	
 	/**
@@ -136,31 +141,36 @@ public class ControlSoftware {
 		return this.numProducts;
 	}
 	
-	//TODO: complete exceptions
-		public boolean weighItem(BarcodedItem barcodedItem) {
-			selfCheckout.scale.add(barcodedItem);
+	
+	
+		public double weighItem(BarcodedItem barcodedItem) {
+			//selfCheckout.scale.add(barcodedItem);
 			try {
 				
 				// This will throw an exception if item weight exceeds MAX scale weight
 				selfCheckout.scale.add(barcodedItem);
+				return selfCheckout.scale.getCurrentWeight();
 				
 				// Will return 0 if nothing is on scale. Note that this isn't currently used, because we don't have GUI set up
-				double weight = selfCheckout.scale.getCurrentWeight();
+				//weight = selfCheckout.scale.getCurrentWeight();
+				
+				//System.out.println("The weight rigtht now is: " + weight);
+			
 				
 				// Design preference: Call GUI and/or pass the weight and barcodedItem to the view (iteration 3)
 				// something like: updateGUIweight(barcodedItem, weight)
 				
 				// Then return flow of execution back to main/driver, and prompt for user to remove from scale, and place into bagging area
-				return true;
-			}catch(Exception e) {
+				//return true;
+			}catch(OverloadException e) {
 				// Handle exceptions here
-				return false;
+				//System.out.println("The weight rigtht now is: " + weight);
+				return 0;
 			}
 		}
 		
 		
-		public boolean removeItemFromScale(BarcodedItem barcodedItem) {
-			selfCheckout.scale.remove(barcodedItem);
+		public boolean removeItemFromScale(BarcodedItem barcodedItem){
 			
 			// You can either call shopping cart here, or wait until customer puts it into bagging area.
 			
@@ -175,7 +185,7 @@ public class ControlSoftware {
 				// be asked to place item into bagging area
 				return true;
 				
-			}catch (Exception e) {
+			}catch (SimulationException e) {
 				
 				return false;
 			}
