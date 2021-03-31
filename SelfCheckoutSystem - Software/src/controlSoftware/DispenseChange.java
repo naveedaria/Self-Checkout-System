@@ -34,17 +34,17 @@ public class DispenseChange {
 	Banknote[] hundredsLoaded;*/
 	
 	//Use to keep track of coins to dispense for hardware 
-	Coin[] nickels;
-	Coin[] dimes;
-	Coin[] quarters;
-	Coin[] loonies;
-	Coin[] toonies;
+	int nickels=0;
+	int dimes=0;
+	int quarters=0;
+	int loonies=0;
+	int toonies=0;
 	
-	Banknote[] fives;
-	Banknote[] tens;
-	Banknote[] twenty;
-	Banknote[] fifty;
-	Banknote[] hundreds;
+	int fives=0;
+	int tens=0;
+	int twenty=0;
+	int fifty=0;
+	int hundreds=0;
 	
 	public DispenseChange(SelfCheckoutStation selfCheckout, BigDecimal change) throws SimulationException, OverloadException {
 		this.change = change; 
@@ -108,40 +108,40 @@ public class DispenseChange {
 	}
 	
 	public void calculateChangeDenominations() {
-		//fill the arrays with number of coins/banknotes of each type to fill
+		//increment the relevant counter whenever a specific coin/banknote is required for change
 	}
 	
 	public void dispenseDenominations() throws OverloadException, EmptyException, DisabledException {
-		for (Coin nickel: this.nickels) {
+		for (int i=0;i<this.nickels; i++) {
 			this.coinDispensers.get(new BigDecimal(0.05)).emit();
 		}
-		for (Coin dime: this.dimes) {
+		for (int i=0;i<this.dimes; i++) {
 			this.coinDispensers.get(new BigDecimal(0.10)).emit();
 		}
-		for (Coin quarter: this.quarters) {
+		for (int i=0;i<this.quarters; i++) {
 			this.coinDispensers.get(new BigDecimal(0.25)).emit();
 		}
-		for (Coin loonie: this.loonies) {
+		for (int i=0;i<this.loonies; i++) {
 			this.coinDispensers.get(new BigDecimal(1.00)).emit();
 		}
-		for (Coin toonie: this.toonies) {
+		for (int i=0;i<this.toonies; i++) {
 			this.coinDispensers.get(new BigDecimal(2.00)).emit();
 		}
 		
 		
-		for (Banknote five: this.fives) {
+		for (int i=0;i<this.fives; i++) {
 			this.banknoteDispensers.get(5).emit();
 		}
-		for (Banknote ten: this.tens) {
+		for (int i=0;i<this.tens; i++) {
 			this.banknoteDispensers.get(10).emit();
 		}		
-		for (Banknote twenty: this.twenty) {
+		for (int i=0;i<this.twenty; i++) {
 			this.banknoteDispensers.get(20).emit();
 		}
-		for (Banknote fifty: this.fifty) {
+		for (int i=0;i<this.fifty; i++) {
 			this.banknoteDispensers.get(50).emit();
 		}
-		for (Banknote hundred: this.hundreds) {
+		for (int i=0;i<this.hundreds; i++) {
 			this.banknoteDispensers.get(100).emit();
 		} 		
 	}
