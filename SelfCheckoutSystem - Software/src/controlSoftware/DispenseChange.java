@@ -8,12 +8,14 @@ import org.lsmr.selfcheckout.Banknote;
 import org.lsmr.selfcheckout.Coin;
 import org.lsmr.selfcheckout.devices.BanknoteDispenser;
 import org.lsmr.selfcheckout.devices.CoinDispenser;
+import org.lsmr.selfcheckout.devices.DisabledException;
+import org.lsmr.selfcheckout.devices.EmptyException;
 import org.lsmr.selfcheckout.devices.OverloadException;
 import org.lsmr.selfcheckout.devices.SelfCheckoutStation;
 import org.lsmr.selfcheckout.devices.SimulationException;
 
 
-//within change class, need to call connect, load, emit sequentially for both CoinDispenser and BanknoteDispenser 
+//Main Idea: call load, emit sequentially for both CoinDispensers and BanknoteDispensers 
 public class DispenseChange {
 	private BigDecimal change;
 	private Map<BigDecimal, CoinDispenser> coinDispensers;
@@ -55,56 +57,93 @@ public class DispenseChange {
 	
 	public void loadDispensers(SelfCheckoutStation selfCheckout, Coin[] nickelsLoaded, Coin[] dimesLoaded, Coin[] quartersLoaded, Coin[] looniesLoaded, Coin[] tooniesLoaded,
 			Banknote[] fivesLoaded, Banknote[] tensLoaded, Banknote[] twentyLoaded, Banknote[] fiftyLoaded, Banknote[] hundredLoaded) throws SimulationException, OverloadException {
-		int coinDenominationsCounter = 1;
-		for (BigDecimal coinType: selfCheckout.coinDenominations) {
-			CoinDispenser aDispenser = selfCheckout.coinDispensers.get(coinType);
-			switch(coinDenominationsCounter) {
-			case 1:
-				aDispenser.load(nickelsLoaded);
-				coinDenominationsCounter++;
-			case 2:
-				aDispenser.load(dimesLoaded);
-				coinDenominationsCounter++;
-			case 3:
-				aDispenser.load(quartersLoaded);
-				coinDenominationsCounter++;
-			case 4:
-				aDispenser.load(looniesLoaded);
-				coinDenominationsCounter++;
-			case 5: 	
-				aDispenser.load(tooniesLoaded);
+		try {
+			int coinDenominationsCounter = 1;
+			for (BigDecimal coinType: selfCheckout.coinDenominations) {
+				CoinDispenser aDispenser = selfCheckout.coinDispensers.get(coinType);
+				switch(coinDenominationsCounter) {
+				case 1:
+					aDispenser.load(nickelsLoaded);
+					coinDenominationsCounter++;
+				case 2:
+					aDispenser.load(dimesLoaded);
+					coinDenominationsCounter++;
+				case 3:
+					aDispenser.load(quartersLoaded);
+					coinDenominationsCounter++;
+				case 4:
+					aDispenser.load(looniesLoaded);
+					coinDenominationsCounter++;
+				case 5: 	
+					aDispenser.load(tooniesLoaded);
+				}
 			}
+			
+			int banknoteDenominationsCounter = 1;
+			for (int banknoteType: selfCheckout.banknoteDenominations) {
+				BanknoteDispenser aDispenser = selfCheckout.banknoteDispensers.get(banknoteType);
+				switch(banknoteDenominationsCounter) {
+				case 1:
+					aDispenser.load(fivesLoaded);
+					banknoteDenominationsCounter++;
+				case 2:
+					aDispenser.load(tensLoaded);
+					banknoteDenominationsCounter++;
+				case 3:
+					aDispenser.load(twentyLoaded);
+					banknoteDenominationsCounter++;
+				case 4:
+					aDispenser.load(fiftyLoaded);
+					banknoteDenominationsCounter++;
+				case 5: 	
+					aDispenser.load(hundredLoaded);
+				}
+			}
+		}catch(OverloadException e) {
+			throw e;
+		}catch(SimulationException e) {
+			throw e;
 		}
 		
-		int banknoteDenominationsCounter = 1;
-		for (int banknoteType: selfCheckout.banknoteDenominations) {
-			BanknoteDispenser aDispenser = selfCheckout.banknoteDispensers.get(banknoteType);
-			switch(banknoteDenominationsCounter) {
-			case 1:
-				aDispenser.load(fivesLoaded);
-				banknoteDenominationsCounter++;
-			case 2:
-				aDispenser.load(tensLoaded);
-				banknoteDenominationsCounter++;
-			case 3:
-				aDispenser.load(twentyLoaded);
-				banknoteDenominationsCounter++;
-			case 4:
-				aDispenser.load(fiftyLoaded);
-				banknoteDenominationsCounter++;
-			case 5: 	
-				aDispenser.load(hundredLoaded);
-			}
-		}
 	}
 	
 	public void calculateChangeDenominations() {
 		//fill the arrays with number of coins/banknotes of each type to fill
 	}
 	
-	public void dispenseDenominations() {
+	public void dispenseDenominations() throws OverloadException, EmptyException, DisabledException {
+		for (Coin nickel: this.nickels) {
+			this.coinDispensers.get(new BigDecimal(0.05)).emit();
+		}
+		for (Coin dime: this.dimes) {
+			this.coinDispensers.get(new BigDecimal(0.10)).emit();
+		}
+		for (Coin quarter: this.quarters) {
+			this.coinDispensers.get(new BigDecimal(0.25)).emit();
+		}
+		for (Coin loonie: this.loonies) {
+			this.coinDispensers.get(new BigDecimal(1.00)).emit();
+		}
+		for (Coin toonie: this.toonies) {
+			this.coinDispensers.get(new BigDecimal(2.00)).emit();
+		}
 		
 		
+		for (Banknote five: this.fives) {
+			this.banknoteDispensers.get(5).emit();
+		}
+		for (Banknote ten: this.tens) {
+			this.banknoteDispensers.get(10).emit();
+		}		
+		for (Banknote twenty: this.twenty) {
+			this.banknoteDispensers.get(20).emit();
+		}
+		for (Banknote fifty: this.fifty) {
+			this.banknoteDispensers.get(50).emit();
+		}
+		for (Banknote hundred: this.hundreds) {
+			this.banknoteDispensers.get(100).emit();
+		}		
 	}
 	
 
