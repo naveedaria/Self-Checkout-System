@@ -473,7 +473,6 @@ public class ControlSoftware {
 			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
 			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
 		}
-<<<<<<< HEAD
 
 		for (int i=0; i<coins.length; i++) {
 			BigDecimal coinVal = coinMethod(coins[i]);
@@ -490,7 +489,6 @@ public class ControlSoftware {
 		this.change = changeDispenser.calculateChangeDenominations();
 		//change is now 0, proceed to receipt 
 	} 
-=======
 		
 		if (insertCoin) {
 			
@@ -532,7 +530,6 @@ public class ControlSoftware {
 		}
 		// Print end line
 		System.out.println(s1);
->>>>>>> refs/heads/Ali
 	
 	}
 	
