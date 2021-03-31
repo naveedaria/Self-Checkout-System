@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
@@ -55,8 +56,6 @@ public class ControlSoftware {
 	private final int scaleSensitivity = 1; // Don't know the units also
 	private static SelfCheckoutStation selfCheckout = new SelfCheckoutStation(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
 	*/ 
-	//Test Commit Ali 
-	// Second Test
 	
 	/**
 	 * Constructor that initializes the SelfCheckout Station hardware
@@ -474,6 +473,7 @@ public class ControlSoftware {
 			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
 			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
 		}
+<<<<<<< HEAD
 
 		for (int i=0; i<coins.length; i++) {
 			BigDecimal coinVal = coinMethod(coins[i]);
@@ -490,7 +490,50 @@ public class ControlSoftware {
 		this.change = changeDispenser.calculateChangeDenominations();
 		//change is now 0, proceed to receipt 
 	} 
+=======
+		
+		if (insertCoin) {
+			
+		}
+		
+		if (insertBill) {
+			
+		}
+	}
+	// Method to print the receipt
+	public void printReceipt() {
+		// Some strings used to format the receipt 
+		String s1 = "------------------------------------";
+		// 2-D Array from the shopping cart class
+		String[][] cart = shoppingCart.SHOPPING_CART_ARRAY;
+		// Barcoded Item array from shopping cart class
+		// A single barcoded temporary item
+		// A barcoded product
+		BarcodedProduct prod;
+		// Printing 
+		System.out.println(s1);
+		String s2 = String.format("%-1s %1s %10s\n","Qty", "Item", "Price");
+		System.out.println(s2);
+		String line;
+		for (int i = 0; i < cart.length; i++) {
+			try {
+			// Accessing the barcoded item from the array
+			BarcodedItem tempItem = shoppingCart.BARCODEDITEM_ARRAY[i];
+			// Getting the product from the Database
+			prod = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(tempItem.getBarcode());
+			// String format for each line printed in the receipt
+			// Quantity and Name are accessed from the shopping cart array
+			// Price is accessed from the product class
+			line = String.format("%-1s %1s %10s\n", cart[i][1], cart[i][0], prod.getPrice());
+			// Print line
+			System.out.println(line);
+			}catch (NullPointerException e) {
+			}
+		}
+		// Print end line
+		System.out.println(s1);
+>>>>>>> refs/heads/Ali
 	
-	
+	}
 	
 }
