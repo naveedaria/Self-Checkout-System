@@ -2,6 +2,7 @@ package controlSoftware;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -61,6 +62,7 @@ public class DispenseChangeTest {
 	private Banknote hundred2 = new Banknote(100, currency);
 	private Banknote[] hundredLoaded = new Banknote[] { hundred1, hundred2 };
 	
+	
 //	//private Coin[] nickelsLoaded;
 //	private Coin[] dimesLoaded;
 //	private Coin[] quartersLoaded;
@@ -89,7 +91,7 @@ public class DispenseChangeTest {
 
 	}
 	
-	
+	//================== loadDispensers Tests =============================
 	@Test
 	public void testLoadDispensersFullLoad() throws SimulationException, OverloadException {
 			BigDecimal testChange = new BigDecimal(3.45);
@@ -104,23 +106,66 @@ public class DispenseChangeTest {
 		}	
 	}
 	
-//	@Test
-//	public void testLoadDispensersNotFull() throws SimulationException, OverloadException {
+	@Test
+	public void testLoadDispensersOLExcep() throws SimulationException, OverloadException {
+			BigDecimal testChange = new BigDecimal(3.45);
+			DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
+			
+//			Coin nickelWrong = new Coin(null, currency);
+			Coin[] nickelsLoadedSimExcep = new Coin[] { nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,
+														nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1, nickel1,};
+		try {
+			dispenseChange.loadDispensers(selfCheckout, nickelsLoadedSimExcep, dimesLoaded, quartersLoaded, looniesLoaded, tooniesLoaded, fivesLoaded, tensLoaded, twentyLoaded, fiftyLoaded, hundredLoaded);
+		}
+		catch(Exception e) {
+			assertTrue("Capacity of dispenser is exceeded by load.\n", e instanceof OverloadException); 
+		}	
+	}
+	
+	@Test(expected = SimulationException.class)
+	public void testLoadDispensersSimEx() {
 //			BigDecimal testChange = new BigDecimal(3.45);
 //			DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
-//		try {
-////			Coin nickel3 = new Coin(new BigDecimal(0.05), currency);
-////			Coin[] nickelsLoaded2 = new Coin[] { nickel3 };
-//			
-//			dispenseChange.loadDispensers(selfCheckout, nickelsLoaded, dimesLoaded, quartersLoaded, looniesLoaded, tooniesLoaded, fivesLoaded, tensLoaded, twentyLoaded, fiftyLoaded, hundredLoaded);
-//		}
-//		catch(Exception e) {
-//			e.printStackTrace();
-//			fail("Exception not expected"); 
-//		}	
-//	}
+		
+////			Coin nickelWrong = new Coin(null, currency);
+//			Coin[] nickelsLoadedSimExcep = new Coin[] { nickel1, nickel2, new Coin(null, currency) };
+		try {
+			BigDecimal testChange = new BigDecimal(3.45);
+			DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
+
+			Coin[] nickelsLoadedSimExcep = new Coin[] { new Coin(null, null) };
+			dispenseChange.loadDispensers(selfCheckout, nickelsLoadedSimExcep, dimesLoaded, quartersLoaded, looniesLoaded, tooniesLoaded, fivesLoaded, tensLoaded, twentyLoaded, fiftyLoaded, hundredLoaded);
+		}
+		catch(Exception e) {
+			assertTrue("One or many coin is null.\n", e instanceof SimulationException); 
+		}	
+	}
 	
+	//=================================================================================
 	
+	//================== calculateChangeDemoninations Tests =============================
 	@Test
 	public void testCalcChangeDemonChangeGreaterThan() throws SimulationException, OverloadException {
 		BigDecimal testChange = new BigDecimal(3.45);
@@ -148,7 +193,9 @@ public class DispenseChangeTest {
 			fail("Exception not expected"); 
 		}
 	}
+	//=================================================================================
 	
+	//================== dispenseDemoninations Tests =============================
 	@Test
 	public void testDispenseDemonForConditionFails() throws SimulationException, OverloadException {
 		BigDecimal testChange = new BigDecimal(3.45);
@@ -163,10 +210,9 @@ public class DispenseChangeTest {
 		}
 	}
 	
-	
 	@Test
-	public void testDispenseDemon10() throws SimulationException, OverloadException {
-		BigDecimal testChange = new BigDecimal(10.75);
+	public void testDispenseDemonFifty() throws SimulationException, OverloadException {
+		BigDecimal testChange = new BigDecimal(50.75);
 		DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
 
 		try {
@@ -181,8 +227,8 @@ public class DispenseChangeTest {
 	}
 	
 	@Test
-	public void testDispenseDemon5() throws SimulationException, OverloadException {
-		BigDecimal testChange = new BigDecimal(5.50);
+	public void testDispenseDemonDime() throws SimulationException, OverloadException {
+		BigDecimal testChange = new BigDecimal(0.12);
 		DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
 
 		try {
@@ -197,8 +243,8 @@ public class DispenseChangeTest {
 	}
 	
 	@Test
-	public void testDispenseDemonNickel() throws SimulationException, OverloadException {
-		BigDecimal testChange = new BigDecimal(0.30);
+	public void testDispenseDemonTwenty() throws SimulationException, OverloadException {
+		BigDecimal testChange = new BigDecimal(20.10);
 		DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
 
 		try {
@@ -211,6 +257,88 @@ public class DispenseChangeTest {
 			fail("Exception not expected"); 
 		}
 	}
+	
+	@Test
+	public void testDispenseDemonTen() throws SimulationException, OverloadException {
+		BigDecimal testChange = new BigDecimal(10.10);
+		DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
+
+		try {
+			dispenseChange.loadDispensers(selfCheckout, nickelsLoaded, dimesLoaded, quartersLoaded, looniesLoaded, tooniesLoaded, fivesLoaded, tensLoaded, twentyLoaded, fiftyLoaded, hundredLoaded);
+			dispenseChange.calculateChangeDenominations();
+			dispenseChange.dispenseDenominations();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
+	}
+	
+	@Test
+	public void testDispenseDemonFive() throws SimulationException, OverloadException {
+		BigDecimal testChange = new BigDecimal(5.10);
+		DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
+
+		try {
+			dispenseChange.loadDispensers(selfCheckout, nickelsLoaded, dimesLoaded, quartersLoaded, looniesLoaded, tooniesLoaded, fivesLoaded, tensLoaded, twentyLoaded, fiftyLoaded, hundredLoaded);
+			dispenseChange.calculateChangeDenominations();
+			dispenseChange.dispenseDenominations();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
+	}
+	
+	@Test
+	public void testDispenseDemonLoonieNickel() throws SimulationException, OverloadException {
+		BigDecimal testChange = new BigDecimal(1.05);
+		DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
+
+		try {
+			dispenseChange.loadDispensers(selfCheckout, nickelsLoaded, dimesLoaded, quartersLoaded, looniesLoaded, tooniesLoaded, fivesLoaded, tensLoaded, twentyLoaded, fiftyLoaded, hundredLoaded);
+			dispenseChange.calculateChangeDenominations();
+			dispenseChange.dispenseDenominations();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
+	}
+	
+	@Test
+	public void testDispenseDemonToonieQuarter() throws SimulationException, OverloadException {
+		BigDecimal testChange = new BigDecimal(2.25);
+		DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
+
+		try {
+			dispenseChange.loadDispensers(selfCheckout, nickelsLoaded, dimesLoaded, quartersLoaded, looniesLoaded, tooniesLoaded, fivesLoaded, tensLoaded, twentyLoaded, fiftyLoaded, hundredLoaded);
+			dispenseChange.calculateChangeDenominations();
+			dispenseChange.dispenseDenominations();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
+	}
+	
+	@Test
+	public void testDispenseDemonHundred() throws SimulationException, OverloadException {
+		BigDecimal testChange = new BigDecimal(100.10);
+		DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
+
+		try {
+			dispenseChange.loadDispensers(selfCheckout, nickelsLoaded, dimesLoaded, quartersLoaded, looniesLoaded, tooniesLoaded, fivesLoaded, tensLoaded, twentyLoaded, fiftyLoaded, hundredLoaded);
+			dispenseChange.calculateChangeDenominations();
+			dispenseChange.dispenseDenominations();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
+	}
+	//=================================================================================
+	
 	
 	
 }	
