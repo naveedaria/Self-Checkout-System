@@ -33,8 +33,8 @@ public class Main {
 		ShoppingCart cart = new ShoppingCart();
 		db.put(barcode, barcodeProd);	
 		
-		controlSoft.shoppingCart = cart;
 		cart.addToShoppingCart(bItem, quantity);
+		controlSoft.shoppingCart = cart;
 		controlSoft.printReceipt();
 		
 		
