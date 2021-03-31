@@ -25,7 +25,7 @@ import org.lsmr.selfcheckout.products.BarcodedProduct;
 
 public class ControlSoftware {
 	private static BigDecimal paymentTotal = new BigDecimal(0);
-	private BigDecimal change;
+	public BigDecimal change;
 	private boolean coinProcessed = false;
 	private boolean billProcessed = false;
 	private int numProducts = 0;
@@ -44,7 +44,7 @@ public class ControlSoftware {
 	// Aris comment: Delete this
 	private BarcodeScanner scannerObject;
 	
-	private ShoppingCart shoppingCart;
+	public ShoppingCart shoppingCart;
 	
 	
 	/*
@@ -430,7 +430,7 @@ public class ControlSoftware {
 	//Pay by card 
 	//Create Card before for Iteration 3
 	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean tap, String cardCompany, String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
-			boolean hasChip, Calendar expiry, BigDecimal cardLimit, BufferedImage signature, BigDecimal amount, boolean insertCard, String pinInput) throws IOException {
+			boolean hasChip, Calendar expiry, BigDecimal cardLimit, BufferedImage signature, boolean insertCard, String pinInput) throws IOException {
 		
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
 		PaymentByCard cardPaymentHandler = new PaymentByCard(this.selfCheckout, cardCompany);
@@ -446,7 +446,7 @@ public class ControlSoftware {
 			cardPaymentHandler.tapToPay(balance, insertCard, pinInput);
 			this.change = new BigDecimal(0);
 		}else {
-			cardPaymentHandler.swipeToPay(signature, amount, insertCard, pinInput);
+			cardPaymentHandler.swipeToPay(signature, balance, insertCard, pinInput);
 			this.change = new BigDecimal(0);
 		}
 		//change is now 0, proceed to receipt 	
@@ -454,6 +454,7 @@ public class ControlSoftware {
 	
 	
 	//Pay by cash 
+	//Assume user enters more than necessary cash, handle case of less cash than balance through GUI in Iteration 3
 	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, Coin[] coins, Banknote[] banknotes) throws IOException, DisabledException, OverloadException {
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
 		
@@ -476,7 +477,7 @@ public class ControlSoftware {
 		
 		//at this point, the this.change value should actually be the final change 
 		DispenseChange changeDispenser = new DispenseChange(this.selfCheckout, this.change);
-
+		this.change = changeDispenser.calculateChangeDenominations();
 		//change is now 0, proceed to receipt 
 	}
 	

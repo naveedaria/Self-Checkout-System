@@ -107,8 +107,11 @@ public class DispenseChange {
 		
 	}
 	
-	public void calculateChangeDenominations() {
+	//return value of change at the end - which should be 0
+	public BigDecimal calculateChangeDenominations() {
 		//increment the relevant counter whenever a specific coin/banknote is required for change
+	
+		return new BigDecimal(0);
 	}
 	
 	public void dispenseDenominations() throws OverloadException, EmptyException, DisabledException {
