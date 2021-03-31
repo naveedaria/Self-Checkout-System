@@ -111,18 +111,25 @@ public class DispenseChange {
 		
 	}
 	
-	//return value of change at the end - which should be 0
+	// Returns value of change at the end - which should be big decimal 0
+	// Method counts the relevant denomination whenever a specific coin/ bank-note is required for change
 	public BigDecimal calculateChangeDenominations() {
-		//increment the relevant counter whenever a specific coin/banknote is required for change
+		// Changed the change into double
 		double doubleValueOfChange = change.doubleValue();
-		
+		// If greater or equal to 5 dollars 
 		if(doubleValueOfChange >= 5.0) {
+		// Check how many hundreds fit in change
+		// Update hundreds counter
 			hundreds = (int) doubleValueOfChange / 100;
+		// Modulo/ take remainder
 			doubleValueOfChange %= 100;
-			
+		// Check how many fifties fit in change	
+		// Update fifties counter
 			fifty = (int) doubleValueOfChange / 50;
+		// Modulo/ take remainder
 			doubleValueOfChange %= 50;
-			
+		// Rest of the code in this method follows same logic 
+		// as the previous two cases
 			twenty = (int) doubleValueOfChange / 20;
 			doubleValueOfChange %= 20;
 			
@@ -148,6 +155,7 @@ public class DispenseChange {
 			nickels = (int) (doubleValueOfChange / 0.05);
 			doubleValueOfChange %= 0.05;
 		}
+		// Return 0 as change
 		return new BigDecimal(0);
 	}
 	
