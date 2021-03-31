@@ -503,13 +503,7 @@ public class ControlSoftware {
 		if (insertBill) {
 			
 		}
-		
-
-		
-		
-		
 	}
-	
 	// Method to print the receipt
 	public void printReceipt() {
 		// Some strings used to format the receipt 
