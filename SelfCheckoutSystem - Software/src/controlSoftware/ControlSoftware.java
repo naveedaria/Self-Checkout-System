@@ -379,31 +379,6 @@ public class ControlSoftware {
 	}
 	
 	
-// Deleted before submission (commented out during meeting)	
-//	/**
-//	 * Method that sets the total balance owed by the customer
-//	 * 
-//	 */
-//	public void setTotalBalance() {
-//		// Aris comment: the logic for this should be done in the shopping cart. You can remove this
-//		for (int i = 0; i<this.productBarcodes.size();i++) {
-//			BigDecimal price = this.db.get(productBarcodes.get(i)).getPrice();
-//			this.paymentTotal = this.paymentTotal.add(price);
-//		}
-//	} 
-//	
-//	/**
-//	 * Getter for total balance
-//	 * @return
-//	 */
-//	public BigDecimal getTotalBalance() {
-//		// Aris comment: this is okay, but the accessor should be from a getter in shopping cart
-//		return this.paymentTotal;
-//	}
-	
-	
-	
-	
 	/**
 	 * Setter for the Customers Change
 	 */
