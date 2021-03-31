@@ -512,14 +512,12 @@ public class ControlSoftware {
 	
 	// Method to print the receipt
 	public void printReceipt() {
-		// Some strings used to format the recipt 
+		// Some strings used to format the receipt 
 		String s1 = "------------------------------------";
 		// 2-D Array from the shopping cart class
 		String[][] cart = shoppingCart.SHOPPING_CART_ARRAY;
 		// Barcoded Item array from shopping cart class
-		//BarcodedItem[] item = shoppingCart.BARCODEDITEM_ARRAY;
 		// A single barcoded temporary item
-		//BarcodedItem tempItem;
 		// A barcoded product
 		BarcodedProduct prod;
 		// Printing 
