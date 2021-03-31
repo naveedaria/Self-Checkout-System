@@ -80,8 +80,6 @@ public class ControlSoftware {
 		
 		this.selfCheckout = new SelfCheckoutStation(this.currency, this.banknoteDenominations, this.coinDenominations, this.scaleMaxWeight, this.scaleSensitivity);
 		
-		// Aris comment: I think we should register all devices right here. This is simulating the software turning on, and connecting to all devices
-		// Will do for the scanner, then show to the Team on Saturday's meeting
 		
 		
 		// Create shopping cart object
@@ -488,7 +486,7 @@ public class ControlSoftware {
 		DispenseChange changeDispenser = new DispenseChange(this.selfCheckout, this.change);
 		this.change = changeDispenser.calculateChangeDenominations();
 		//change is now 0, proceed to receipt 
-	} 
+	
 		
 		if (insertCoin) {
 			
