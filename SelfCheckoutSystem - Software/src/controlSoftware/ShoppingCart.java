@@ -39,6 +39,7 @@ public class ShoppingCart {
 		SHOPPING_CART_ARRAY = new String[30][2];
 		this.totalPayment = new BigDecimal("0.00");
 		this.totalNumOfItems = 0;
+		BARCODEDITEM_ARRAY = new BarcodedItem[30]; 
 		i = 0;
 			
 	}

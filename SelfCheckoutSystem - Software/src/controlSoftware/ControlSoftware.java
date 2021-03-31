@@ -44,7 +44,7 @@ public class ControlSoftware {
 	// Aris comment: Delete this
 	private BarcodeScanner scannerObject;
 	
-	private ShoppingCart shoppingCart;
+	public ShoppingCart shoppingCart;
 	
 	
 	/*
@@ -517,9 +517,9 @@ public class ControlSoftware {
 		// 2-D Array from the shopping cart class
 		String[][] cart = shoppingCart.SHOPPING_CART_ARRAY;
 		// Barcoded Item array from shopping cart class
-		BarcodedItem[] item = shoppingCart.BARCODEDITEM_ARRAY;
+		//BarcodedItem[] item = shoppingCart.BARCODEDITEM_ARRAY;
 		// A single barcoded temporary item
-		BarcodedItem tempItem;
+		//BarcodedItem tempItem;
 		// A barcoded product
 		BarcodedProduct prod;
 		// Printing 
@@ -527,18 +527,20 @@ public class ControlSoftware {
 		String s2 = String.format("%-1s %1s %10s\n","Qty", "Item", "Price");
 		System.out.println(s2);
 		String line;
-		
 		for (int i = 0; i < cart.length; i++) {
+			try {
 			// Accessing the barcoded item from the array
-			tempItem = item[i];
+			BarcodedItem tempItem = shoppingCart.BARCODEDITEM_ARRAY[i];
 			// Getting the product from the Database
 			prod = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(tempItem.getBarcode());
 			// String format for each line printed in the receipt
 			// Quantity and Name are accessed from the shopping cart array
 			// Price is accessed from the product class
-			line = String.format("%-1s %1s %10s\n", cart[i][0], cart[i][1], prod.getPrice());
+			line = String.format("%-1s %1s %10s\n", cart[i][1], cart[i][0], prod.getPrice());
 			// Print line
 			System.out.println(line);
+			}catch (NullPointerException e) {
+			}
 		}
 		// Print end line
 		System.out.println(s1);
