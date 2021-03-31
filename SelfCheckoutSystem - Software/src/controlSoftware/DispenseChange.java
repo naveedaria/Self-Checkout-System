@@ -34,18 +34,11 @@ public class DispenseChange {
 	Banknote[] hundredsLoaded;*/
 	
 	//Use to keep track of coins to dispense for hardware 
-	int nickels=0;
-	int dimes=0;
-	int quarters=0;
-	int loonies=0;
-	int toonies=0;
-	
-	int fives=0;
-	int tens=0;
-	int twenty=0;
-	int fifty=0;
-	int hundreds=0;
-	
+	int nickels = 0, dimes = 0, quarters = 0, loonies = 0, toonies= 0;
+
+	//Use to keep track of bank notes to dispense for hardware 
+	int fives = 0, tens = 0, twenty = 0, fifty = 0, hundreds = 0;
+
 	public DispenseChange(SelfCheckoutStation selfCheckout, BigDecimal change) throws SimulationException, OverloadException {
 		this.change = change; 
 		this.coinDispensers = selfCheckout.coinDispensers;
@@ -121,7 +114,40 @@ public class DispenseChange {
 	//return value of change at the end - which should be 0
 	public BigDecimal calculateChangeDenominations() {
 		//increment the relevant counter whenever a specific coin/banknote is required for change
-	
+		double doubleValueOfChange = change.doubleValue();
+		
+		if(doubleValueOfChange >= 5.0) {
+			hundreds = (int) doubleValueOfChange / 100;
+			doubleValueOfChange %= 100;
+			
+			fifty = (int) doubleValueOfChange / 50;
+			doubleValueOfChange %= 50;
+			
+			twenty = (int) doubleValueOfChange / 20;
+			doubleValueOfChange %= 20;
+			
+			tens = (int) doubleValueOfChange / 10;
+			doubleValueOfChange %= 10;
+			
+			fives = (int) doubleValueOfChange / 5;
+			doubleValueOfChange %= 5;
+					
+		}else if(doubleValueOfChange < 5.0){
+			toonies = (int) doubleValueOfChange / 2;
+			doubleValueOfChange %= 2;
+			
+			loonies = (int) doubleValueOfChange / 1;
+			doubleValueOfChange %= 1;
+			
+			quarters = (int) (doubleValueOfChange / 0.25);
+			doubleValueOfChange %= 0.25;
+			
+			dimes = (int) (doubleValueOfChange / 0.10);
+			doubleValueOfChange %= 0.10;
+			
+			nickels = (int) (doubleValueOfChange / 0.05);
+			doubleValueOfChange %= 0.05;
+		}
 		return new BigDecimal(0);
 	}
 	
