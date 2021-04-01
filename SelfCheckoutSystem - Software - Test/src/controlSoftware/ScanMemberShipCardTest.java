@@ -8,6 +8,7 @@ import java.util.Currency;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.lsmr.selfcheckout.ChipFailureException;
 import org.lsmr.selfcheckout.devices.SimulationException;
 
 
@@ -33,8 +34,8 @@ public class ScanMemberShipCardTest {
 		try {
 			this.membershipcard.tapMembershipCard(cardNumber1, cardHolder2);
 	
-		}catch(SimulationException e) {
-			assertTrue("Card is Invalid.\n", e instanceof SimulationException);
+		}catch(ChipFailureException e) {
+			assertTrue("Card is Invalid.\n", e instanceof ChipFailureException);
 		}
 		
 	}

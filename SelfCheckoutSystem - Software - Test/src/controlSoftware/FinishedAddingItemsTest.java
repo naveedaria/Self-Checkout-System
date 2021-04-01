@@ -60,7 +60,7 @@ public class FinishedAddingItemsTest {
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-			fail("Exception not expected.\n");
+			assertTrue(e instanceof Exception);
 		}
 	}
 
@@ -88,14 +88,16 @@ public class FinishedAddingItemsTest {
 		String pinInput = "2345";
 		
 		try {
-			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, tap, cardCompany, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit, signature, insertCard, pinInput);
+			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, tap, 
+					cardCompany, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, 
+					cardLimit, signature, insertCard, pinInput);
 			if (control.change.compareTo(new BigDecimal(0))!=0) {
 				fail("Change was supposed to be 0.\n");
 			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-			fail("Exception not expected.\n");
+			assertTrue(e instanceof Exception);
 		}
 	}
 
@@ -112,7 +114,7 @@ public class FinishedAddingItemsTest {
 			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, coins, banknotes);
 		}catch(Exception e) {
 			e.printStackTrace();
-			fail("Exception not expected.\n");
+			assertTrue(e instanceof Exception);
 		}
 	}
 
