@@ -455,7 +455,9 @@ public class ControlSoftware {
 			
 	//	}
 	}
-	// Method to print the receipt
+	
+	/*
+	// ITERATION THREE
 	public void printReceipt() {
 		// Some strings used to format the receipt 
 		String s1 = "------------------------------------";
@@ -488,6 +490,6 @@ public class ControlSoftware {
 		// Print end line
 		System.out.println(s1);
 	
-	}
+	} */
 	
 }
