@@ -71,8 +71,7 @@ public class CommandLineDriver {
          *                START OF CONTROL FLOW: Checkout/Payment (TODO)
          *===============================================================*/
         
-         // Customer is done scanning items, and is ready to pay. So they press a checkout button
-        //checkoutBtnPressed = true;
+         
         
         
         /*===============================================================
