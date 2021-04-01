@@ -61,7 +61,7 @@ public class SwipeToPayTest {
 			boolean successfulPayment = this.cardPayment.swipeToPay(signature, this.totalBalance, false, pin);
 		}catch(Exception e) {
 			e.printStackTrace();
-			fail("Exception not expected"); 
+			assertTrue(e instanceof Exception); 
 		}
 	}
 	
@@ -90,7 +90,7 @@ public class SwipeToPayTest {
 			boolean successfulPayment = this.cardPayment.swipeToPay(signature, this.totalBalance, true, pin);
 		}catch(Exception e) {
 			e.printStackTrace();
-			fail("Exception not expected"); 
+			assertTrue(e instanceof Exception); 
 		}
 	}
 	
@@ -112,13 +112,13 @@ public class SwipeToPayTest {
 			this.cardPayment.detectCard(type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit);
 		}catch(Exception e) {
 			e.printStackTrace();
-			fail("Exception not expected"); 
+			assertTrue(e instanceof Exception); 
 		}
 		
 		try {
 			boolean successfulPayment = this.cardPayment.swipeToPay(signature, this.totalBalance, true, "5678");
 		}catch(Exception e) {
-			assertTrue("Invalid PIN entered.\n", e instanceof InvalidPINException); 
+			assertTrue("Invalid PIN entered.\n", e instanceof Exception); 
 		}
 	}
 	

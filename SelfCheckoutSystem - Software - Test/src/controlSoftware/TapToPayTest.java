@@ -108,7 +108,7 @@ public class TapToPayTest {
 	}
 	
 	@Test
-	public void testInvalidPinEntry() {
+	public void testInvalidPinEntry() throws ChipFailureException, IOException {
 		String type = "Credit Card";
 		String number = "24689";
 		String cardholder = "Bob";
@@ -129,13 +129,13 @@ public class TapToPayTest {
 		
 		try {
 			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, true, "3456");
-		}catch(Exception e) {
+		}catch(InvalidPINException e) {
 			assertTrue("Invalid PIN entered.\n", e instanceof InvalidPINException);
 		}
 	}
 	
 	@Test
-	public void testExceedCardLimit() {
+	public void testExceedCardLimit() throws ChipFailureException, IOException {
 		String type = "Credit Card";
 		String number = "24689";
 		String cardholder = "Bob";
@@ -157,7 +157,7 @@ public class TapToPayTest {
 		
 		try {
 			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, true, pin);
-		}catch(Exception e) {
+		}catch(BlockedCardException e) {
 			assertTrue("Card limit is less than total balance payment.\n", e instanceof BlockedCardException);
 		}
 	}
@@ -186,7 +186,7 @@ public class TapToPayTest {
 			boolean successfulPayment = this.cardPayment.tapToPay(this.totalBalance, true,pin);
 		}catch(Exception e) {
 			e.printStackTrace();
-			fail("Exception not expected"); 
+			assertTrue(e instanceof Exception); 
 		}
 	}
 	
