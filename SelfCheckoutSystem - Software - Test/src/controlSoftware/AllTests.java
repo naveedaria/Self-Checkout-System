@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({addToScalePromptTest.class, CustomerBagTest.class, BaggingAreaTest.class, DispenseChangeTest.class,
-	FinishedAddingItemsTest.class, ScanProductTest.class, RemoveItemFromScaleTest.class, ScanMemberShipCardTest.class, ScanProductTest.class,
+	FinishedAddingItemsTest.class, ScanProductTest.class, RemoveItemFromScaleTest.class, ScanMemberShipCardTest.class,
 	ShoppingCartTest.class, SwipeToPayTest.class, TapToPayTest.class, WeighItemTest.class})
 public class AllTests {
 	

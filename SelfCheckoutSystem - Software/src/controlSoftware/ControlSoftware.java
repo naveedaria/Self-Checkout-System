@@ -197,7 +197,7 @@ public class ControlSoftware {
 	
 	public BarcodedItem customerBag() {
 		
-		Barcode bag = new Barcode("customerBag");
+		Barcode bag = new Barcode("1234");
 		BarcodedItem customerBag = new BarcodedItem(bag, 5.00);
 		
 		return customerBag;
@@ -447,13 +447,13 @@ public class ControlSoftware {
 		//change is now 0, proceed to receipt 
 	
 		
-		if (insertCoin) {
+	//	if (insertCoin) {
 			
-		}
+	//	}
 		
-		if (insertBill) {
+	//	if (insertBill) {
 			
-		}
+	//	}
 	}
 	// Method to print the receipt
 	public void printReceipt() {
