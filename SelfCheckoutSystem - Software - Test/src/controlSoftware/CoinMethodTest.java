@@ -28,7 +28,7 @@ public class CoinMethodTest {
 			ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity); 
 			BigDecimal expectedVal = new BigDecimal(2);
 			Coin someCoin = new Coin(expectedVal,currency);
-			BigDecimal resultVal = controlSoft.coinMethod(controlSoft.selfCheckout, currency, coinDenominations, someCoin);
+			BigDecimal resultVal = controlSoft.coinMethod(someCoin);
 			assertTrue(expectedVal == resultVal);
 		}catch (Exception e) {
 			fail("Coin value was valid - exception not expected");
@@ -47,7 +47,7 @@ public class CoinMethodTest {
 			ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity); 
 			BigDecimal value = new BigDecimal(3);
 			Coin someCoin = new Coin(value,currency);
-			controlSoft.coinMethod(controlSoft.selfCheckout, currency, coinDenominations, someCoin);
+			controlSoft.coinMethod(someCoin);
 		}catch (Exception e) {
 			assertTrue("Invalid input - IllegalArgumentException expected.\n", e instanceof IllegalArgumentException);
 		}
@@ -67,7 +67,7 @@ public class CoinMethodTest {
 			BigDecimal value = new BigDecimal(2);
 			Coin someCoin = new Coin(value,currency);
 			controlSoft.selfCheckout.coinSlot.disable();
-			controlSoft.coinMethod(controlSoft.selfCheckout, currency, coinDenominations, someCoin);
+			controlSoft.coinMethod(someCoin);
 		}catch (Exception e) {
 			assertTrue("Coin slot is disabled - DisabledException expected.\n", e instanceof DisabledException);
 		}
@@ -84,7 +84,7 @@ public class CoinMethodTest {
 			
 			ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity); 
 			Coin someCoin = null; 
-			controlSoft.coinMethod(controlSoft.selfCheckout, currency, coinDenominations, someCoin);
+			controlSoft.coinMethod(someCoin);
 		}catch (Exception e) {
 			assertTrue("Coin is null - SimulationException expected.\n", e instanceof SimulationException);
 		}
