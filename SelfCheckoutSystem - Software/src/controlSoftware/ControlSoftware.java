@@ -408,6 +408,18 @@ public class ControlSoftware {
 			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
 		}
 		
+		/*
+		 * if (payByGiftcard) { 
+		 * //use giftcard 
+		 * //set flag 
+		 * //if the flag says that an
+		 * actual payment is still needed, proceed to the tap/swipe part with an
+		 * updated balance 
+		 * otherwise, exit the finish method
+		 * 
+		 * }
+		 */
+		
 		if (tap) {
 			cardPaymentHandler.tapToPay(balance, insertCard, pinInput);
 			this.change = new BigDecimal(0);
