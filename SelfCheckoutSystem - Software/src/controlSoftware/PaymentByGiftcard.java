@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 public class PaymentByGiftcard {
 	BigDecimal balance; 
+	boolean activeStatus = true;
 	//status field - null or active 
 	//suppose no expiry 
 	
