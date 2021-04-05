@@ -15,14 +15,13 @@ import org.lsmr.selfcheckout.devices.SimulationException;
 import org.lsmr.selfcheckout.external.CardIssuer;
 
 public class PaymentByGiftcard {
-	BigDecimal balance; 
-	
-	//do we want to include this? we might need a database to check the status of Co-op issued cards?
-	boolean activeStatus = true;
-	
-	
+	BigDecimal value; 
 	private CardReader cardReader;
 	private Card inputCard;
+	
+	//do we want to include this? we might need a database to check the status of Co-op issued cards?
+	//boolean activeStatus = true;
+	
 	//private CardIssuer cardIssuer;
 	//status field - null or active 
 	//suppose no expiry 
@@ -35,19 +34,17 @@ public class PaymentByGiftcard {
 	//create separate methods based on payment by card methods (parallel) - PICKED 
 	
 	
-	public PaymentByGiftcard(SelfCheckoutStation selfCheckout) {
+	public PaymentByGiftcard(SelfCheckoutStation selfCheckout, BigDecimal value) {
 		CardReaderListenerStub cardReaderListener = new CardReaderListenerStub();
 		selfCheckout.cardReader.register(cardReaderListener);
 		this.cardReader = selfCheckout.cardReader;
-		//this.cardIssuer = new CardIssuer("Calgary Co-op");
-		
+		this.value = value; 
 	}
 	
 	//other parameters will be null - pass in cardnumber, amount 
 	public void detectCard(String number) {
 		try {
 			this.inputCard = new Card("Gift Card", number, "N/A", null, null, true, false);
-			//this.cardIssuer.addCardData(number, "N/A", expiry, cvv, cardLimit);
 		}catch(SimulationException e) {
 			throw e;
 		}
@@ -55,7 +52,7 @@ public class PaymentByGiftcard {
 	 
 	//value is gift card balance 
 	//return value is updated paymentBalance (-1 means gift card wasn't used or useless) 
-	public BigDecimal tapToRedeem(BigDecimal value, BigDecimal paymentBalance) throws IOException {
+	public BigDecimal tapToRedeem(BigDecimal paymentBalance) throws IOException {
 		//boolean cardSuccessfullyUsed=true; 
 		try {
 			CardData data= this.cardReader.tap(this.inputCard);
@@ -70,6 +67,8 @@ public class PaymentByGiftcard {
 				return new BigDecimal(-1);
 			} //Gift Card value is valid 
 			else if(value.compareTo(new BigDecimal(0))==1) {
+				//Just in case we want to update giftcard value for database 
+				//this.value = paymentBalance.subtract(value);
 				return paymentBalance.subtract(value);
 			}//Gift Card value is negative 
 			else {
@@ -89,6 +88,8 @@ public class PaymentByGiftcard {
 	}
 	
 	//QUESTION: new card reader for each instance of paymentbycard/membership class?? 
+	//QUESTION: do we need databases/hashmaps for giftcard or attendant classes? Requirement of databases?? 
+			// ask TA ****
 	
 
 }

@@ -396,7 +396,7 @@ public class ControlSoftware {
 	//Pay by card 
 	//Create Card before for Iteration 3
 	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean tap, 
-			boolean payByGiftcard, String giftcardNumber,
+			boolean payByGiftcard, String giftcardNumber, BigDecimal value,
 			String cardCompany, String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
 			boolean hasChip, Calendar expiry, BigDecimal cardLimit, BufferedImage signature, boolean insertCard, String pinInput) throws IOException {
 		
@@ -412,7 +412,7 @@ public class ControlSoftware {
 		
 		
 		if(payByGiftcard) {
-			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
+			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout, value);
 			giftcardPaymentHandler.detectCard(giftcardNumber);
 			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(balance);
 			
@@ -436,7 +436,7 @@ public class ControlSoftware {
 	//Pay by cash 
 	//Assume user enters more than necessary cash, handle case of less cash than balance through GUI in Iteration 3
 	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, 
-			boolean payByGiftcard, String giftcardNumber,
+			boolean payByGiftcard, String giftcardNumber, BigDecimal value,
 			Coin[] coins, Banknote[] banknotes) throws IOException, DisabledException, OverloadException {
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
 		
@@ -448,7 +448,7 @@ public class ControlSoftware {
 		}
 		
 		if(payByGiftcard) {
-			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
+			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout, value);
 			giftcardPaymentHandler.detectCard(giftcardNumber);
 			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(balance);
 			
