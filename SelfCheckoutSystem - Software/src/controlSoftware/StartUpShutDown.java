@@ -62,7 +62,7 @@ public class StartUpShutDown {
 		
 	}
 	
-	public void ShuttingDown() {
+	public void shuttingDown() {
 		
 		// Disabling all of the Hardware
 		// Shutting down the Self Checkout Station
