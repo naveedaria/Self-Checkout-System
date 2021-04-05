@@ -1,5 +1,6 @@
 package controlSoftware;
 
+import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.Item;
 
 public class Attendant {
@@ -11,8 +12,8 @@ public class Attendant {
 	}
 	
 	
-	
-	public void removeItem(ControlSoftware cs, Item item, int quantity) {
+	public void removeItem(ControlSoftware cs, BarcodedItem item, int quantity) {
+		cs.shoppingCart.removeFromShoppingCart(item, quantity);
 	}
 
 }
