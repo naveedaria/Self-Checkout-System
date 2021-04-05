@@ -16,7 +16,11 @@ import org.lsmr.selfcheckout.external.CardIssuer;
 
 public class PaymentByGiftcard {
 	BigDecimal balance; 
+	
+	//do we want to include this? we might need a database to check the status of Co-op issued cards?
 	boolean activeStatus = true;
+	
+	
 	private CardReader cardReader;
 	private Card inputCard;
 	//private CardIssuer cardIssuer;
@@ -25,7 +29,6 @@ public class PaymentByGiftcard {
 	
 	
 	//don't need database for now - just use amount on card 
-	//plan to tap giftcard 
 	
 	//either we overload the payment by card methods
 	//extend the payment by card class 
@@ -37,7 +40,6 @@ public class PaymentByGiftcard {
 		selfCheckout.cardReader.register(cardReaderListener);
 		this.cardReader = selfCheckout.cardReader;
 		//this.cardIssuer = new CardIssuer("Calgary Co-op");
-		//card company is COOP 
 		
 	}
 	
@@ -52,18 +54,28 @@ public class PaymentByGiftcard {
 	}
 	 
 	//value is gift card balance 
-	public boolean tapToRedeem(BigDecimal value, BigDecimal paymentBalance) throws IOException {
-		boolean cardSuccessfullyUsed=true; 
+	//return value is updated paymentBalance (-1 means gift card wasn't used or useless) 
+	public BigDecimal tapToRedeem(BigDecimal value, BigDecimal paymentBalance) throws IOException {
+		//boolean cardSuccessfullyUsed=true; 
 		try {
 			CardData data= this.cardReader.tap(this.inputCard);
-			if (data==null) {
-				cardSuccessfullyUsed = false; 
+			if (data==null) { 
 				System.out.println("Tap is not enabled.\n");
-				return cardSuccessfullyUsed;
+				return new BigDecimal(-1);
 			}
 			
-			
-			return cardSuccessfullyUsed;
+			//Gift Card does not have any money left 
+			if (value.compareTo(new BigDecimal(0))==0) {
+				System.out.println("0 balance remaining on Gift Card.\n");
+				return new BigDecimal(-1);
+			} //Gift Card value is valid 
+			else if(value.compareTo(new BigDecimal(0))==1) {
+				return paymentBalance.subtract(value);
+			}//Gift Card value is negative 
+			else {
+				System.out.println("Invalid balance for Gift Card entered.\n");
+				return new BigDecimal(-1);
+			}
 		}catch(BlockedCardException e) {
 			throw e; 
 		}catch(SimulationException e) {
@@ -76,10 +88,7 @@ public class PaymentByGiftcard {
 		
 	}
 	
-	
-	
 	//QUESTION: new card reader for each instance of paymentbycard/membership class?? 
-	
 	
 
 }
