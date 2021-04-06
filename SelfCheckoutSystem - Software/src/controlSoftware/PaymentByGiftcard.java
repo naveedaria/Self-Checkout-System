@@ -28,6 +28,7 @@ public class PaymentByGiftcard {
 	
 	
 	//don't need database for now - just use amount on card 
+	//use database - similar to scan membership class (hash map) 
 	
 	//either we overload the payment by card methods
 	//extend the payment by card class 
@@ -42,6 +43,7 @@ public class PaymentByGiftcard {
 	}
 	
 	//other parameters will be null - pass in cardnumber, amount 
+	//handled in listeners 
 	public void detectCard(String number) {
 		try {
 			this.inputCard = new Card("Gift Card", number, "N/A", null, null, true, false);

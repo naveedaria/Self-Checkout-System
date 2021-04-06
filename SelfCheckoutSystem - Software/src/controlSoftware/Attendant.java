@@ -11,7 +11,7 @@ public class Attendant {
 		this.attendantID = attendantID;
 	}
 	
-	
+	//rename 
 	public void removeItem(ControlSoftware cs, BarcodedItem item, int quantity) {
 		cs.shoppingCart.removeFromShoppingCart(item, quantity);
 	}
