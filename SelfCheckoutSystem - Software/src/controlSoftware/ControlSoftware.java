@@ -27,6 +27,8 @@ import org.lsmr.selfcheckout.products.BarcodedProduct;
 public class ControlSoftware {
 	private static BigDecimal paymentTotal = new BigDecimal(0);
 	public BigDecimal change;
+	//new variable expected weight added
+	private double expectedWeight;
 	private boolean coinProcessed = false;
 	private boolean billProcessed = false;
 	private int numProducts = 0;
@@ -100,11 +102,7 @@ public class ControlSoftware {
 		
 		selfCheckout.mainScanner.scan(barcodedItem);
 	
-		// For Iteration #3
-		//if(!shoppingCart.doesItemNeedToBeWeighed(barcodedItem)) {
-			// Pass execution flow back to user, and prompt to put item on scale (in main/driver/GUI)
-			// This can be done by setting a return to True (changing return type to Boolean)
-		//}else {
+		expectedWeight = (expectedWeight + (quantity*barcodedItem.getWeight()));
 			shoppingCart.addToShoppingCart(barcodedItem, quantity);
 		//}
 		
@@ -401,7 +399,16 @@ public class ControlSoftware {
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
 		PaymentByCard cardPaymentHandler = new PaymentByCard(this.selfCheckout, cardCompany);
 		cardPaymentHandler.detectCard(type, number, cardholder, cvv, pinInput, isTapEnabled, hasChip, expiry, cardLimit);
-		
+		//added checker to notify weight discrepancy
+		try {
+			if(expectedWeight != selfCheckout.scale.getCurrentWeight()) {
+				System.out.println("Weight Discrepancy noticed. Call attendant for manual approval.");
+				
+			}
+		} catch (OverloadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (useMembershipCard) {
 			//THIRD ITERATION - no discount or points implemented yet 
 			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
@@ -423,7 +430,16 @@ public class ControlSoftware {
 	//Assume user enters more than necessary cash, handle case of less cash than balance through GUI in Iteration 3
 	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, Coin[] coins, Banknote[] banknotes) throws IOException, DisabledException, OverloadException {
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
-		
+		//added checker to notify weight discrepancy
+		try {
+			if(expectedWeight != selfCheckout.scale.getCurrentWeight()) {
+				System.out.println("Weight Discrepancy noticed. Call attendant for manual approval.");
+				
+			}
+		} catch (OverloadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (useMembershipCard) {
 			//THIRD ITERATION - no discount or points implemented yet 
 			
@@ -491,5 +507,34 @@ public class ControlSoftware {
 		System.out.println(s1);
 	
 	} */
-	
+	public void attendantApproveWeight() {
+		
+			Scanner s = new Scanner(System.in); 
+			//manually approve heavier bags by entering attendant ID and Password(default "12345678" and "12345678")
+       		System.out.println("Enter Attendent ID"); 
+       		String ID = s.nextLine();
+       		if (ID.equals("12345678")) {
+       			System.out.println("Enter Attendent Password"); 
+       			String passWord = s.nextLine();
+       			if (passWord.equals("12345678")){
+       				try {
+						expectedWeight = selfCheckout.scale.getCurrentWeight();
+					} catch (OverloadException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+       				
+       			}
+       			else {
+       				
+       				System.out.println("Wrong password, try again"); 
+       			}	
+       		}
+       		else {
+       			
+       			System.out.println("Wrong Attendent ID, try again");    	
+       		}		 
+			
+		
+	}
 }
