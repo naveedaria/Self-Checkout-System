@@ -130,6 +130,7 @@ public class ScanMembershipCard {
 	
 	// wouldn't the tap method do the same thing as below method? so is it necessary?
 	// method for a user with a membership card that forgot their card but remembers number
+	// also can check if a member has a card or not --> (check membership)
 	public String enterMembershipCard(String cardNumber) throws IOException{
 		try {
 			String memberName;
@@ -152,12 +153,6 @@ public class ScanMembershipCard {
 	}
 	
 	
-	// method to verify if user is a member --> is this method necessary or used?
-	// can enterMembershipCard method be used to checkMembership?
-	
-//	public boolean checkMembership() {
-//		
-//	}
 	
 
 }
