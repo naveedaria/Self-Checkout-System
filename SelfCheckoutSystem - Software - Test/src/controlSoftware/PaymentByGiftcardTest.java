@@ -29,7 +29,7 @@ public class PaymentByGiftcardTest {
 
 	@Test
 	public void testTapToRedeemTapDisabled() {
-		fail("Not yet implemented");
+		
 	}
 	
 	

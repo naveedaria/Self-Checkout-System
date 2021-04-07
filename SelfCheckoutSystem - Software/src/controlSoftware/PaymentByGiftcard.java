@@ -50,9 +50,9 @@ public class PaymentByGiftcard {
 	
 	//other parameters will be null - pass in cardnumber
 	//handled in listeners 
-	public void detectCard(String number) {
+	public void detectCard(String number, boolean tapEnabled) {
 		try {
-			this.inputCard = new Card("Gift Card", number, "N/A", null, null, true, false);
+			this.inputCard = new Card("Gift Card", number, "N/A", null, null, tapEnabled, false);
 		}catch(SimulationException e) {
 			throw e;
 		}
@@ -60,9 +60,9 @@ public class PaymentByGiftcard {
 	 
 	//number is gift card number 
 	//return value is updated paymentBalance (-1 means gift card wasn't used or useless) 
-	public BigDecimal tapToRedeem(String number, BigDecimal paymentBalance) throws IOException {
+	public BigDecimal tapToRedeem(String number, BigDecimal paymentBalance, boolean tapEnabled) throws IOException {
 		try {
-			detectCard(number);
+			detectCard(number, tapEnabled);
 			CardData data= this.cardReader.tap(this.inputCard);
 			if (data==null) { 
 				System.out.println("Tap is not enabled.\n");
