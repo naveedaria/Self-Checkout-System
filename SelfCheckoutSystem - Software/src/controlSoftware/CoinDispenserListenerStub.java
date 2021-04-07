@@ -8,8 +8,8 @@ import org.lsmr.selfcheckout.devices.listeners.CoinDispenserListener;
 
 public class CoinDispenserListenerStub implements CoinDispenserListener{
 
-	boolean isEnabled;
-	boolean isDisabled;
+	private boolean isEnabled;
+	private boolean isDisabled;
 	
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {

@@ -10,8 +10,8 @@ public class baggingAreaStub implements ElectronicScaleListener{
 	double currentWeight;
 	int weightLimit;
 	int sensitivity;
-	boolean isEnabled;
-	boolean isDisabled;
+	private boolean isEnabled;
+	private boolean isDisabled;
 
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {

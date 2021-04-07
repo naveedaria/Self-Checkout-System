@@ -8,8 +8,8 @@ import org.lsmr.selfcheckout.devices.listeners.CardReaderListener;
 
 public class CardReaderListenerStub implements CardReaderListener{
 
-	boolean isEnabled;
-	boolean isDisabled;
+	private boolean isEnabled;
+	private boolean isDisabled;
 	
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {

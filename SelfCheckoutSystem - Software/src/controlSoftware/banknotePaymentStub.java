@@ -10,8 +10,8 @@ import org.lsmr.selfcheckout.devices.listeners.BanknoteSlotListener;
 
 public class banknotePaymentStub implements BanknoteSlotListener, Acceptor{
 
-	boolean isEnabled;
-	boolean isDisabled;
+	private boolean isEnabled;
+	private boolean isDisabled;
 	
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {

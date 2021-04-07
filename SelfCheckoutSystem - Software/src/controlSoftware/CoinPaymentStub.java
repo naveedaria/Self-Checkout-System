@@ -10,8 +10,8 @@ import org.lsmr.selfcheckout.devices.listeners.CoinSlotListener;
 
 public class CoinPaymentStub implements CoinSlotListener, Acceptor{
 
-	boolean isEnabled;
-	boolean isDisabled;
+	private boolean isEnabled;
+	private boolean isDisabled;
 	
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {

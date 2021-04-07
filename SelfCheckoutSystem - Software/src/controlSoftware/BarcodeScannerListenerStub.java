@@ -9,8 +9,8 @@ import org.lsmr.selfcheckout.external.ProductDatabases;
 
 public class BarcodeScannerListenerStub implements BarcodeScannerListener{
 
-	boolean isEnabled;
-	boolean isDisabled;
+	private boolean isEnabled;
+	private boolean isDisabled;
 	
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {

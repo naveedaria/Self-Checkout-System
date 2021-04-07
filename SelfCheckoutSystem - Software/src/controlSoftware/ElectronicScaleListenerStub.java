@@ -7,8 +7,8 @@ import org.lsmr.selfcheckout.devices.listeners.ElectronicScaleListener;
 
 public class ElectronicScaleListenerStub implements ElectronicScaleListener {
 
-	boolean isEnabled;
-	boolean isDisabled;
+	private boolean isEnabled;
+	private boolean isDisabled;
 	
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
