@@ -2,6 +2,7 @@ package controlSoftware;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Currency;
 
@@ -10,7 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PaymentByGiftcardTest {
-	PaymentByGiftcard giftcardPayment;
+	private PaymentByGiftcard giftcardPayment;
+	private BigDecimal totalBalance;
 
 	@Before
 	public void setUp() throws Exception {
@@ -24,18 +26,42 @@ public class PaymentByGiftcardTest {
 
 		PaymentByGiftcard giftcardPayment = new PaymentByGiftcard(controlSoft.selfCheckout);
 		this.giftcardPayment = giftcardPayment;
+		
+		//Suppose the shopping balance is $100.00
+		this.totalBalance = new BigDecimal(100);
 	}
 
 
 	@Test
-	public void testTapToRedeemTapDisabled() {
+	public void testTapToRedeemTapDisabled() throws IOException {
+		String testerCardNum = "123456";
+		boolean tapEnabled = false; 
+		
+		try {
+			BigDecimal updatedBalance = this.giftcardPayment.tapToRedeem(testerCardNum, this.totalBalance, tapEnabled);
+			BigDecimal expected = new BigDecimal(-1);
+			assertTrue(expected.compareTo(updatedBalance)==0);
+		}catch(Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
 		
 	}
 	
 	
 	@Test
 	public void testTapToRedeemInvalidCard() {
-		fail("Not yet implemented");
+		String testerCardNum = "4689";
+		boolean tapEnabled = true; 
+		
+		try {
+			BigDecimal updatedBalance = this.giftcardPayment.tapToRedeem(testerCardNum, this.totalBalance, tapEnabled);
+			BigDecimal expected = new BigDecimal(-1);
+			assertTrue(expected.compareTo(updatedBalance)==0);
+		}catch(Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
 	}
 	
 	@Test
@@ -56,12 +82,30 @@ public class PaymentByGiftcardTest {
 
 	@Test
 	public void testGetAmountValid() {
-		fail("Not yet implemented");
+		String testerCardNum = "123456";
+		
+		try {
+			BigDecimal amount = this.giftcardPayment.getAmount(testerCardNum);
+			BigDecimal expected = new BigDecimal(25);
+			assertTrue(expected.compareTo(amount)==0);
+		}catch(Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
 	}
 	
 	@Test
 	public void testGetAmountInvalid() {
-		fail("Not yet implemented");
+		String testerCardNum = "4689";
+		
+		try {
+			BigDecimal amount = this.giftcardPayment.getAmount(testerCardNum);
+			BigDecimal expected = new BigDecimal(-1);
+			assertTrue(expected.compareTo(amount)==0);
+		}catch(Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
 	}
 
 }
