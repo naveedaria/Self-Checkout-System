@@ -1,8 +1,11 @@
 package driver;
 
 import java.math.BigDecimal;
+
 import java.util.Currency;
 import java.util.Map;
+
+import javax.swing.JFrame;
 
 import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
@@ -10,16 +13,25 @@ import org.lsmr.selfcheckout.Card;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
+import panels.*;
 import controlSoftware.ControlSoftware;
 
 public class CommandLineDriver {
+	
+	public static JFrame mainFrame;
+	
+	public static MainScreen m;
+	public static PaymentSelectorScreen pss;
+	
 	public static void main(String[] args) {
+		/*
         System.out.println("Self-Checkout Station turning on...");
         System.out.println("Initializing Control Software v.1......");
-        
+        */
         /*===============================================================
          *                INITIALIZE PRODUCT DATABASE
          *===============================================================*/
+		/*
         Barcode b1 = new Barcode("1234");
         BarcodedProduct bp1 = new BarcodedProduct(b1, "Banana", new BigDecimal(1.5));
         
@@ -28,12 +40,13 @@ public class CommandLineDriver {
         db.put(b1, bp1);
         
         System.out.println("The product is: " + db.get(b1).getPrice());
-        
+        */
         /*===============================================================
          *                INITIALIZE CONTROL SOFTWARE
          *===============================================================*/
         
         // Initialize Control Software
+		
         final Currency c1 = Currency.getInstance("CAD");
     	final int[] banknoteDenominations = new int[]{5, 10, 20, 50, 100};
     	final BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05), new BigDecimal(0.10), new BigDecimal(0.25), new BigDecimal(1.00), new BigDecimal(2.00)};
@@ -41,7 +54,7 @@ public class CommandLineDriver {
     	final int scaleSensitivity = 1; // Don't know the units also
         ControlSoftware controlSoftware = new ControlSoftware(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
         
-        System.out.println("Self-checkout is ready! Scan your item...");
+        //System.out.println("Self-checkout is ready! Scan your item...");
         
         /*===============================================================
          *                START OF CONTROL FLOW: Scanning
@@ -49,8 +62,8 @@ public class CommandLineDriver {
         
          // Hard-coding Test Case #1: User wants to buy 2 bananas
         
-        BarcodedItem customerItem1 = new BarcodedItem(b1, 500);
-        int customerItem1quantity = 1;
+        //BarcodedItem customerItem1 = new BarcodedItem(b1, 500);
+        //int customerItem1quantity = 1;
         
         //Card card = new Card("Visa", "1234 5678 9102 2212", "Aris", String pin, boolean isTapEnabled, boolean hasChip)
         
@@ -78,7 +91,30 @@ public class CommandLineDriver {
          *                END OF CONTROL FLOW: Print Receipt (TODO)
          *===============================================================*/
         
+        m = new MainScreen();
+        pss = new PaymentSelectorScreen();
+        
+        mainFrame = controlSoftware.selfCheckout.screen.getFrame();
+        
+        mainFrame.setContentPane(m);
+        mainFrame.pack();
+        controlSoftware.selfCheckout.screen.setVisible(true);
+        
+       
         
         
+	}
+	
+	public static void goToScreen(int idx) {
+		if(idx == 1) {
+			
+			mainFrame.setContentPane(m);
+			mainFrame.pack();
+		} 
+		if(idx == 2) {
+			//mainFrame.removeAll();
+			mainFrame.setContentPane(pss);
+			mainFrame.pack();
+		}
 	}
 }
