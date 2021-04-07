@@ -60,6 +60,15 @@ public class StartUpShutDown {
 		selfcheckoutstation.scale.enable();
 		selfcheckoutstation.screen.enable();
 		
+		baggingArea.enabled(null);
+		banknoteDispenser.enabled(null);
+		banknotePayment.enabled(null);
+		barcodeScanner.enabled(null);
+		cardReader.enabled(null);
+		coinDispenser.enabled(null);
+		coinPayment.enabled(null);
+		electronicScale.enabled(null);
+		
 	}
 	
 	public void shuttingDown() {
@@ -83,5 +92,13 @@ public class StartUpShutDown {
 		selfcheckoutstation.scale.disable();
 		selfcheckoutstation.screen.disable();
 		
+		baggingArea.disabled(null);
+		banknoteDispenser.disabled(null);
+		banknotePayment.disabled(null);
+		barcodeScanner.disabled(null);
+		cardReader.disabled(null);
+		coinDispenser.disabled(null);
+		coinPayment.disabled(null);
+		electronicScale.disabled(null);
 	}
 }

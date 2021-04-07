@@ -8,30 +8,7 @@ import org.lsmr.selfcheckout.devices.SelfCheckoutStation;
 
 public class StartupShutdownTest 
 {
-	public baggingAreaStub baggingArea;
-	public BanknoteDispenserListenerStub banknoteDispenser;
-	public banknotePaymentStub banknotePayment;
-	public BarcodeScannerListenerStub barcodeScanner;
-	public CardReaderListenerStub cardReader;
-	public CoinDispenserListenerStub coinDispenser;
-	public CoinPaymentStub coinPayment;
-	public ElectronicScaleListenerStub electronicScale;
-	public SelfCheckoutStation selfcheckoutstation;
-	StartUpShutDown startup;
 	
-	@Before
-	public void setUp() throws Exception 
-	{
-		baggingArea = new baggingAreaStub();
-		banknoteDispenser = new BanknoteDispenserListenerStub();
-		banknotePayment = new banknotePaymentStub();
-		barcodeScanner = new BarcodeScannerListenerStub();
-		cardReader = new CardReaderListenerStub();
-		coinDispenser = new CoinDispenserListenerStub();
-		coinPayment = new CoinPaymentStub();
-		electronicScale = new ElectronicScaleListenerStub();
-		
-	}
 	
 	
 	@Test
