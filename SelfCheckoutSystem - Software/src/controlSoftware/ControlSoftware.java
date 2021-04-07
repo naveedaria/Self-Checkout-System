@@ -158,13 +158,6 @@ public class ControlSoftware {
 		}
 	
 	
-	
-	
-	
-	
-	
-
-	
 	public boolean addToScalePrompt(Item item) {
 		System.out.println("Please add item to the bagging area \n");
 		
