@@ -38,6 +38,7 @@ public class ControlSoftware {
 	private int scaleMaxWeight;
 	private int scaleSensitivity;
 	public SelfCheckoutStation selfCheckout;
+	public double expectedWeightOnScale;
 	
 	
 	
@@ -99,7 +100,9 @@ public class ControlSoftware {
 	public void scanProduct(BarcodedItem barcodedItem, int quantity) {
 		
 		selfCheckout.mainScanner.scan(barcodedItem);
-	
+		
+		expectedWeightOnScale = expectedWeightOnScale + (quantity * barcodedItem.getWeight()); //expected weight of scale incremented
+		
 		// For Iteration #3
 		//if(!shoppingCart.doesItemNeedToBeWeighed(barcodedItem)) {
 			// Pass execution flow back to user, and prompt to put item on scale (in main/driver/GUI)
@@ -192,6 +195,9 @@ public class ControlSoftware {
 		} return true;
 		
 	}
+	
+	
+	
 	
 	// Use Case: Customer Has their Own Bag
 	
@@ -423,6 +429,13 @@ public class ControlSoftware {
 	//Assume user enters more than necessary cash, handle case of less cash than balance through GUI in Iteration 3
 	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, Coin[] coins, Banknote[] banknotes) throws IOException, DisabledException, OverloadException {
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
+		
+		if(expectedWeightOnScale != selfCheckout.baggingArea.getCurrentWeight()) { //if scanned weight does not equal actual weight, then can't finish 
+			
+			System.out.println("Please place all items on bagging area then Try Again");
+			return;
+		}
+		
 		
 		if (useMembershipCard) {
 			//THIRD ITERATION - no discount or points implemented yet 
