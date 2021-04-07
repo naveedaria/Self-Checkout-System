@@ -10,16 +10,19 @@ public class baggingAreaStub implements ElectronicScaleListener{
 	double currentWeight;
 	int weightLimit;
 	int sensitivity;
+	boolean isEnabled;
+	boolean isDisabled;
 
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
-		// TODO Auto-generated method stub
+		isEnabled = true;
+		isDisabled = false;
 	}
 
 	@Override
 	public void disabled(AbstractDevice<? extends AbstractDeviceListener> device) {
-		// TODO Auto-generated method stub
-		
+		isDisabled = true;
+		isEnabled = false;
 	}
 
 	@Override
@@ -38,5 +41,12 @@ public class baggingAreaStub implements ElectronicScaleListener{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public boolean returnEnabled() {
+		return isEnabled;
+	}
 
+	public boolean returnDisabled() {
+		return isDisabled;
+	}
 }

@@ -7,16 +7,19 @@ import org.lsmr.selfcheckout.devices.listeners.ElectronicScaleListener;
 
 public class ElectronicScaleListenerStub implements ElectronicScaleListener {
 
+	boolean isEnabled;
+	boolean isDisabled;
+	
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
-		// TODO Auto-generated method stub
-		
+		isEnabled = true;
+		isDisabled = false;
 	}
 
 	@Override
 	public void disabled(AbstractDevice<? extends AbstractDeviceListener> device) {
-		// TODO Auto-generated method stub
-		
+		isEnabled = false;
+		isDisabled = true;
 	}
 
 	@Override
@@ -38,4 +41,11 @@ public class ElectronicScaleListenerStub implements ElectronicScaleListener {
 		
 	}
 
+	public boolean returnEnabled() {
+		return isEnabled;
+	}
+
+	public boolean returnDisabled() {
+		return isDisabled;
+	}
 }

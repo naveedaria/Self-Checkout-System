@@ -8,16 +8,19 @@ import org.lsmr.selfcheckout.devices.listeners.BanknoteDispenserListener;
 
 public class BanknoteDispenserListenerStub implements BanknoteDispenserListener{
 
+	boolean isEnabled;
+	boolean isDisabled;
+	
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
-		// TODO Auto-generated method stub
-		
+		isEnabled = true;
+		isDisabled = false;
 	}
 
 	@Override
 	public void disabled(AbstractDevice<? extends AbstractDeviceListener> device) {
-		// TODO Auto-generated method stub
-		
+		isEnabled = false;
+		isDisabled = true;
 	}
 
 	@Override
@@ -56,4 +59,11 @@ public class BanknoteDispenserListenerStub implements BanknoteDispenserListener{
 		
 	}
 
+	public boolean returnEnabled() {
+		return isEnabled;
+	}
+
+	public boolean returnDisabled() {
+		return isDisabled;
+	}
 }

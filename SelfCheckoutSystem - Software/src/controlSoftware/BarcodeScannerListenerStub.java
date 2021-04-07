@@ -9,16 +9,20 @@ import org.lsmr.selfcheckout.external.ProductDatabases;
 
 public class BarcodeScannerListenerStub implements BarcodeScannerListener{
 
+	boolean isEnabled;
+	boolean isDisabled;
+	
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
-		// TODO Auto-generated method stub
+		isEnabled = true;
+		isDisabled = false;
 //		System.out.print("test test \n");
 	}
 
 	@Override
 	public void disabled(AbstractDevice<? extends AbstractDeviceListener> device) {
-		// TODO Auto-generated method stub
-		
+		isEnabled = false;
+		isDisabled = true;
 	}
 
 	@Override
@@ -36,4 +40,11 @@ public class BarcodeScannerListenerStub implements BarcodeScannerListener{
 		
 	//}
 
+	public boolean returnEnabled() {
+		return isEnabled;
+	}
+
+	public boolean returnDisabled() {
+		return isDisabled;
+	}
 }

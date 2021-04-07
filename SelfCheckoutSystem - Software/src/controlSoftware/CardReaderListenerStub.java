@@ -8,14 +8,19 @@ import org.lsmr.selfcheckout.devices.listeners.CardReaderListener;
 
 public class CardReaderListenerStub implements CardReaderListener{
 
+	boolean isEnabled;
+	boolean isDisabled;
+	
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
-		// TODO Auto-generated method stub
+		isEnabled = true;
+		isDisabled = false;
 	}
 
 	@Override
 	public void disabled(AbstractDevice<? extends AbstractDeviceListener> device) {
-		// TODO Auto-generated method stub
+		isEnabled = false;
+		isDisabled = true;
 	}
 
 	@Override
@@ -48,4 +53,11 @@ public class CardReaderListenerStub implements CardReaderListener{
 		
 	}
 
+	public boolean returnEnabled() {
+		return isEnabled;
+	}
+
+	public boolean returnDisabled() {
+		return isDisabled;
+	}
 }

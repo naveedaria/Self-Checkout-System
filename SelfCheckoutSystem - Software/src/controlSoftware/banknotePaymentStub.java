@@ -10,16 +10,20 @@ import org.lsmr.selfcheckout.devices.listeners.BanknoteSlotListener;
 
 public class banknotePaymentStub implements BanknoteSlotListener, Acceptor{
 
+	boolean isEnabled;
+	boolean isDisabled;
+	
 	@Override
 	public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
-		// TODO Auto-generated method stub
+		isEnabled = true;
+		isDisabled = false;
 		System.out.print("banknote payment enabled \n");
 	}
 
 	@Override
 	public void disabled(AbstractDevice<? extends AbstractDeviceListener> device) {
-		// TODO Auto-generated method stub
-		
+		isDisabled = true;
+		isEnabled = false;
 	}
 
 	@Override
@@ -52,4 +56,11 @@ public class banknotePaymentStub implements BanknoteSlotListener, Acceptor{
 		
 	}
 
+	public boolean returnEnabled() {
+		return isEnabled;
+	}
+
+	public boolean returnDisabled() {
+		return isDisabled;
+	}
 }
