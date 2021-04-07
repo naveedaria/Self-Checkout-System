@@ -18,7 +18,6 @@ import org.lsmr.selfcheckout.external.CardIssuer;
 
 
 public class PaymentByGiftcard {
-	//BigDecimal value; 
 	private CardReader cardReader;
 	private Card inputCard;
 	
@@ -26,7 +25,6 @@ public class PaymentByGiftcard {
 	private class GiftCardRecord {
 		String number;
 		BigDecimal amount;
-		//boolean activated = true; 
 	}
 
 	private HashMap<String, GiftCardRecord> giftcardDatabase = new HashMap<>();
@@ -36,7 +34,6 @@ public class PaymentByGiftcard {
 		CardReaderListenerStub cardReaderListener = new CardReaderListenerStub();
 		selfCheckout.cardReader.register(cardReaderListener);
 		this.cardReader = selfCheckout.cardReader;
-		//this.value = value; 
 		
 		//populating database for the simulation 
 		String testerCardNumber = "123456";
