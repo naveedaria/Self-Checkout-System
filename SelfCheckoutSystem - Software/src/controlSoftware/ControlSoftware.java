@@ -412,9 +412,10 @@ public class ControlSoftware {
 		
 		
 		if(payByGiftcard) {
-			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout, value);
+			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
 			giftcardPaymentHandler.detectCard(giftcardNumber);
-			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(balance);
+			String giftcardNum = "123456";
+			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNum, balance);
 			
 			// check if the full balance was paid by giftcard
 			if (amountRemaining.compareTo(new BigDecimal(0)) == 0) {	
@@ -448,9 +449,10 @@ public class ControlSoftware {
 		}
 		
 		if(payByGiftcard) {
-			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout, value);
+			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
 			giftcardPaymentHandler.detectCard(giftcardNumber);
-			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(balance);
+			String giftcardNum = "123456";
+			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNum, balance);
 			
 			// check if the full balance was paid by giftcard
 			if (amountRemaining.compareTo(new BigDecimal(0)) == 0) {	
