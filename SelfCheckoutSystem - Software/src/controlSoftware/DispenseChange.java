@@ -62,8 +62,8 @@ public class DispenseChange {
 	public void loadDispensers(SelfCheckoutStation selfCheckout, Coin[] nickelsLoaded, Coin[] dimesLoaded, Coin[] quartersLoaded, Coin[] looniesLoaded, Coin[] tooniesLoaded,
 			Banknote[] fivesLoaded, Banknote[] tensLoaded, Banknote[] twentyLoaded, Banknote[] fiftyLoaded, Banknote[] hundredLoaded) throws SimulationException, OverloadException {
 		try {
-			int coinDenominationsCounter = 1;
-			for (BigDecimal coinType: selfCheckout.coinDenominations) {
+			int coinDenominationsCounter = 1; 
+			for (BigDecimal coinType: selfCheckout.coinDenominations) { 
 				CoinDispenser aDispenser = selfCheckout.coinDispensers.get(coinType);
 				switch(coinDenominationsCounter) {
 				case 1:
