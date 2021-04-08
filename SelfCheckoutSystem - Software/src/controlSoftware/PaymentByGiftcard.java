@@ -29,18 +29,16 @@ public class PaymentByGiftcard {
 
 	private HashMap<String, GiftCardRecord> giftcardDatabase = new HashMap<>();
 	
+
+	//QUESTION: new card reader for each instance of paymentbycard/membership class?? 
+	// NOTE: Register card reader in driver *****
+	
 	/**
 	 * Constructor 
 	 * @param selfCheckout 
 	 * 		 Instance of selfCheckout station from control software 
 	 * 		     
 	 */
-	
-	// NOTE: Register card reader in driver *****
-
-	//QUESTION: new card reader for each instance of paymentbycard/membership class?? 
-
-
 	public PaymentByGiftcard(SelfCheckoutStation selfCheckout) {
 		CardReaderListenerStub cardReaderListener = new CardReaderListenerStub();
 		selfCheckout.cardReader.register(cardReaderListener);
