@@ -1,12 +1,14 @@
 package controlSoftware;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Map;
 
 import org.lsmr.selfcheckout.Banknote;
 import org.lsmr.selfcheckout.Coin;
 import org.lsmr.selfcheckout.devices.BanknoteDispenser;
+import org.lsmr.selfcheckout.devices.BanknoteSlot;
 import org.lsmr.selfcheckout.devices.CoinDispenser;
 import org.lsmr.selfcheckout.devices.DisabledException;
 import org.lsmr.selfcheckout.devices.EmptyException;
@@ -20,6 +22,7 @@ public class DispenseChange {
 	private BigDecimal change;
 	private Map<BigDecimal, CoinDispenser> coinDispensers;
 	private Map<Integer, BanknoteDispenser> banknoteDispensers;
+	private SelfCheckoutStation selfCheckout;
 	
 	/*Coin[] nickelsLoaded;
 	Coin[] dimesLoaded;
@@ -41,6 +44,7 @@ public class DispenseChange {
 
 	public DispenseChange(SelfCheckoutStation selfCheckout, BigDecimal change) throws SimulationException, OverloadException {
 		this.change = change; 
+		this.selfCheckout = selfCheckout;
 		this.coinDispensers = selfCheckout.coinDispensers;
 		this.banknoteDispensers = selfCheckout.banknoteDispensers;
 		
@@ -113,84 +117,125 @@ public class DispenseChange {
 	
 	// Returns value of change at the end - which should be big decimal 0
 	// Method counts the relevant denomination whenever a specific coin/ bank-note is required for change
+	// Note: commented out print statements below are for debugging in future if need be
 	public BigDecimal calculateChangeDenominations() {
-		// Changed the change into double
-		double doubleValueOfChange = change.doubleValue();
-		// If greater or equal to 5 dollars 
-		if(doubleValueOfChange >= 5.0) {
+		nickels = 0; dimes = 0; quarters = 0; loonies = 0; toonies= 0;
+		fives = 0; tens = 0; twenty = 0; fifty = 0; hundreds = 0;
+		
+		// Set change to double
+		BigDecimal doubleValueOfChange = change;
+		
 		// Check how many hundreds fit in change
 		// Update hundreds counter
-			hundreds = (int) doubleValueOfChange / 100;
-		// Modulo/ take remainder
-			doubleValueOfChange %= 100;
+		hundreds = doubleValueOfChange.divide(new BigDecimal("100")).intValue();
+		// Modulo/take remainder
+		doubleValueOfChange = doubleValueOfChange.remainder(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
+//		System.out.println("amount of hundreds: " + hundreds);
+//		System.out.println("change left: " + doubleValueOfChange);
+		
 		// Check how many fifties fit in change	
 		// Update fifties counter
-			fifty = (int) doubleValueOfChange / 50;
-		// Modulo/ take remainder
-			doubleValueOfChange %= 50;
+		fifty = doubleValueOfChange.divide(new BigDecimal("50")).intValue();
+		// Modulo/take remainder
+		doubleValueOfChange = doubleValueOfChange.remainder(new BigDecimal("50")).setScale(2, RoundingMode.HALF_UP);
+//		System.out.println("amount of fifties: " + fifty);
+//		System.out.println("change left: " + doubleValueOfChange);
+		
 		// Rest of the code in this method follows same logic 
 		// as the previous two cases
-			twenty = (int) doubleValueOfChange / 20;
-			doubleValueOfChange %= 20;
-			
-			tens = (int) doubleValueOfChange / 10;
-			doubleValueOfChange %= 10;
-			
-			fives = (int) doubleValueOfChange / 5;
-			doubleValueOfChange %= 5;
+		twenty = doubleValueOfChange.divide(new BigDecimal("20")).intValue();
+		doubleValueOfChange = doubleValueOfChange.remainder(new BigDecimal("20")).setScale(2, RoundingMode.HALF_UP);
+//		System.out.println("amount of twenties: " + twenty);
+//		System.out.println("change left: " + doubleValueOfChange);
+
+		tens = doubleValueOfChange.divide(new BigDecimal("10")).intValue();
+		doubleValueOfChange = doubleValueOfChange.remainder(new BigDecimal("10")).setScale(2, RoundingMode.HALF_UP);
+//		System.out.println("amount of tens: " + tens);
+//		System.out.println("change left: " + doubleValueOfChange);
+
+		fives = doubleValueOfChange.divide(new BigDecimal("5")).intValue();
+		doubleValueOfChange = doubleValueOfChange.remainder(new BigDecimal("5")).setScale(2, RoundingMode.HALF_UP);
+//		System.out.println("amount of fives: " + fives);
+//		System.out.println("change left: " + doubleValueOfChange);
 					
-		}else if(doubleValueOfChange < 5.0){
-			toonies = (int) doubleValueOfChange / 2;
-			doubleValueOfChange %= 2;
+		toonies = doubleValueOfChange.divide(new BigDecimal("2")).intValue();
+		doubleValueOfChange = doubleValueOfChange.remainder(new BigDecimal("2")).setScale(2, RoundingMode.HALF_UP);
+//		System.out.println("amount of toonies: " + toonies);
+//		System.out.println("change left: " + doubleValueOfChange);
 			
-			loonies = (int) doubleValueOfChange / 1;
-			doubleValueOfChange %= 1;
+		loonies = doubleValueOfChange.divide(new BigDecimal("1")).intValue();
+		doubleValueOfChange = doubleValueOfChange.remainder(new BigDecimal("1")).setScale(2, RoundingMode.HALF_UP);
+//		System.out.println("amount of loonies: " + loonies);
+//		System.out.println("change left: " + doubleValueOfChange);
 			
-			quarters = (int) (doubleValueOfChange / 0.25);
-			doubleValueOfChange %= 0.25;
+		quarters = doubleValueOfChange.divide(new BigDecimal("0.25")).intValue();
+		doubleValueOfChange = doubleValueOfChange.remainder(new BigDecimal("0.25")).setScale(2, RoundingMode.HALF_UP);
+//		System.out.println("amount of quarters: " + quarters);
+//		System.out.println("change left: " + doubleValueOfChange);
 			
-			dimes = (int) (doubleValueOfChange / 0.10);
-			doubleValueOfChange %= 0.10;
+		dimes = doubleValueOfChange.divide(new BigDecimal("0.10")).intValue();
+		doubleValueOfChange = doubleValueOfChange.remainder(new BigDecimal("0.10")).setScale(2, RoundingMode.HALF_UP);
+//		System.out.println("amount of dimes: " + dimes);
+//		System.out.println("change left: " + doubleValueOfChange);
 			
-			nickels = (int) (doubleValueOfChange / 0.05);
-			doubleValueOfChange %= 0.05;
-		}
+		nickels = doubleValueOfChange.divide(new BigDecimal("0.05")).intValue();
+		doubleValueOfChange = doubleValueOfChange.remainder(new BigDecimal("0.05")).setScale(2, RoundingMode.HALF_UP);
+//		System.out.println("amount of nickels: " + nickels);
+//		System.out.println("change left: " + doubleValueOfChange);
+
 		// Return 0 as change
 		return new BigDecimal(0);
 	}
 	
+	// Method that dispenses the appropriate change in coins and/or banknotes 
 	public void dispenseDenominations() throws OverloadException, EmptyException, DisabledException {
 		for (int i=0;i<this.nickels; i++) {
+			System.out.println("emitted nickels");
 			this.coinDispensers.get(new BigDecimal(0.05)).emit();
 		}
 		for (int i=0;i<this.dimes; i++) {
+			System.out.println("emitted dimes");
 			this.coinDispensers.get(new BigDecimal(0.10)).emit();
 		}
 		for (int i=0;i<this.quarters; i++) {
+			System.out.println("emitted quarters");
 			this.coinDispensers.get(new BigDecimal(0.25)).emit();
 		}
 		for (int i=0;i<this.loonies; i++) {
+			System.out.println("emitted loonies");
 			this.coinDispensers.get(new BigDecimal(1.00)).emit();
 		}
 		for (int i=0;i<this.toonies; i++) {
+			System.out.println("emitted toonies");
 			this.coinDispensers.get(new BigDecimal(2.00)).emit();
 		}
 		
-		
+		// remove dangling banknote after emitting one banknote if multiple banknotes need to be emitted 
+		//		in one transaction.
 		for (int i=0;i<this.fives; i++) {
+			System.out.println("emitted fives");
 			this.banknoteDispensers.get(5).emit();
+			selfCheckout.banknoteOutput.removeDanglingBanknote();
 		}
 		for (int i=0;i<this.tens; i++) {
+			System.out.println("emitted tens");
 			this.banknoteDispensers.get(10).emit();
+			selfCheckout.banknoteOutput.removeDanglingBanknote();
 		}		
 		for (int i=0;i<this.twenty; i++) {
+			System.out.println("emitted twenty");
 			this.banknoteDispensers.get(20).emit();
+			selfCheckout.banknoteOutput.removeDanglingBanknote();
 		}
 		for (int i=0;i<this.fifty; i++) {
+			System.out.println("emitted fifty");
 			this.banknoteDispensers.get(50).emit();
+			selfCheckout.banknoteOutput.removeDanglingBanknote();
 		}
 		for (int i=0;i<this.hundreds; i++) {
+			System.out.println("emitted hundreds");
 			this.banknoteDispensers.get(100).emit();
+			selfCheckout.banknoteOutput.removeDanglingBanknote();
 		} 		
 	}
 	

@@ -60,4 +60,53 @@ public class ScanMemberShipCardTest {
 			assertTrue("Card is Invalid.\n", e instanceof IOException);
 		}
 	}
+	
+	//------------------------------------------------------------------------
+	
+	@Test
+	public void testCreateNewMembershipCardValid() {
+		try {
+			this.membershipcard.createNewMembershipCard("Robert");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
+	}
+	
+	@Test
+	public void testCreateNewMembershipCardInvalid() {
+		try {
+			this.membershipcard.createNewMembershipCard(null);
+		}
+		catch(Exception e) {
+			assertTrue("Membership card not found./n", e instanceof IOException);
+		}
+	}
+	
+	
+	
+	@Test
+	public void testEnterMembershipCardValid() {
+		try {
+			String cardNum = this.membershipcard.createNewMembershipCard("Robert");
+			this.membershipcard.enterMembershipCard(cardNum);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
+	}
+	
+	@Test
+	public void testEnterMembershipNonExistentCard() {
+		try {
+			this.membershipcard.enterMembershipCard("010101");
+		}
+		catch(Exception e) {
+			assertTrue("Membership card not found./n", e instanceof IOException);
+		}
+	}
+	
+	
 }
