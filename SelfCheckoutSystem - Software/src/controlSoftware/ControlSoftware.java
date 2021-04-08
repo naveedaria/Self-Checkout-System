@@ -511,6 +511,7 @@ public class ControlSoftware {
 	
 	} */
 	public void attendantApproveWeight() {
+			//Attendant input
 			AttendantLogIn_Out attendant = new AttendantLogIn_Out();
 			Scanner s = new Scanner(System.in); 
 			//manually approve heavier bags by entering attendant ID and Password(default "12345678" and "12345678")
@@ -518,8 +519,10 @@ public class ControlSoftware {
        		String ID = s.nextLine();      		
        		System.out.println("Enter Attendent Password"); 
        		String passWord = s.nextLine();
+		//use logIn method to check if correct username/password is given
        		if (attendant.logIn(ID, passWord)== true){
-       			try {
+       			try {		
+					//update expected weight if inputs are correct(manually approve weight discrepancy)
 					expectedWeight = selfCheckout.scale.getCurrentWeight();
 				} catch (OverloadException e) {
 						// TODO Auto-generated catch block
@@ -527,8 +530,9 @@ public class ControlSoftware {
 				}	
        			}
        			else {
-       				
+       				//Call this method again for attendant to enter username/password
        				System.out.println("Wrong password, try again"); 
+				attendantApproveWeight();
        			}	
        		}
      
