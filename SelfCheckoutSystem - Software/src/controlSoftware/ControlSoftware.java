@@ -87,7 +87,9 @@ public class ControlSoftware {
 		
 		selfCheckout.scale.register(electronicScaleStub);
 		selfCheckout.scale.enable();
+		
 	}
+	
 	
 	/**
 	 * 
@@ -107,8 +109,6 @@ public class ControlSoftware {
 		//}else {
 			shoppingCart.addToShoppingCart(barcodedItem, quantity);
 		//}
-		
-	
 	}
 
 	
@@ -153,13 +153,6 @@ public class ControlSoftware {
 			}
 		
 		}
-	
-	
-	
-	
-	
-	
-	
 
 	
 	public boolean addToScalePrompt(Item item) {
@@ -395,9 +388,7 @@ public class ControlSoftware {
 	
 	//Pay by card 
 	//Create Card before for Iteration 3
-	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean tap, 
-			boolean payByGiftcard, String giftcardNumber, BigDecimal value,
-			String cardCompany, String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
+	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean tap, String cardCompany, String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
 			boolean hasChip, Calendar expiry, BigDecimal cardLimit, BufferedImage signature, boolean insertCard, String pinInput) throws IOException {
 		
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
@@ -408,19 +399,6 @@ public class ControlSoftware {
 			//THIRD ITERATION - no discount or points implemented yet 
 			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
 			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
-		}
-		
-		
-		if(payByGiftcard) {
-			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
-			giftcardPaymentHandler.detectCard(giftcardNumber);
-			String giftcardNum = "123456";
-			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNum, balance);
-			
-			// check if the full balance was paid by giftcard
-			if (amountRemaining.compareTo(new BigDecimal(0)) == 0) {	
-				return;
-			}
 		}
 		
 		if (tap) {
@@ -436,9 +414,7 @@ public class ControlSoftware {
 	
 	//Pay by cash 
 	//Assume user enters more than necessary cash, handle case of less cash than balance through GUI in Iteration 3
-	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, 
-			boolean payByGiftcard, String giftcardNumber, BigDecimal value,
-			Coin[] coins, Banknote[] banknotes) throws IOException, DisabledException, OverloadException {
+	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, Coin[] coins, Banknote[] banknotes) throws IOException, DisabledException, OverloadException {
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
 		
 		if (useMembershipCard) {
@@ -446,18 +422,6 @@ public class ControlSoftware {
 			
 			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
 			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
-		}
-		
-		if(payByGiftcard) {
-			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
-			giftcardPaymentHandler.detectCard(giftcardNumber);
-			String giftcardNum = "123456";
-			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNum, balance);
-			
-			// check if the full balance was paid by giftcard
-			if (amountRemaining.compareTo(new BigDecimal(0)) == 0) {	
-				return;
-			}
 		}
 
 		for (int i=0; i<coins.length; i++) {
@@ -485,7 +449,7 @@ public class ControlSoftware {
 	//	}
 	}
 	
-	/*
+	
 	// ITERATION THREE
 	public void printReceipt() {
 		// Some strings used to format the receipt 
@@ -503,7 +467,7 @@ public class ControlSoftware {
 		String line;
 		for (int i = 0; i < cart.length; i++) {
 			try {
-			// Accessing the barcoded item from the array
+			// Accessing the barcode item from the array
 			BarcodedItem tempItem = shoppingCart.BARCODEDITEM_ARRAY[i];
 			// Getting the product from the Database
 			prod = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(tempItem.getBarcode());
@@ -519,6 +483,6 @@ public class ControlSoftware {
 		// Print end line
 		System.out.println(s1);
 	
-	} */
+	} 
 	
 }

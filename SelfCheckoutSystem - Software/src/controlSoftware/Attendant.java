@@ -12,7 +12,7 @@ public class Attendant {
 	}
 	
 	//rename 
-	public void removeItem(ControlSoftware cs, BarcodedItem item, int quantity) {
+	public void attendantRemoveItem(ControlSoftware cs, BarcodedItem item, int quantity) {
 		cs.shoppingCart.removeFromShoppingCart(item, quantity);
 	}
 
