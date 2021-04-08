@@ -208,7 +208,7 @@ public class ControlSoftware {
 	}
 	
 	// Need weight from the listener for scale, can be passed in 
-	public void addToBaggingArea(BarcodedItem item, ScaleListener scaleListener) throws OverloadException {
+	public void addToBaggingArea(BarcodedItem item) throws OverloadException {
 		// Checking for null item
 		if(item == null) throw new SimulationException("Null item.");
 		
