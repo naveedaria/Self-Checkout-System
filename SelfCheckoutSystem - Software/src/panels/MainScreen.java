@@ -19,7 +19,7 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-public class MainScreen extends JPanel {
+ class MainScreen extends JPanel {
 	private JTextField txtEnterYourBarcode;
 	/**
 	 * Create the panel.
@@ -156,7 +156,7 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			CommandLineDriver.goToScreen(2);
+			CommandLineDriver.goToScreen("pay");
 			
 		}
 		

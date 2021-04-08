@@ -74,7 +74,7 @@ public class PaymentSelectorScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			CommandLineDriver.goToScreen(1);
+			CommandLineDriver.goToScreen("main");
 		}
 		
 	}

@@ -13,8 +13,10 @@ import org.lsmr.selfcheckout.Card;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
-import panels.*;
+
 import controlSoftware.ControlSoftware;
+
+import panels.*;
 
 public class CommandLineDriver {
 	
@@ -22,6 +24,17 @@ public class CommandLineDriver {
 	
 	public static MainScreen m;
 	public static PaymentSelectorScreen pss;
+	
+	public static CardPaymentScreen card;
+	public static  CashPaymentScreen cash;
+	
+	
+	public static  GiftCardPaymentScreen giftcard;
+	public static  LookupItemScreen lookup;
+	public static  ThankYouForShoppingScreen thank;
+	public static  AttendantMenuScreen attendant;
+	
+
 	
 	public static void main(String[] args) {
 		/*
@@ -92,7 +105,14 @@ public class CommandLineDriver {
          *===============================================================*/
         
         m = new MainScreen();
+        
         pss = new PaymentSelectorScreen();
+        card = new CardPaymentScreen();
+        cash = new CashPaymentScreen();
+        giftcard = new GiftCardPaymentScreen();
+        lookup = new LookupItemScreen();
+        thank = new ThankYouForShoppingScreen();
+        attendant = new AttendantMenuScreen();
         
         mainFrame = controlSoftware.selfCheckout.screen.getFrame();
         
@@ -106,15 +126,39 @@ public class CommandLineDriver {
         
 	}
 	
-	public static void goToScreen(int idx) {
-		if(idx == 1) {
+	public static void goToScreen(String idx) {
+		if(idx == "main") { //Main Screen
 			
 			mainFrame.setContentPane(m);
 			mainFrame.pack();
 		} 
-		if(idx == 2) {
+		if(idx == "pay") { //PaymentSelectorScreen
 			//mainFrame.removeAll();
 			mainFrame.setContentPane(pss);
+			mainFrame.pack();
+		}
+		if (idx == "card") { 
+			mainFrame.setContentPane(card);
+			mainFrame.pack();
+		}
+		if (idx == "cash") { 
+			mainFrame.setContentPane(cash);
+			mainFrame.pack();
+		}
+		if (idx == "giftcard") { 
+			mainFrame.setContentPane(giftcard);
+			mainFrame.pack();
+		}
+		if (idx == "lookup") { 
+			mainFrame.setContentPane(lookup);
+			mainFrame.pack();
+		}
+		if (idx == "thank") { 
+			mainFrame.setContentPane(thank);
+			mainFrame.pack();
+		}
+		if (idx == "attendant") { 
+			mainFrame.setContentPane(attendant);
 			mainFrame.pack();
 		}
 	}
