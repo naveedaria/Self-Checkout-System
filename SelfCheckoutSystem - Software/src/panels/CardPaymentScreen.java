@@ -67,7 +67,7 @@ public class CardPaymentScreen extends JPanel {
 	
 }
 
- class GotoGiftcardScreen implements ActionListener{
+class GotoGiftcardScreen implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

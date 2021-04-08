@@ -20,15 +20,23 @@ public class PaymentSelectorScreen extends JPanel {
 	 */
 	public PaymentSelectorScreen() {
 		
-		JLabel lblNewLabel = new JLabel("Select Payment");
+		JLabel lblNewLabel = new JLabel("Please Select a Payment option");
 		
 		JButton backButton = new JButton("<-");
 		
-		JButton button1 = new JButton("1");
+		JButton cardButton = new JButton("Card");
 		
-		JButton button2 = new JButton("2");
+
+
 		
-		JButton button3 = new JButton("3");
+		
+		JButton giftcardButton = new JButton("Giftcard");
+		
+		JButton cashButton = new JButton("Cash");
+		
+		
+		
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -36,11 +44,11 @@ public class PaymentSelectorScreen extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(57)
-							.addComponent(button1)
+							.addComponent(cardButton)
 							.addGap(55)
-							.addComponent(button2)
+							.addComponent(giftcardButton)
 							.addGap(55)
-							.addComponent(button3))
+							.addComponent(cashButton))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(177)
 							.addComponent(lblNewLabel))
@@ -56,9 +64,9 @@ public class PaymentSelectorScreen extends JPanel {
 					.addComponent(lblNewLabel)
 					.addGap(57)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(button1)
-						.addComponent(button2)
-						.addComponent(button3))
+						.addComponent(cardButton)
+						.addComponent(giftcardButton)
+						.addComponent(cashButton))
 					.addPreferredGap(ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
 					.addComponent(backButton)
 					.addContainerGap())
@@ -66,7 +74,9 @@ public class PaymentSelectorScreen extends JPanel {
 		setLayout(groupLayout);
 		
 		backButton.addActionListener(new GotoPrevScreen());
-
+		cardButton.addActionListener(new GotoCard());
+		giftcardButton.addActionListener(new GotoGiftcard());
+		cashButton.addActionListener(new GotoCash());
 	}
 	
 	private class GotoPrevScreen implements ActionListener{
@@ -77,5 +87,40 @@ public class PaymentSelectorScreen extends JPanel {
 			CommandLineDriver.goToScreen("main");
 		}
 		
+	}
+	
+	
+	private class GotoCard implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			CommandLineDriver.goToScreen("card");
+		}
+		
+	}
+	
+	
+	
+	private class GotoGiftcard implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			CommandLineDriver.goToScreen("giftcard");
+		}
+		
+	}
+	
+	
+	private class GotoCash implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			CommandLineDriver.goToScreen("cash");
+		}
+	
+	
 	}
 }

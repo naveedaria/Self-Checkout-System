@@ -27,8 +27,6 @@ public class CommandLineDriver {
 	
 	public static CardPaymentScreen card;
 	public static CashPaymentScreen cash;
-	
-	
 	public static  GiftCardPaymentScreen giftcard;
 	public static  LookupItemScreen lookup;
 	public static  ThankYouForShoppingScreen thank;
