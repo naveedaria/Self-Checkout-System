@@ -19,7 +19,7 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JTextField;
 
- class MainScreen extends JPanel {
+public class MainScreen extends JPanel {
 	private JTextField txtEnterYourBarcode;
 	/**
 	 * Create the panel.
