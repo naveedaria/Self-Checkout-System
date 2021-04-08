@@ -98,6 +98,7 @@ public class CommandLineDriver {
         
         mainFrame.setContentPane(m);
         mainFrame.pack();
+        
         controlSoftware.selfCheckout.screen.setVisible(true);
         
        
