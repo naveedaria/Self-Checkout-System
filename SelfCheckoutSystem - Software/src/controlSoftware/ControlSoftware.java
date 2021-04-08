@@ -242,12 +242,13 @@ public class ControlSoftware {
 			if(newWeight != item.getWeight()) {
 				// Print statement for the non successful attempt
 				System.out.println("Weight has changed, item was not successfully added to bagging area.");
-				// Call GUI 
+				// Call GUI to prompt the attendant 
+				// Attendant should enter their number and by-pass this prompt 
 			}
 			else {
 				// Print statement for the successful attempt
 				System.out.println("Weight has not changed, item was successfully added to bagging area.");
-				// Call
+				// Successful prompt or do nothing
 			}
 		}
 		
@@ -269,6 +270,8 @@ public class ControlSoftware {
 			// Check if the weight are not less zero
 			if(weight - item.getWeight() < 0) {
 				throw new SimulationException("Item was not properly removed");
+				// Call GUI to prompt the attendant for Item not being removed properly
+				// Would probably have to remove all exception handling, and make it into GUI prompts
 			}
 			// If overloaded just remove the item
 			else {
