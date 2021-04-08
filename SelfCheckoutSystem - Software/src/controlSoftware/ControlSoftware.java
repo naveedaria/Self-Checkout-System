@@ -39,6 +39,7 @@ public class ControlSoftware {
 	private int scaleSensitivity;
 	public SelfCheckoutStation selfCheckout;
 	
+	public ElectronicScaleListenerStub electronicScaleStub = new ElectronicScaleListenerStub();
 	
 	
 	public ShoppingCart shoppingCart;
@@ -83,9 +84,9 @@ public class ControlSoftware {
 		selfCheckout.mainScanner.register(stub);
 		selfCheckout.mainScanner.enable();
 		
-		ElectronicScaleListenerStub electronicScaleStub = new ElectronicScaleListenerStub();
-		
 		selfCheckout.scale.register(electronicScaleStub);
+		selfCheckout.baggingArea.register(electronicScaleStub);
+		selfCheckout.baggingArea.enable();
 		selfCheckout.scale.enable();
 	}
 	
@@ -208,41 +209,45 @@ public class ControlSoftware {
 	}
 	
 	// Need weight from the listener for scale, can be passed in 
-	public void addToBaggingArea(BarcodedItem item) throws OverloadException {
+	public void addToBaggingArea(BarcodedItem item) throws Exception {
 		// Checking for null item
 		if(item == null) throw new SimulationException("Null item.");
+	
 		
 		// Do not do anything if bagging area is disabled
 		if(selfCheckout.baggingArea.isDisabled()) return;
 		
 		// get the weight from the scale
-		double weight = scaleListenser.getCurrentWeight();
+		double weight = electronicScaleStub.getCurrentWeight();
 		
 		// Add item to the scale
 		selfCheckout.baggingArea.add(item);
 		
 		// Get the total weight of the new item added 
-		double newWeight = scaleListenser.getCurrentWeight();
+		double newWeight = electronicScaleStub.getCurrentWeight();
 		
 		// If the new weight is greater the maximum that the scale can measure
-		if(newWeight > scaleListenser.maximumWeightInGrams) {
-			// Set the overload flage
-			scaleListenser.setOverload();
+		if(newWeight > electronicScaleStub.maximumWeightInGrams) {
+			// Set the overload flag
+			electronicScaleStub.setOverload();
 			// Throw Exception
 			throw new Exception("Scale OverLoaded.");
 		}
 		// If flag in not set
-		else if (!scaleListenser.isOverload) {
+		else if (!electronicScaleStub.isOverload) {
 			// Checking if the new weight is the same as the item weight
 			newWeight = newWeight - weight;
+			System.out.println("New Weight" + newWeight+ " Weight: " + weight);
 			// New weight should not greater or less than the item weight 
-			if(newWeight > item.getWeight() || newWeight < item.getWeight()) {
+			if(newWeight != item.getWeight()) {
 				// Print statement for the non successful attempt
 				System.out.println("Weight has changed, item was not successfully added to bagging area.");
+				// Call GUI 
 			}
 			else {
 				// Print statement for the successful attempt
 				System.out.println("Weight has not changed, item was successfully added to bagging area.");
+				// Call
 			}
 		}
 		
@@ -254,12 +259,12 @@ public class ControlSoftware {
 		if(selfCheckout.baggingArea.isDisabled()) return;
 		
 		// get the weight from the scale
-		double weight = scaleListenser.getCurrentWeight();
+		double weight = electronicScaleStub.getCurrentWeight();
 		
 		// Checking for null item
 		if(item == null) throw new SimulationException("Null item.");
 		// If the scale is not overloaded 
-		if(!scaleListenser.isOverload) {
+		if(!electronicScaleStub.isOverload) {
 
 			// Check if the weight are not less zero
 			if(weight - item.getWeight() < 0) {

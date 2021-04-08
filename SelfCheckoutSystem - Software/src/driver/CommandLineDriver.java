@@ -13,7 +13,7 @@ import org.lsmr.selfcheckout.products.BarcodedProduct;
 import controlSoftware.ControlSoftware;
 
 public class CommandLineDriver {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
         System.out.println("Self-Checkout Station turning on...");
         System.out.println("Initializing Control Software v.1......");
         
@@ -49,8 +49,12 @@ public class CommandLineDriver {
         
          // Hard-coding Test Case #1: User wants to buy 2 bananas
         
-        BarcodedItem customerItem1 = new BarcodedItem(b1, 500);
+        BarcodedItem customerItem1 = new BarcodedItem(b1, 100);
+        BarcodedItem customerItem2 = new BarcodedItem(b1, 200);
         int customerItem1quantity = 1;
+        
+        controlSoftware.addToBaggingArea(customerItem1);
+        controlSoftware.addToBaggingArea(customerItem2);
         
         //Card card = new Card("Visa", "1234 5678 9102 2212", "Aris", String pin, boolean isTapEnabled, boolean hasChip)
         
