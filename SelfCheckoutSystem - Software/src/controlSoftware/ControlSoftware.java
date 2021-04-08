@@ -207,15 +207,71 @@ public class ControlSoftware {
 		return ooo;
 	}
 	
-	public void addToBaggingArea(BarcodedItem item) throws OverloadException {
+	// Need weight from the listener for scale, can be passed in 
+	public void addToBaggingArea(BarcodedItem item, ScaleListener scaleListener) throws OverloadException {
+		// Checking for null item
+		if(item == null) throw new SimulationException("Null item.");
 		
+		// Do not do anything if bagging area is disabled
+		if(selfCheckout.baggingArea.isDisabled()) return;
+		
+		// get the weight from the scale
+		double weight = scaleListenser.getCurrentWeight();
+		
+		// Add item to the scale
 		selfCheckout.baggingArea.add(item);
+		
+		// Get the total weight of the new item added 
+		double newWeight = scaleListenser.getCurrentWeight();
+		
+		// If the new weight is greater the maximum that the scale can measure
+		if(newWeight > scaleListenser.maximumWeightInGrams) {
+			// Set the overload flage
+			scaleListenser.setOverload();
+			// Throw Exception
+			throw new Exception("Scale OverLoaded.");
+		}
+		// If flag in not set
+		else if (!scaleListenser.isOverload) {
+			// Checking if the new weight is the same as the item weight
+			newWeight = newWeight - weight;
+			// New weight should not greater or less than the item weight 
+			if(newWeight > item.getWeight() || newWeight < item.getWeight()) {
+				// Print statement for the non successful attempt
+				System.out.println("Weight has changed, item was not successfully added to bagging area.");
+			}
+			else {
+				// Print statement for the successful attempt
+				System.out.println("Weight has not changed, item was successfully added to bagging area.");
+			}
+		}
 		
 	}
 	
 	public void removeFromBaggingArea(BarcodedItem item) {
 		
-		selfCheckout.baggingArea.remove(item);
+		// Do not do anything if bagging area is disabled
+		if(selfCheckout.baggingArea.isDisabled()) return;
+		
+		// get the weight from the scale
+		double weight = scaleListenser.getCurrentWeight();
+		
+		// Checking for null item
+		if(item == null) throw new SimulationException("Null item.");
+		// If the scale is not overloaded 
+		if(!scaleListenser.isOverload) {
+
+			// Check if the weight are not less zero
+			if(weight - item.getWeight() < 0) {
+				throw new SimulationException("Item was not properly removed");
+			}
+			// If overloaded just remove the item
+			else {
+				// Remove Item
+				selfCheckout.baggingArea.remove(item);
+			}
+			
+		}
 		
 	}
 	
