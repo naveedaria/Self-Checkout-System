@@ -89,9 +89,21 @@ public class ScanMembershipCard {
 		}
 	}
 	
-	// method for creating a new membership card
-	public String createNewMembershipCard(String newMember) {
+	
+	/**
+	 * Method for creating a new membership card
+	 * @param newMember 
+	 * 		  The name of the member that is getting a new membership card.
+	 * @return 
+	 * 		  String - new member card number. 
+	 */
+	public String createNewMembershipCard(String newMember) throws IOException{
 		try {
+			// if new member string passed is null:
+			if(newMember == null) {
+				throw new IOException();
+			}
+			
 			// create new, unique card number for new member (going to assume 6 digits per card number)
 			boolean getNewNum = false;
 			Random random = new Random();
@@ -121,7 +133,7 @@ public class ScanMembershipCard {
 			// return new card number to new member
 			return newUniqueNum;
 		}
-		catch(Exception e) {
+		catch(IOException e) {
 			System.out.println("Error creating new card.\n");
 			throw e;
 		}
@@ -144,10 +156,11 @@ public class ScanMembershipCard {
 			}
 			else {
 				// review --> what should be returned if error for interface?
-				return "Error: No Membership Number Found";
+				System.out.println("Membership not found.\n");
+				throw new TapFailureException();
 			}
 		}
-		catch(Exception e) {
+		catch(IOException e) {
 			throw e;
 		}
 	}
