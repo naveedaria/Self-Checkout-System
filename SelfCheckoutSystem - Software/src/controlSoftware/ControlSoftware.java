@@ -403,6 +403,7 @@ public class ControlSoftware {
 		try {
 			if(expectedWeight != selfCheckout.scale.getCurrentWeight()) {
 				System.out.println("Weight Discrepancy noticed. Call attendant for manual approval.");
+				attendantApproveWeight();
 				
 			}
 		} catch (OverloadException e) {
@@ -434,6 +435,8 @@ public class ControlSoftware {
 		try {
 			if(expectedWeight != selfCheckout.scale.getCurrentWeight()) {
 				System.out.println("Weight Discrepancy noticed. Call attendant for manual approval.");
+				attendantApproveWeight();
+				
 				
 			}
 		} catch (OverloadException e) {
@@ -508,33 +511,25 @@ public class ControlSoftware {
 	
 	} */
 	public void attendantApproveWeight() {
-		
+			AttendantLogIn_Out attendant = new AttendantLogIn_Out();
 			Scanner s = new Scanner(System.in); 
 			//manually approve heavier bags by entering attendant ID and Password(default "12345678" and "12345678")
        		System.out.println("Enter Attendent ID"); 
-       		String ID = s.nextLine();
-       		if (ID.equals("12345678")) {
-       			System.out.println("Enter Attendent Password"); 
-       			String passWord = s.nextLine();
-       			if (passWord.equals("12345678")){
-       				try {
-						expectedWeight = selfCheckout.scale.getCurrentWeight();
-					} catch (OverloadException e) {
+       		String ID = s.nextLine();      		
+       		System.out.println("Enter Attendent Password"); 
+       		String passWord = s.nextLine();
+       		if (attendant.logIn(ID, passWord)== true){
+       			try {
+					expectedWeight = selfCheckout.scale.getCurrentWeight();
+				} catch (OverloadException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-       				
+					e.printStackTrace();
+				}	
        			}
        			else {
        				
        				System.out.println("Wrong password, try again"); 
        			}	
        		}
-       		else {
-       			
-       			System.out.println("Wrong Attendent ID, try again");    	
-       		}		 
-			
-		
-	}
+     
 }
