@@ -87,7 +87,9 @@ public class ControlSoftware {
 		
 		selfCheckout.scale.register(electronicScaleStub);
 		selfCheckout.scale.enable();
+		
 	}
+	
 	
 	/**
 	 * 
@@ -153,13 +155,6 @@ public class ControlSoftware {
 			}
 		
 		}
-	
-	
-	
-	
-	
-	
-	
 
 	
 	public boolean addToScalePrompt(Item item) {
@@ -485,7 +480,7 @@ public class ControlSoftware {
 	//	}
 	}
 	
-	/*
+	
 	// ITERATION THREE
 	public void printReceipt() {
 		// Some strings used to format the receipt 
@@ -519,6 +514,6 @@ public class ControlSoftware {
 		// Print end line
 		System.out.println(s1);
 	
-	} */
+	} 
 	
 }

@@ -35,6 +35,7 @@ public class ShoppingCart {
 	 * 
 	 */
 	public ShoppingCart() {
+		
 		SHOPPING_CART_ARRAY = new String[30][2];
 		this.totalPayment = new BigDecimal("0.00");
 		this.totalNumOfItems = 0;
