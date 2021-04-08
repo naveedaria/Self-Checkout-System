@@ -137,7 +137,8 @@ public class PaymentByGiftcard {
 						this.giftcardDatabase.put(number, updatedRecord);
 			
 						return updatedPaymentBalance;
-					}
+					} 
+					
 				}
 
 			}
