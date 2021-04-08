@@ -28,7 +28,7 @@ public class PaymentByGiftcardTest {
 		this.giftcardPayment = giftcardPayment;
 		
 		//Suppose the shopping balance is $100.00
-		this.totalBalance = new BigDecimal(100);
+		this.totalBalance = new BigDecimal(100); 
 	}
 
 
@@ -66,17 +66,55 @@ public class PaymentByGiftcardTest {
 	
 	@Test
 	public void testTapToRedeemZeroBalance() {
-		fail("Not yet implemented");
+		String testerCardNum = "123567";
+		boolean tapEnabled = true; 
+		
+		try {
+			BigDecimal updatedBalance = this.giftcardPayment.tapToRedeem(testerCardNum, this.totalBalance, tapEnabled);
+			BigDecimal expected = new BigDecimal(100);
+			assertTrue(expected.compareTo(updatedBalance)==0);
+		}catch(Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
 	}
 	
 	@Test
 	public void testTapToRedeemAmountGreaterThanPayment() {
-		fail("Not yet implemented");
+		String testerCardNum = "123789";
+		boolean tapEnabled = true; 
+		
+		try {
+			BigDecimal updatedBalance = this.giftcardPayment.tapToRedeem(testerCardNum, this.totalBalance, tapEnabled);
+			BigDecimal expected = new BigDecimal(0);
+			assertTrue(expected.compareTo(updatedBalance)==0);
+			
+			BigDecimal giftcardRemainingBalance = this.giftcardPayment.getAmount(testerCardNum);
+			BigDecimal giftcardExpected = new BigDecimal(50);
+			assertTrue(giftcardExpected.compareTo(giftcardRemainingBalance)==0);
+		}catch(Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
 	}
 	
 	@Test
 	public void testTapToRedeemAmountLessThanPayment() {
-		fail("Not yet implemented");
+		String testerCardNum = "123456";
+		boolean tapEnabled = true; 
+		
+		try {
+			BigDecimal updatedBalance = this.giftcardPayment.tapToRedeem(testerCardNum, this.totalBalance, tapEnabled);
+			BigDecimal expected = new BigDecimal(75);
+			assertTrue(expected.compareTo(updatedBalance)==0);
+			
+			BigDecimal giftcardRemainingBalance = this.giftcardPayment.getAmount(testerCardNum);
+			BigDecimal giftcardExpected = new BigDecimal(0);
+			assertTrue(giftcardExpected.compareTo(giftcardRemainingBalance)==0);
+		}catch(Exception e) {
+			e.printStackTrace();
+			fail("Exception not expected"); 
+		}
 	}
 	
 

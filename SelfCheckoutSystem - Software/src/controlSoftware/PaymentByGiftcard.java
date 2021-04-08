@@ -29,24 +29,58 @@ public class PaymentByGiftcard {
 
 	private HashMap<String, GiftCardRecord> giftcardDatabase = new HashMap<>();
 	
+	/**
+	 * Constructor 
+	 * @param selfCheckout 
+	 * 		 Instance of selfCheckout station from control software 
+	 * 		     
+	 */
 	
+	// NOTE: Register card reader in driver *****
+
+	//QUESTION: new card reader for each instance of paymentbycard/membership class?? 
+
+
 	public PaymentByGiftcard(SelfCheckoutStation selfCheckout) {
 		CardReaderListenerStub cardReaderListener = new CardReaderListenerStub();
 		selfCheckout.cardReader.register(cardReaderListener);
 		this.cardReader = selfCheckout.cardReader;
 		
 		//populating database for the simulation 
+		
+		//giftcard with balance $25
 		String testerCardNumber = "123456";
-		//String testerCardHolder = "Bob";
 		BigDecimal amount = new BigDecimal(25);
 		GiftCardRecord testerRecord = new GiftCardRecord();
 		testerRecord.number = testerCardNumber;
 		testerRecord.amount = amount;
 		this.giftcardDatabase.put(testerCardNumber, testerRecord);
+		
+		//giftcard with balance $0
+		String testerCardNumber2 = "123567";
+		BigDecimal amount2 = new BigDecimal(0);
+		GiftCardRecord testerRecord2 = new GiftCardRecord();
+		testerRecord2.number = testerCardNumber2;
+		testerRecord2.amount = amount2;
+		this.giftcardDatabase.put(testerCardNumber2, testerRecord2);
+		
+		//giftcard with balance $150
+		String testerCardNumber3 = "123789";
+		BigDecimal amount3 = new BigDecimal(150);
+		GiftCardRecord testerRecord3 = new GiftCardRecord();
+		testerRecord3.number = testerCardNumber3;
+		testerRecord3.amount = amount3;
+		this.giftcardDatabase.put(testerCardNumber3, testerRecord3);
+		
 	}
 	
-	//other parameters will be null - pass in cardnumber
-	//handled in listeners 
+	/**
+	 * Detecting the card by creating a Card object for use in giftcard payment process
+	 * @param number 
+	 * 		 	 The card identification number.
+	 *  @param isTapEnabled
+	 *            Whether this card is capable of being tapped.
+	 */
 	public void detectCard(String number, boolean tapEnabled) {
 		try {
 			this.inputCard = new Card("Gift Card", number, "N/A", null, null, tapEnabled, false);
@@ -55,8 +89,17 @@ public class PaymentByGiftcard {
 		}
 	}
 	 
-	//number is gift card number 
-	//return value is updated paymentBalance (-1 means gift card wasn't used or useless) 
+	/**
+	 * If the card number passed is a valid key for a giftcard in the hashmap, use any remaining value on that giftcard towards paymentBalance.
+	 * @param number 
+	 * 		  	The card identification number.
+	 *  @param paymentBalance
+	 *            The balance owed for the items being purchased in the shopping cart.
+	 *  @param isTapEnabled
+	 *            Whether this card is capable of being tapped.
+	 *  @return BigDecimal
+	 *  		The updated paymentBalance is returned; if (-1) is returned the giftcard was either not in the database or tap was disabled.
+	 */
 	public BigDecimal tapToRedeem(String number, BigDecimal paymentBalance, boolean tapEnabled) throws IOException {
 		try {
 			detectCard(number, tapEnabled);
@@ -101,20 +144,21 @@ public class PaymentByGiftcard {
 
 			}
 			
-		}catch(BlockedCardException e) {
-			throw e; 
 		}catch(SimulationException e) {
 			throw e;
 		}
 		System.out.println("Gift card not in database.\n");
-		return new BigDecimal(-1);
-
-		
-		//Use Cases: card balance is greater than amount (left over amount on card)
-		//Use Case: card balance is less than amount (set status to null once amount used) 
-		//Use Case: is card is null - return a false boolean to say card wasn't used 
+		return new BigDecimal(-1); 
 		
 	}
+	
+	/**
+	 * Get the remaining balance on a giftcard
+	 * @param number 
+	 * 		  	The card identification number.
+	 *  @return BigDecimal
+	 *  		The current balance on a giftcard; (-1) is returned if the card is not in the database. 
+	 */
 	public BigDecimal getAmount(String number) {
 		if(this.giftcardDatabase.containsKey(number)==true) {
 			return giftcardDatabase.get(number).amount;
@@ -125,8 +169,4 @@ public class PaymentByGiftcard {
 	}
 	
 	
-	//QUESTION: new card reader for each instance of paymentbycard/membership class?? 
-
-	
-
 }
