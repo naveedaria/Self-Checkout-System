@@ -16,6 +16,7 @@ import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.Coin;
 import org.lsmr.selfcheckout.Item;
+import org.lsmr.selfcheckout.PLUCodedItem;
 import org.lsmr.selfcheckout.devices.BarcodeScanner;
 import org.lsmr.selfcheckout.devices.DisabledException;
 import org.lsmr.selfcheckout.devices.OverloadException;
@@ -100,8 +101,6 @@ public class ControlSoftware {
 	 */
 	public void scanProduct(BarcodedItem barcodedItem, int quantity) {
 		
-		// Aris: test commit
-		
 		selfCheckout.mainScanner.scan(barcodedItem);
 	
 		// For Iteration #3
@@ -112,8 +111,16 @@ public class ControlSoftware {
 			shoppingCart.addToShoppingCart(barcodedItem, quantity);
 		//}
 		
-	
 	}
+	
+	
+	public void enterPLUCode(PLUCodedItem pluCodedItem, int quantity) {
+		
+		// Note: No need to check if isPerUnit is true or false, because PLU items are always per kilogram
+		shoppingCart.addToShoppingCart(pluCodedItem, quantity);
+	}
+	
+	
 
 	
 	/**

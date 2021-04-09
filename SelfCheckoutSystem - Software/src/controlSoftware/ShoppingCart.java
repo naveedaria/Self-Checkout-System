@@ -3,6 +3,7 @@ package controlSoftware;
 import java.math.BigDecimal;
 
 import org.lsmr.selfcheckout.BarcodedItem;
+import org.lsmr.selfcheckout.PLUCodedItem;
 import org.lsmr.selfcheckout.devices.SimulationException;
 import org.lsmr.selfcheckout.devices.listeners.ElectronicScaleListener;
 import org.lsmr.selfcheckout.external.ProductDatabases;
@@ -83,6 +84,13 @@ public class ShoppingCart {
 //	public boolean doesItemNeedToBeWeighed(BarcodedItem item) {
 //		return ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode()).isPerUnit();
 //	}
+	
+	
+	
+	public void addToShoppingCart(PLUCodedItem pluCodedItem, int quantity) {
+		
+	}
+	
 	
 	
 	/**
