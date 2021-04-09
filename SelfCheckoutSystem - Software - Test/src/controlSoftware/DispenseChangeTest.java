@@ -15,9 +15,12 @@ import org.lsmr.selfcheckout.devices.OverloadException;
 import org.lsmr.selfcheckout.devices.SelfCheckoutStation;
 import org.lsmr.selfcheckout.devices.SimulationException;
 
+import attendent.StationControl;
+
 
 public class DispenseChangeTest {
 
+	private StationControl station;
 	private SelfCheckoutStation selfCheckout;
 //	private Currency currency;
 	private Currency currency = Currency.getInstance("CAD");
@@ -76,7 +79,8 @@ public class DispenseChangeTest {
 		this.selfCheckout = selfCheckout;
 		
 		Coin nickel1 = new Coin(new BigDecimal(0.05), currency);
-
+		station = new StationControl();
+		station.turnOnStation(currency, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
 	}
 	
 	//================== loadDispensers Tests =============================
@@ -129,6 +133,26 @@ public class DispenseChangeTest {
 			assertTrue("Capacity of dispenser is exceeded by load.\n", e instanceof OverloadException); 
 		}	
 	}
+	
+	@Test
+	public void testUnloadDispensers() throws SimulationException, OverloadException {
+		BigDecimal testChange = new BigDecimal(3.45);
+		DispenseChange dispenseChange = new DispenseChange(selfCheckout, testChange);
+		try {
+			dispenseChange.loadDispensers(selfCheckout, nickelsLoaded, dimesLoaded, quartersLoaded, looniesLoaded, tooniesLoaded, fivesLoaded, tensLoaded, twentyLoaded, fiftyLoaded, hundredLoaded);
+		} catch (SimulationException | OverloadException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			station.emptyBanknoteStorageUit();
+			station.emptyCoinStorageUnit();
+		}
+		catch(Exception e){
+			fail("Should not throw exception");
+		}
+	}
+	
 	
 //	@Test(expected = SimulationException.class)
 //	public void testLoadDispensersSimEx() {

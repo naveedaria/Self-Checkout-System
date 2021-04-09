@@ -7,7 +7,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({addToScalePromptTest.class, CustomerBagTest.class, BaggingAreaTest.class, DispenseChangeTest.class,
 	FinishedAddingItemsTest.class, ScanProductTest.class, RemoveItemFromScaleTest.class, ScanMemberShipCardTest.class,
-	ShoppingCartTest.class, SwipeToPayTest.class, TapToPayTest.class, WeighItemTest.class, CoinMethodTest.class})
+	ShoppingCartTest.class, SwipeToPayTest.class, TapToPayTest.class, WeighItemTest.class, CoinMethodTest.class, 
+	PaperInkTest.class})
 public class AllTests {
 	
 	public static String BASEDIR = "/Users/naveed/git/SENG300Project";
