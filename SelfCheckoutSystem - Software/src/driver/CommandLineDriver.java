@@ -7,8 +7,10 @@ import java.util.Map;
 import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.Card;
+import org.lsmr.selfcheckout.PriceLookupCode;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
+import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
 import controlSoftware.ControlSoftware;
 
@@ -22,10 +24,16 @@ public class CommandLineDriver {
          *===============================================================*/
         Barcode b1 = new Barcode("1234");
         BarcodedProduct bp1 = new BarcodedProduct(b1, "Banana", new BigDecimal(1.5));
+        PriceLookupCode plu1 = new PriceLookupCode("01864");
+        PLUCodedProduct pluProd1 = new PLUCodedProduct(plu1, "Reese's Pieces", new BigDecimal(0.25));
         
         //ProductDatabases.BARCODED_PRODUCT_DATABASE.put(b1, bp1);
         Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
         db.put(b1, bp1);
+        
+        Map<PriceLookupCode, PLUCodedProduct> db2 = ProductDatabases.PLU_PRODUCT_DATABASE;
+        db2.put(plu1, pluProd1);
+        
         
         System.out.println("The product is: " + db.get(b1).getPrice());
         

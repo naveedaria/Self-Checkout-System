@@ -8,6 +8,7 @@ import org.lsmr.selfcheckout.devices.SimulationException;
 import org.lsmr.selfcheckout.devices.listeners.ElectronicScaleListener;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
+import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
 // Payment calculation for weighted items
 // Test case for weighed Items
@@ -88,7 +89,22 @@ public class ShoppingCart {
 	
 	
 	public void addToShoppingCart(PLUCodedItem pluCodedItem, int quantity) {
+		PLUCodedProduct pluProd = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode());
 		
+		try {
+			
+			SHOPPING_CART_ARRAY[i][0] = pluProd.getDescription();
+			SHOPPING_CART_ARRAY[i][1] = Integer.toString(quantity);
+			//BARCODEDITEM_ARRAY[i] = pluCodedItem;
+			updateTotalPayment(pluCodedItem, quantity);
+			
+			totalNumOfItems += quantity;
+			
+		} catch (NullPointerException e) {
+			throw new SimulationException(e);
+		}
+		
+		i++;
 	}
 	
 	
