@@ -28,6 +28,7 @@ public class ShoppingCart {
 	int totalNumOfItems;
 	String[][] SHOPPING_CART_ARRAY;
 	BarcodedItem[] BARCODEDITEM_ARRAY;
+	PLUCodedItem[] PLUCODEDITEM_ARRAY;
 	int i;
 	
 	ElectronicScaleListener baggingAreaScale;
@@ -41,7 +42,8 @@ public class ShoppingCart {
 		SHOPPING_CART_ARRAY = new String[30][2];
 		this.totalPayment = new BigDecimal("0.00");
 		this.totalNumOfItems = 0;
-		BARCODEDITEM_ARRAY = new BarcodedItem[30]; 
+		BARCODEDITEM_ARRAY = new BarcodedItem[30];
+		PLUCODEDITEM_ARRAY = new PLUCodedItem[30];
 		i = 0;
 			
 	}
@@ -87,7 +89,7 @@ public class ShoppingCart {
 //	}
 	
 	
-	
+	//Aris: Overloaded method for handling a PLUCoded Item being entered
 	public void addToShoppingCart(PLUCodedItem pluCodedItem, int quantity) {
 		PLUCodedProduct pluProd = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode());
 		
@@ -95,7 +97,7 @@ public class ShoppingCart {
 			
 			SHOPPING_CART_ARRAY[i][0] = pluProd.getDescription();
 			SHOPPING_CART_ARRAY[i][1] = Integer.toString(quantity);
-			//BARCODEDITEM_ARRAY[i] = pluCodedItem;
+			PLUCODEDITEM_ARRAY[i] = pluCodedItem;
 			updateTotalPayment(pluCodedItem, quantity);
 			
 			totalNumOfItems += quantity;
@@ -193,6 +195,26 @@ public class ShoppingCart {
 		System.out.println("Total Payment = " + totalPayment.toString());
 	
 	}
+	
+	
+	// Aris comment: Need to overload updateTotalPayment() for when PLU coded item is used
+	private void updateTotalPayment(PLUCodedItem pluCodedItem, int quantity) {
+
+		BigDecimal price = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode())
+				.getPrice().multiply(new BigDecimal(quantity)).multiply(new BigDecimal(pluCodedItem.getWeight()));
+	
+		
+		price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+						
+		totalPayment = totalPayment.add(price);
+		
+		String description = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode()).getDescription();
+		
+		System.out.println("Subtotal of " + description + " is: " + totalPayment.toString());
+	
+	}
+	
+	
 	
 	/**
 	 * Updates the total payment. Calculates the correct price with respect to the quantity

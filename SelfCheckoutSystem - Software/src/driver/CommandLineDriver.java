@@ -7,6 +7,7 @@ import java.util.Map;
 import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.Card;
+import org.lsmr.selfcheckout.PLUCodedItem;
 import org.lsmr.selfcheckout.PriceLookupCode;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
@@ -35,7 +36,7 @@ public class CommandLineDriver {
         db2.put(plu1, pluProd1);
         
         
-        System.out.println("The product is: " + db.get(b1).getPrice());
+        // System.out.println("The product is: " + db.get(b1).getPrice());
         
         /*===============================================================
          *                INITIALIZE CONTROL SOFTWARE
@@ -74,6 +75,15 @@ public class CommandLineDriver {
         
         // If checkout button not pressed, loop and prompt the scan for next item
         // else, invoke logic for payment
+        
+        
+        // Hard-coding of Test Case #2: User wants to buy Reese's Pieces (iteration 3)
+        
+        PLUCodedItem pluCodedItem1 = new PLUCodedItem(plu1, 100);
+        int customerItem2quantity = 1;
+        
+        controlSoftware.enterPLUCode(pluCodedItem1, customerItem2quantity);
+        
         
         /*===============================================================
          *                START OF CONTROL FLOW: Checkout/Payment (TODO)
