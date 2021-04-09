@@ -100,6 +100,8 @@ public class ControlSoftware {
 	 */
 	public void scanProduct(BarcodedItem barcodedItem, int quantity) {
 		
+		// Aris: test commit
+		
 		selfCheckout.mainScanner.scan(barcodedItem);
 	
 		// For Iteration #3
