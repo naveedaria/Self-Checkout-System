@@ -25,13 +25,13 @@ public class CommandLineDriver {
          *===============================================================*/
         Barcode b1 = new Barcode("1234");
         BarcodedProduct bp1 = new BarcodedProduct(b1, "Banana", new BigDecimal(1.5));
-        PriceLookupCode plu1 = new PriceLookupCode("01864");
-        PLUCodedProduct pluProd1 = new PLUCodedProduct(plu1, "Reese's Pieces", new BigDecimal(0.25));
         
         //ProductDatabases.BARCODED_PRODUCT_DATABASE.put(b1, bp1);
         Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
         db.put(b1, bp1);
         
+        PriceLookupCode plu1 = new PriceLookupCode("01864");
+        PLUCodedProduct pluProd1 = new PLUCodedProduct(plu1, "Reese's Pieces", new BigDecimal(0.25));
         Map<PriceLookupCode, PLUCodedProduct> db2 = ProductDatabases.PLU_PRODUCT_DATABASE;
         db2.put(plu1, pluProd1);
         
@@ -56,7 +56,7 @@ public class CommandLineDriver {
          *                START OF CONTROL FLOW: Scanning
          *===============================================================*/
         
-         // Hard-coding Test Case #1: User wants to buy 2 bananas
+         // Run of Use-Case #1: User wants to buy 2 bananas
         
         BarcodedItem customerItem1 = new BarcodedItem(b1, 500);
         int customerItem1quantity = 1;
@@ -77,12 +77,16 @@ public class CommandLineDriver {
         // else, invoke logic for payment
         
         
-        // Hard-coding of Test Case #2: User wants to buy Reese's Pieces (iteration 3)
+        // Run of Use-case #2: User wants to buy Reese's Pieces (iteration 3)
         
-        PLUCodedItem pluCodedItem1 = new PLUCodedItem(plu1, 100);
-        int customerItem2quantity = 1;
+//        PLUCodedItem pluCodedItem1 = new PLUCodedItem(plu1, 100);
+//        int customerItem2quantity = 1;
+//        
+//        controlSoftware.scanProductUsingPLUCode(pluCodedItem1, customerItem2quantity);
         
-        controlSoftware.scanProductUsingPLUCode(pluCodedItem1, customerItem2quantity);
+        // Run of Use-case #3: User wants to look up the price via barcode scanner
+        
+        controlSoftware.lookupProductUsingScanner(customerItem1);
         
         
         /*===============================================================

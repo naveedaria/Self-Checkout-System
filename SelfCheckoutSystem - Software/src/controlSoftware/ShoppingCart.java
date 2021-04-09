@@ -200,8 +200,12 @@ public class ShoppingCart {
 	// Aris comment: Need to overload updateTotalPayment() for when PLU coded item is used
 	private void updateTotalPayment(PLUCodedItem pluCodedItem, int quantity) {
 
+		double weight = pluCodedItem.getWeight() / 1000;
+		
 		BigDecimal price = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode())
-				.getPrice().multiply(new BigDecimal(quantity)).multiply(new BigDecimal(pluCodedItem.getWeight()));
+				.getPrice().multiply(new BigDecimal(quantity)).multiply(new BigDecimal(weight));
+		
+
 	
 		
 		price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -253,6 +257,57 @@ public class ShoppingCart {
 	public int getTotalQuantity() {
 		return totalNumOfItems;
 	}
+	
+	
+	
+	public BigDecimal getPriceOfBarcodedProduct(BarcodedItem barcodedItem) {
+		
+		return ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode()).getPrice();
+	}
+	
+	
+	public String getDescriptionOfBarcodedProduct(BarcodedItem barcodedItem) {
+		
+		return ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode()).getDescription();
+	}
+	
+	
+	public BigDecimal getPriceOfPLUProduct(PLUCodedItem pluCodedItem) {
+		
+		return ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode()).getPrice();
+	}
+	
+	public String getDescriptionOfPLUProduct(PLUCodedItem pluCodedItem) {
+		
+		return ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode()).getDescription();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 }
