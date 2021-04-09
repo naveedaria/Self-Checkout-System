@@ -40,6 +40,7 @@ public class CashPaymentScreen extends JPanel {
 		this.balance = balance;
 	}
 	
+	//Returns a hashmap that will allow control software to see how many of each type of cash was payed
 	public HashMap<String,Integer> getCashPayed(){
 		HashMap<String,Integer> map = new HashMap<String, Integer>();
 		map.put("bills5", bills5);
