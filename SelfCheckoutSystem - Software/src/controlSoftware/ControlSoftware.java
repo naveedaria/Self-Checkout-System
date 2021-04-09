@@ -114,7 +114,10 @@ public class ControlSoftware {
 	}
 	
 	
-	public void enterPLUCode(PLUCodedItem pluCodedItem, int quantity) {
+	public void scanProductUsingPLUCode(PLUCodedItem pluCodedItem, int quantity) {
+		
+		// Aris comment: From GUI, get customer/attendee to enter PLUCode, then make a PLUCodedItem with the weight
+		// then call this function to add it to shopping cart
 		
 		// Note: No need to check if isPerUnit is true or false, because PLU items are always per kilogram
 		shoppingCart.addToShoppingCart(pluCodedItem, quantity);

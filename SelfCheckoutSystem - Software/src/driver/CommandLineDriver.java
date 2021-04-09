@@ -82,7 +82,7 @@ public class CommandLineDriver {
         PLUCodedItem pluCodedItem1 = new PLUCodedItem(plu1, 100);
         int customerItem2quantity = 1;
         
-        controlSoftware.enterPLUCode(pluCodedItem1, customerItem2quantity);
+        controlSoftware.scanProductUsingPLUCode(pluCodedItem1, customerItem2quantity);
         
         
         /*===============================================================
