@@ -149,6 +149,7 @@ public class MainScreen extends JPanel {
 		setLayout(groupLayout);
 		//Step 3: Then add the listener to the button LIKE THIS
 		nextButton.addActionListener(new GotoNextScreen());
+		attendantButton.addActionListener(new GotoAttendantScreen());
 	}
 	//Step 2: if you have a button that you want to do something, you need to make an action listener LIKE THIS
 	private class GotoNextScreen implements ActionListener{
@@ -157,6 +158,16 @@ public class MainScreen extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			CommandLineDriver.goToScreen("pay");
+			
+		}
+		
+	}
+	private class GotoAttendantScreen implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			CommandLineDriver.goToScreen("attendant");
 			
 		}
 		
