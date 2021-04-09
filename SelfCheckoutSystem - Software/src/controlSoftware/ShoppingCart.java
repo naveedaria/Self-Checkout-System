@@ -3,10 +3,12 @@ package controlSoftware;
 import java.math.BigDecimal;
 
 import org.lsmr.selfcheckout.BarcodedItem;
+import org.lsmr.selfcheckout.PLUCodedItem;
 import org.lsmr.selfcheckout.devices.SimulationException;
 import org.lsmr.selfcheckout.devices.listeners.ElectronicScaleListener;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
+import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
 // Payment calculation for weighted items
 // Test case for weighed Items
@@ -26,6 +28,7 @@ public class ShoppingCart {
 	int totalNumOfItems;
 	String[][] SHOPPING_CART_ARRAY;
 	BarcodedItem[] BARCODEDITEM_ARRAY;
+	PLUCodedItem[] PLUCODEDITEM_ARRAY;
 	int i;
 	
 	ElectronicScaleListener baggingAreaScale;
@@ -39,7 +42,8 @@ public class ShoppingCart {
 		SHOPPING_CART_ARRAY = new String[30][2];
 		this.totalPayment = new BigDecimal("0.00");
 		this.totalNumOfItems = 0;
-		BARCODEDITEM_ARRAY = new BarcodedItem[30]; 
+		BARCODEDITEM_ARRAY = new BarcodedItem[30];
+		PLUCODEDITEM_ARRAY = new PLUCodedItem[30];
 		i = 0;
 			
 	}
@@ -83,6 +87,28 @@ public class ShoppingCart {
 //	public boolean doesItemNeedToBeWeighed(BarcodedItem item) {
 //		return ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode()).isPerUnit();
 //	}
+	
+	
+	//Aris: Overloaded method for handling a PLUCoded Item being entered
+	public void addToShoppingCart(PLUCodedItem pluCodedItem, int quantity) {
+		PLUCodedProduct pluProd = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode());
+		
+		try {
+			
+			SHOPPING_CART_ARRAY[i][0] = pluProd.getDescription();
+			SHOPPING_CART_ARRAY[i][1] = Integer.toString(quantity);
+			PLUCODEDITEM_ARRAY[i] = pluCodedItem;
+			updateTotalPayment(pluCodedItem, quantity);
+			
+			totalNumOfItems += quantity;
+			
+		} catch (NullPointerException e) {
+			throw new SimulationException(e);
+		}
+		
+		i++;
+	}
+	
 	
 	
 	/**
@@ -170,6 +196,30 @@ public class ShoppingCart {
 	
 	}
 	
+	
+	// Aris comment: Need to overload updateTotalPayment() for when PLU coded item is used
+	private void updateTotalPayment(PLUCodedItem pluCodedItem, int quantity) {
+
+		double weight = pluCodedItem.getWeight() / 1000;
+		
+		BigDecimal price = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode())
+				.getPrice().multiply(new BigDecimal(quantity)).multiply(new BigDecimal(weight));
+		
+
+	
+		
+		price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+						
+		totalPayment = totalPayment.add(price);
+		
+		String description = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode()).getDescription();
+		
+		System.out.println("Subtotal of " + description + " is: " + totalPayment.toString());
+	
+	}
+	
+	
+	
 	/**
 	 * Updates the total payment. Calculates the correct price with respect to the quantity
 	 * of item and subtracts it from the total payment.
@@ -207,6 +257,57 @@ public class ShoppingCart {
 	public int getTotalQuantity() {
 		return totalNumOfItems;
 	}
+	
+	
+	
+	public BigDecimal getPriceOfBarcodedProduct(BarcodedItem barcodedItem) {
+		
+		return ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode()).getPrice();
+	}
+	
+	
+	public String getDescriptionOfBarcodedProduct(BarcodedItem barcodedItem) {
+		
+		return ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode()).getDescription();
+	}
+	
+	
+	public BigDecimal getPriceOfPLUProduct(PLUCodedItem pluCodedItem) {
+		
+		return ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode()).getPrice();
+	}
+	
+	public String getDescriptionOfPLUProduct(PLUCodedItem pluCodedItem) {
+		
+		return ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode()).getDescription();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 }

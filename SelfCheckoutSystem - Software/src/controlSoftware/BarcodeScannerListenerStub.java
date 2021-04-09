@@ -23,13 +23,9 @@ public class BarcodeScannerListenerStub implements BarcodeScannerListener{
 
 	@Override
 	public void barcodeScanned(BarcodeScanner barcodeScanner, Barcode barcode) {
-		// TODO Auto-generated method stub
-		System.out.println("Test: BarcodeScannerListener succcessfully heard a scan event");
 		
-		// Aris Comment: This is where we would implement the event handler for a scanning event
-		
-		// Step 1: Read request to DB to first check isPerUnit. If so, 
-		System.out.println("Attempting to read from the DB. The product description is: " + ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode).getPrice());
+		// Handler for price lookup via barcode scanner if listener is being used. At the moment, the shopping cart handles the logic
+		//System.out.println("Price lookup: " + ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode).getDescription() + " : $" + ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode).getPrice());
 	}
 	
 	//private boolean getProductType() {

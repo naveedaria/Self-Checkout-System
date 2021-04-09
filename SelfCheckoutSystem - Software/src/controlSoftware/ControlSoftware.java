@@ -16,6 +16,7 @@ import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.Coin;
 import org.lsmr.selfcheckout.Item;
+import org.lsmr.selfcheckout.PLUCodedItem;
 import org.lsmr.selfcheckout.devices.BarcodeScanner;
 import org.lsmr.selfcheckout.devices.DisabledException;
 import org.lsmr.selfcheckout.devices.OverloadException;
@@ -110,8 +111,50 @@ public class ControlSoftware {
 			shoppingCart.addToShoppingCart(barcodedItem, quantity);
 		//}
 		
-	
 	}
+	
+	/**
+	 * 
+	 * @param pluCodedItem
+	 * 		  object of type PLUCodedItem representing the physical item with the PLU Code
+	 * @param quantity
+	 * 		  quantity of item being scanned
+	 */
+	public void scanProductUsingPLUCode(PLUCodedItem pluCodedItem, int quantity) {
+		
+		// From GUI, get customer/attendee to enter PLUCode. Make a PLUCodedItem with the weight then call this function to add it to shopping cart
+		
+		// Note: No need to check if isPerUnit is true or false, because PLU items are always per kilogram
+		shoppingCart.addToShoppingCart(pluCodedItem, quantity);
+	}
+	
+	
+	
+	
+	/**
+	 * 
+	 * @param barcodedItem
+	 * 		  object of type BarcodedItem representing the physical item with a barcode that is being looked up
+	 */
+	public void lookupProductUsingBarcode(BarcodedItem barcodedItem) {
+		
+		// This print statement can be replaced with GUI methods when ready
+		System.out.print("Customer price lookup: " + shoppingCart.getDescriptionOfBarcodedProduct(barcodedItem) + ": $" + shoppingCart.getPriceOfBarcodedProduct(barcodedItem));
+
+	}
+	
+	/**
+	 * 
+	 * @param barcodedItem
+	 * 		  object of type BarcodedItem representing the physical item with a PLU code that is being looked up
+	 */
+	public void lookupProductUsingPLUCode(PLUCodedItem pluCodedItem) {
+		
+		// This print statement can be replaced with GUI methods when ready
+		System.out.print("Customer price lookup: " + shoppingCart.getDescriptionOfPLUProduct(pluCodedItem)+ ": $" + shoppingCart.getPriceOfPLUProduct(pluCodedItem) + "/kg");
+	}
+	
+	
 
 	
 	/**
