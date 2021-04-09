@@ -125,7 +125,7 @@ public class ControlSoftware {
 	
 	
 	
-	public void lookupProductUsingScanner(BarcodedItem barcodedItem) {
+	public void lookupProductUsingBarcode(BarcodedItem barcodedItem) {
 		
 		// This print statement can be replaced with GUI when ready
 		System.out.print("Customer price lookup: " + shoppingCart.getDescriptionOfBarcodedProduct(barcodedItem) + ": $" + shoppingCart.getPriceOfBarcodedProduct(barcodedItem));
@@ -135,7 +135,8 @@ public class ControlSoftware {
 	
 	public void lookupProductUsingPLUCode(PLUCodedItem pluCodedItem) {
 		
-		//selfCheckout.mainScanner.scan(barcodedItem);
+		// This print statement can be replaced with GUI when ready
+		System.out.print("Customer price lookup: " + shoppingCart.getDescriptionOfPLUProduct(pluCodedItem)+ ": $" + shoppingCart.getPriceOfPLUProduct(pluCodedItem) + "/kg");
 	}
 	
 	

@@ -79,14 +79,18 @@ public class CommandLineDriver {
         
         // Run of Use-case #2: User wants to buy Reese's Pieces (iteration 3)
         
-//        PLUCodedItem pluCodedItem1 = new PLUCodedItem(plu1, 100);
-//        int customerItem2quantity = 1;
+         PLUCodedItem pluCodedItem1 = new PLUCodedItem(plu1, 100);
+         int customerItem2quantity = 1;
 //        
 //        controlSoftware.scanProductUsingPLUCode(pluCodedItem1, customerItem2quantity);
         
-        // Run of Use-case #3: User wants to look up the price via barcode scanner
+        // Run of Use-case #3: User wants to look up the price via barcode
         
-        controlSoftware.lookupProductUsingScanner(customerItem1);
+        //controlSoftware.lookupProductUsingBarcode(customerItem1);
+        
+        // Run of Use-case #3: User wants to look up the price via barcode
+        
+        controlSoftware.lookupProductUsingPLUCode(pluCodedItem1);
         
         
         /*===============================================================
