@@ -102,21 +102,23 @@ public class CommandLineDriver {
          *                END OF CONTROL FLOW: Print Receipt (TODO)
          *===============================================================*/
         
-        m = new MainScreen();
+   
         
+        m = new MainScreen();
         pss = new PaymentSelectorScreen();
-        card = new CardPaymentScreen();
+        card = new CardPaymentScreen();;
         cash = new CashPaymentScreen();
-        giftcard = new GiftCardPaymentScreen();
+        giftcard = new GiftCardPaymentScreen();   
         lookup = new LookupItemScreen();
         thank = new ThankYouForShoppingScreen();
         attendant = new AttendantMenuScreen();
         
         mainFrame = controlSoftware.selfCheckout.screen.getFrame();
-        
+        mainFrame.setVisible(true);
+        mainFrame.setSize(600,500);
         mainFrame.setContentPane(m);
         mainFrame.pack();
-        
+       
         controlSoftware.selfCheckout.screen.setVisible(true);
         
        
