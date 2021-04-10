@@ -125,6 +125,14 @@ public class CommandLineDriver {
          *===============================================================*/
         
         
+        m = new MainScreen();
+        pss = new PaymentSelectorScreen();
+        card = new CardPaymentScreen();;
+        cash = new CashPaymentScreen();
+        giftcard = new GiftCardPaymentScreen();   
+        lookup = new LookupItemScreen();
+        thank = new ThankYouForShoppingScreen();
+        attendant = new AttendantMenuScreen();
         
         mainFrame = controlSoftware.selfCheckout.screen.getFrame();
         mainFrame.setVisible(true);
