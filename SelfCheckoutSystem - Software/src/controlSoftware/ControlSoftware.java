@@ -16,6 +16,7 @@ import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.Coin;
 import org.lsmr.selfcheckout.Item;
+import org.lsmr.selfcheckout.PLUCodedItem;
 import org.lsmr.selfcheckout.devices.BarcodeScanner;
 import org.lsmr.selfcheckout.devices.DisabledException;
 import org.lsmr.selfcheckout.devices.OverloadException;
@@ -38,6 +39,9 @@ public class ControlSoftware {
 	private int scaleMaxWeight;
 	private int scaleSensitivity;
 	public SelfCheckoutStation selfCheckout;
+	public Lookup lookup;
+	ElectronicScaleListenerStub electronicScaleStub = new ElectronicScaleListenerStub();
+
 	
 	
 	
@@ -73,6 +77,8 @@ public class ControlSoftware {
 		// Create shopping cart object
 		shoppingCart = new ShoppingCart();
 		
+		lookup = new Lookup();
+		
 		
 		// We already have a mainScanner as part of self-checkout
 		//scannerObject = new BarcodeScanner();
@@ -82,11 +88,9 @@ public class ControlSoftware {
 		
 		selfCheckout.mainScanner.register(stub);
 		selfCheckout.mainScanner.enable();
-		
-		ElectronicScaleListenerStub electronicScaleStub = new ElectronicScaleListenerStub();
-		
-		selfCheckout.scale.register(electronicScaleStub);
-		selfCheckout.scale.enable();
+				
+		selfCheckout.baggingArea.register(electronicScaleStub);
+		selfCheckout.baggingArea.enable();
 		
 	}
 	
@@ -110,8 +114,25 @@ public class ControlSoftware {
 			shoppingCart.addToShoppingCart(barcodedItem, quantity);
 		//}
 		
-	
 	}
+	
+	/**
+	 * 
+	 * @param pluCodedItem
+	 * 		  object of type PLUCodedItem representing the physical item with the PLU Code
+	 * @param quantity
+	 * 		  quantity of item being scanned
+	 */
+	public void scanProductUsingPLUCode(PLUCodedItem pluCodedItem, int quantity) {
+		
+		// From GUI, get customer/attendee to enter PLUCode. Make a PLUCodedItem with the weight then call this function to add it to shopping cart
+		
+		// Note: No need to check if isPerUnit is true or false, because PLU items are always per kilogram
+		shoppingCart.addToShoppingCart(pluCodedItem, quantity);
+	}
+	
+	
+	
 
 	
 	/**
@@ -202,15 +223,81 @@ public class ControlSoftware {
 		return ooo;
 	}
 	
-	public void addToBaggingArea(BarcodedItem item) throws OverloadException {
+	public boolean returnToAddingItems(boolean ooo) {
+		return ooo;
+	}
+	
+	public void addToBaggingArea(BarcodedItem item) throws Exception {
+		// Checking for null item
+		if(item == null) throw new SimulationException("Null item.");
+	
 		
+		// Do not do anything if bagging area is disabled
+		if(selfCheckout.baggingArea.isDisabled()) return;
+		
+		// get the weight from the scale
+		double weight = electronicScaleStub.getCurrentWeight();
+		
+		// Add item to the scale
 		selfCheckout.baggingArea.add(item);
+		
+		// Get the total weight of the new item added 
+		double newWeight = electronicScaleStub.getCurrentWeight();
+		
+		// If the new weight is greater the maximum that the scale can measure
+		if(newWeight > electronicScaleStub.maximumWeightInGrams) {
+			// Set the overload flag
+			electronicScaleStub.setOverload();
+			// Throw Exception
+			throw new Exception("Scale OverLoaded.");
+		}
+		// If flag in not set
+		else if (!electronicScaleStub.isOverload) {
+			// Checking if the new weight is the same as the item weight
+			newWeight = newWeight - weight;
+			System.out.println("New Weight" + newWeight+ " Weight: " + weight);
+			// New weight should not greater or less than the item weight 
+			if(newWeight != item.getWeight()) {
+				// Print statement for the non successful attempt
+				System.out.println("Weight has changed, item was not successfully added to bagging area.");
+				// Call GUI to prompt the attendant 
+				// Attendant should enter their number and by-pass this prompt 
+			}
+			else {
+				// Print statement for the successful attempt
+				System.out.println("Weight has not changed, item was successfully added to bagging area.");
+				// Successful prompt or do nothing
+			}
+		}
 		
 	}
 	
 	public void removeFromBaggingArea(BarcodedItem item) {
 		
-		selfCheckout.baggingArea.remove(item);
+		// Do not do anything if bagging area is disabled
+		if(selfCheckout.baggingArea.isDisabled()) return;
+		
+		// get the weight from the scale
+		double weight = electronicScaleStub.getCurrentWeight();
+		
+		// Checking for null item
+		if(item == null) throw new SimulationException("Null item.");
+		// If the scale is not overloaded 
+		if(!electronicScaleStub.isOverload) {
+
+			// Check if the weight are not less zero
+			if(weight - item.getWeight() < 0) {
+				throw new SimulationException("Item was not properly removed");
+				// Call GUI to prompt the attendant for Item not being removed properly
+				// Would probably have to remove all exception handling, and make it into GUI prompts
+			}
+			// If overloaded just remove the item
+			else {
+				// Remove Item
+				selfCheckout.baggingArea.remove(item);
+			}
+			
+		}
 		
 	}
 	
@@ -390,7 +477,9 @@ public class ControlSoftware {
 	
 	//Pay by card 
 	//Create Card before for Iteration 3
-	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean tap, String cardCompany, String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
+	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean tap, 
+			boolean payByGiftcard, String giftcardNumber, BigDecimal value,
+			String cardCompany, String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
 			boolean hasChip, Calendar expiry, BigDecimal cardLimit, BufferedImage signature, boolean insertCard, String pinInput) throws IOException {
 		
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
@@ -401,6 +490,19 @@ public class ControlSoftware {
 			//THIRD ITERATION - no discount or points implemented yet 
 			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
 			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
+		}
+		
+		
+		if(payByGiftcard) {
+			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
+			giftcardPaymentHandler.detectCard(giftcardNumber, isTapEnabled);
+			String giftcardNum = "123456";
+			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNum, balance, isTapEnabled);
+			
+			// check if the full balance was paid by giftcard
+			if (amountRemaining.compareTo(new BigDecimal(0)) == 0) {	
+				return;
+			}
 		}
 		
 		if (tap) {
@@ -416,7 +518,9 @@ public class ControlSoftware {
 	
 	//Pay by cash 
 	//Assume user enters more than necessary cash, handle case of less cash than balance through GUI in Iteration 3
-	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, Coin[] coins, Banknote[] banknotes) throws IOException, DisabledException, OverloadException {
+	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, 
+			boolean payByGiftcard, String giftcardNumber, BigDecimal value, boolean isTapEnabled,
+			Coin[] coins, Banknote[] banknotes) throws IOException, DisabledException, OverloadException {
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
 		
 		if (useMembershipCard) {
@@ -424,6 +528,18 @@ public class ControlSoftware {
 			
 			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
 			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
+		}
+		
+		if(payByGiftcard) {
+			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
+			giftcardPaymentHandler.detectCard(giftcardNumber, isTapEnabled);
+			String giftcardNum = "123456";
+			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNum, balance, isTapEnabled);
+			
+			// check if the full balance was paid by giftcard
+			if (amountRemaining.compareTo(new BigDecimal(0)) == 0) {	
+				return;
+			}
 		}
 
 		for (int i=0; i<coins.length; i++) {
@@ -451,40 +567,9 @@ public class ControlSoftware {
 	//	}
 	}
 	
+	public int plasticBagsUsed(int quantity) {
+		return quantity;
+	}
 	
-	// ITERATION THREE
-	public void printReceipt() {
-		// Some strings used to format the receipt 
-		String s1 = "------------------------------------";
-		// 2-D Array from the shopping cart class
-		String[][] cart = shoppingCart.SHOPPING_CART_ARRAY;
-		// Barcoded Item array from shopping cart class
-		// A single barcoded temporary item
-		// A barcoded product
-		BarcodedProduct prod;
-		// Printing 
-		System.out.println(s1);
-		String s2 = String.format("%-1s %1s %10s\n","Qty", "Item", "Price");
-		System.out.println(s2);
-		String line;
-		for (int i = 0; i < cart.length; i++) {
-			try {
-			// Accessing the barcoded item from the array
-			BarcodedItem tempItem = shoppingCart.BARCODEDITEM_ARRAY[i];
-			// Getting the product from the Database
-			prod = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(tempItem.getBarcode());
-			// String format for each line printed in the receipt
-			// Quantity and Name are accessed from the shopping cart array
-			// Price is accessed from the product class
-			line = String.format("%-1s %1s %10s\n", cart[i][1], cart[i][0], prod.getPrice());
-			// Print line
-			System.out.println(line);
-			}catch (NullPointerException e) {
-			}
-		}
-		// Print end line
-		System.out.println(s1);
-	
-	} 
 	
 }

@@ -11,14 +11,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
+import org.lsmr.selfcheckout.PLUCodedItem;
+import org.lsmr.selfcheckout.PriceLookupCode;
 import org.lsmr.selfcheckout.devices.SimulationException;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
+import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
 public class ShoppingCartTest {
 	
 	ShoppingCart cart = new ShoppingCart();
 	Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
+	Map<PriceLookupCode, PLUCodedProduct> pluDb = ProductDatabases.PLU_PRODUCT_DATABASE;
 	
 	Barcode barcode = new Barcode("1234");
 	BarcodedItem bItem = new BarcodedItem(barcode, 20);
@@ -27,6 +31,12 @@ public class ShoppingCartTest {
 	BigDecimal price = new BigDecimal("7.23");
 	String description = "Milk";
 	BarcodedProduct barcodeProd = new BarcodedProduct(barcode, description, price);
+	
+	PriceLookupCode pluCode = new PriceLookupCode("1111");
+	PLUCodedItem pluItem = new PLUCodedItem(pluCode, 20);
+	
+	String description2 = "Spinach";
+	PLUCodedProduct pluProd = new PLUCodedProduct(pluCode, description2, price);
 	
 	@SuppressWarnings("unused")
 	@Before
@@ -72,6 +82,26 @@ public class ShoppingCartTest {
 		
 		assertEquals(null, cart.SHOPPING_CART_ARRAY[i][1]);
 		
+	}
+	
+	@Test
+	public void testSuccessfulPLUAddition() {
+		int i = 0;
+		
+		pluDb.put(pluCode, pluProd);
+		
+		cart.addToShoppingCart(pluItem, quantity);
+		
+		PLUCodedProduct prod = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluItem.getPLUCode());
+		
+		pluDb.put(pluCode, prod);
+		
+		assertEquals(pluCode, prod.getPLUCode());
+
+		assertEquals(prod.getDescription(), cart.SHOPPING_CART_ARRAY[i][0]);
+
+		assertEquals(Integer.toString(quantity), cart.SHOPPING_CART_ARRAY[i][1]);
+
 	}
 	
 	@Test(expected = SimulationException.class)
@@ -126,7 +156,43 @@ public class ShoppingCartTest {
 		
 		
 	}
+	
+	@Test 
+	public void testPriceGetter() {
+		db.put(barcode, barcodeProd);
+		
+		BigDecimal expectedPrice = cart.getPriceOfBarcodedProduct(bItem);
+		
+		assertTrue(expectedPrice == price);
+	}
 
+	@Test 
+	public void testPLUPriceGetter() {
+		pluDb.put(pluCode, pluProd);
+		
+		BigDecimal expectedPrice = cart.getPriceOfPLUProduct(pluItem);
+		
+		assertTrue(expectedPrice == price);
+	}
+	
+	@Test 
+	public void testDescGetter() {
+		db.put(barcode, barcodeProd);
+		
+		String expectedString = cart.getDescriptionOfBarcodedProduct(bItem);
+		
+		assertTrue(expectedString == description);
+	}
+	
+	@Test 
+	public void testPLUDescriGetter() {
+		pluDb.put(pluCode, pluProd);
+		
+		String expectedString = cart.getDescriptionOfPLUProduct(pluItem);
+		
+		assertTrue(expectedString == description2);
+	}
+	
 	
 
 }

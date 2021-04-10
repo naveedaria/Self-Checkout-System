@@ -7,8 +7,11 @@ import java.util.Map;
 import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.Card;
+import org.lsmr.selfcheckout.PLUCodedItem;
+import org.lsmr.selfcheckout.PriceLookupCode;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
+import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
 import controlSoftware.ControlSoftware;
 
@@ -27,7 +30,13 @@ public class CommandLineDriver {
         Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
         db.put(b1, bp1);
         
-        System.out.println("The product is: " + db.get(b1).getPrice());
+        PriceLookupCode plu1 = new PriceLookupCode("01864");
+        PLUCodedProduct pluProd1 = new PLUCodedProduct(plu1, "Reese's Pieces", new BigDecimal(0.25));
+        Map<PriceLookupCode, PLUCodedProduct> db2 = ProductDatabases.PLU_PRODUCT_DATABASE;
+        db2.put(plu1, pluProd1);
+        
+        
+        // System.out.println("The product is: " + db.get(b1).getPrice());
         
         /*===============================================================
          *                INITIALIZE CONTROL SOFTWARE
@@ -47,7 +56,7 @@ public class CommandLineDriver {
          *                START OF CONTROL FLOW: Scanning
          *===============================================================*/
         
-         // Hard-coding Test Case #1: User wants to buy 2 bananas
+         // Run of Use-Case #1: User wants to buy 2 bananas
         
         BarcodedItem customerItem1 = new BarcodedItem(b1, 500);
         int customerItem1quantity = 1;
@@ -66,6 +75,23 @@ public class CommandLineDriver {
         
         // If checkout button not pressed, loop and prompt the scan for next item
         // else, invoke logic for payment
+        
+        
+        // Run of Use-case #2: User wants to buy Reese's Pieces (iteration 3)
+        
+         PLUCodedItem pluCodedItem1 = new PLUCodedItem(plu1, 100);
+         int customerItem2quantity = 1;
+//        
+//        controlSoftware.scanProductUsingPLUCode(pluCodedItem1, customerItem2quantity);
+        
+        // Run of Use-case #3: User wants to look up the price via barcode
+        
+        //controlSoftware.lookupProductUsingBarcode(customerItem1);
+        
+        // Run of Use-case #3: User wants to look up the price via barcode
+        
+        controlSoftware.lookup.lookupUsingPLU(plu1);
+        
         
         /*===============================================================
          *                START OF CONTROL FLOW: Checkout/Payment (TODO)

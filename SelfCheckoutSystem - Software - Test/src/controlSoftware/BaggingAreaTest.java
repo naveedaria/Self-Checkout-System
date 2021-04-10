@@ -33,7 +33,12 @@ public class BaggingAreaTest {
 			BarcodedItem item250weight = new BarcodedItem(itemBarcode, 250);
 			BarcodedItem item50weight = new BarcodedItem(itemBarcode3, 50);
 			
-			controlSoft.addToBaggingArea(item250weight);
+			try {
+				controlSoft.addToBaggingArea(item250weight);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			assertTrue(controlSoft.selfCheckout.baggingArea.getCurrentWeight() == 250);
 
 		}catch(SimulationException | OverloadException e) {
@@ -84,7 +89,12 @@ public class BaggingAreaTest {
 		Barcode nullB = new Barcode("");
 		BarcodedItem nullBarcode = new BarcodedItem(nullB, 20);
 		
-		controlSoft.addToBaggingArea(nullBarcode);
+		try {
+			controlSoft.addToBaggingArea(nullBarcode);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}
