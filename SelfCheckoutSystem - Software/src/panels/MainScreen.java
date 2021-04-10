@@ -1,6 +1,7 @@
 package panels;
 
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
@@ -22,6 +23,7 @@ import javax.swing.JTextField;
 
 public class MainScreen extends JPanel {
 	private JTextField txtEnterYourBarcode;
+	public JPasswordField pwd;
 	/**
 	 * Create the panel.
 	 */
@@ -151,6 +153,7 @@ public class MainScreen extends JPanel {
 		//Step 3: Then add the listener to the button LIKE THIS
 		nextButton.addActionListener(new GotoNextScreen());
 		attendantButton.addActionListener(new GotoAttendantScreen());
+		lookupButton.addActionListener(new GoToLookupScreen());
 		txtEnterYourBarcode.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 barcodeFieldMouseClicked(evt);
@@ -174,6 +177,16 @@ public class MainScreen extends JPanel {
 		}
 		
 	}
+	private class GoToLookupScreen implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			CommandLineDriver.goToScreen("lookup");
+			
+		}
+		
+	}
 	private class GotoAttendantScreen implements ActionListener{
 
 		@Override
@@ -192,12 +205,15 @@ public class MainScreen extends JPanel {
 	}
 	
 	private String showLoginScreen() {
-		String s = JOptionPane.showInputDialog(
+		
+		pwd = new JPasswordField(10);
+		
+		JOptionPane.showConfirmDialog(
                 this,
-                "Please enter the Attendant Passcode: ",
-                "Attendant Login",
-                JOptionPane.QUESTION_MESSAGE
+                pwd,"Please enter Attendat password: ",
+                JOptionPane.OK_CANCEL_OPTION
                 );
+		String s = new String(pwd.getPassword());
 		if(s == null) {
 			s = "";
 		}
@@ -230,7 +246,6 @@ public class MainScreen extends JPanel {
             txtEnterYourBarcode.setText("");
         }
     } 
-	
 }
 
 
