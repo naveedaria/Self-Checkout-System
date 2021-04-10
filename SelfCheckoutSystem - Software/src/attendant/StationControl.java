@@ -5,11 +5,16 @@ import java.util.Currency;
 import java.util.Scanner;
 
 import org.lsmr.selfcheckout.Banknote;
+import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.Coin;
+import org.lsmr.selfcheckout.PriceLookupCode;
 import org.lsmr.selfcheckout.devices.OverloadException;
 import org.lsmr.selfcheckout.devices.SelfCheckoutStation;
 import org.lsmr.selfcheckout.devices.SimulationException;
+import org.lsmr.selfcheckout.external.ProductDatabases;
+import org.lsmr.selfcheckout.products.BarcodedProduct;
+import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
 import controlSoftware.ControlSoftware;
 
@@ -95,5 +100,7 @@ public class StationControl {
    			}
 		
    		}
+	
+	
 	
 }

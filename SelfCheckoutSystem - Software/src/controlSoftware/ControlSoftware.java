@@ -39,6 +39,7 @@ public class ControlSoftware {
 	private int scaleMaxWeight;
 	private int scaleSensitivity;
 	public SelfCheckoutStation selfCheckout;
+	public Lookup lookup;
 	ElectronicScaleListenerStub electronicScaleStub = new ElectronicScaleListenerStub();
 
 	
@@ -75,6 +76,8 @@ public class ControlSoftware {
 		
 		// Create shopping cart object
 		shoppingCart = new ShoppingCart();
+		
+		lookup = new Lookup();
 		
 		
 		// We already have a mainScanner as part of self-checkout
@@ -128,31 +131,6 @@ public class ControlSoftware {
 		shoppingCart.addToShoppingCart(pluCodedItem, quantity);
 	}
 	
-	
-	
-	
-	/**
-	 * 
-	 * @param barcodedItem
-	 * 		  object of type BarcodedItem representing the physical item with a barcode that is being looked up
-	 */
-	public void lookupProductUsingBarcode(BarcodedItem barcodedItem) {
-		
-		// This print statement can be replaced with GUI methods when ready
-		System.out.print("Customer price lookup: " + shoppingCart.getDescriptionOfBarcodedProduct(barcodedItem) + ": $" + shoppingCart.getPriceOfBarcodedProduct(barcodedItem));
-
-	}
-	
-	/**
-	 * 
-	 * @param barcodedItem
-	 * 		  object of type BarcodedItem representing the physical item with a PLU code that is being looked up
-	 */
-	public void lookupProductUsingPLUCode(PLUCodedItem pluCodedItem) {
-		
-		// This print statement can be replaced with GUI methods when ready
-		System.out.print("Customer price lookup: " + shoppingCart.getDescriptionOfPLUProduct(pluCodedItem)+ ": $" + shoppingCart.getPriceOfPLUProduct(pluCodedItem) + "/kg");
-	}
 	
 	
 
@@ -242,6 +220,10 @@ public class ControlSoftware {
 	}
 	
 	public boolean doneAddingItems(boolean ooo) {
+		return ooo;
+	}
+	
+	public boolean returnToAddingItems(boolean ooo) {
 		return ooo;
 	}
 	
@@ -583,6 +565,10 @@ public class ControlSoftware {
 	//	if (insertBill) {
 			
 	//	}
+	}
+	
+	public int plasticBagsUsed(int quantity) {
+		return quantity;
 	}
 	
 	

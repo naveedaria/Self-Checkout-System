@@ -90,7 +90,7 @@ public class CommandLineDriver {
         
         // Run of Use-case #3: User wants to look up the price via barcode
         
-        controlSoftware.lookupProductUsingPLUCode(pluCodedItem1);
+        controlSoftware.lookup.lookupUsingPLU(plu1);
         
         
         /*===============================================================
