@@ -20,9 +20,9 @@ public class CardPaymentScreen extends JPanel {
 	 * Create the panel.
 	 */
 	public CardPaymentScreen() {
-		setMaximumSize(new Dimension(800, 600));
+		//setMaximumSize(new Dimension(800, 600));
 		setMinimumSize(new Dimension(800, 600));
-		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		//setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		
 		JLabel lblNewLabel = new JLabel("Card Payment");
 		
@@ -30,11 +30,6 @@ public class CardPaymentScreen extends JPanel {
 		
 		JButton payWithCredit = new JButton("Credit Card");
 		
-		
-		payWithCredit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		
 		JLabel lblNewLabel_1 = new JLabel("Please turn your attention to the card reader to pay");
 		lblNewLabel_1.setVisible(false);
@@ -47,35 +42,36 @@ public class CardPaymentScreen extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(191)
+							.addGap(337)
 							.addComponent(lblNewLabel))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(70)
-							.addComponent(payWithDebit, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
-							.addGap(83)
-							.addComponent(payWithCredit, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE))
+							.addGap(229)
+							.addComponent(cardMethodLabel))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(92)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewLabel_1)
-								.addComponent(cardMethodLabel))))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGap(208)
+							.addComponent(lblNewLabel_1)))
+					.addContainerGap(272, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(160)
+					.addComponent(payWithDebit, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
+					.addComponent(payWithCredit, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
+					.addGap(188))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(37)
 					.addComponent(lblNewLabel)
-					.addGap(28)
+					.addGap(27)
 					.addComponent(cardMethodLabel)
-					.addGap(5)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblNewLabel_1)
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(payWithDebit, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(1)
-							.addComponent(payWithCredit, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE))))
+					.addGap(46)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(payWithCredit, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+						.addComponent(payWithDebit, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(315, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 
