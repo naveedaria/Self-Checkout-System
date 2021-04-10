@@ -1,4 +1,4 @@
-package attendent;
+package attendant;
 
 public class AttendantLogIn_Out {
 

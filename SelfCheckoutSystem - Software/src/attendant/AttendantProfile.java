@@ -1,4 +1,4 @@
-package attendent;
+package attendant;
 
 import org.lsmr.selfcheckout.devices.SimulationException;
 

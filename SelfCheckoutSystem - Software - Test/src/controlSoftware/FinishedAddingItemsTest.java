@@ -3,6 +3,7 @@ package controlSoftware;
 import static org.junit.Assert.*;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Currency;
@@ -116,6 +117,66 @@ public class FinishedAddingItemsTest {
 			e.printStackTrace();
 			assertTrue(e instanceof Exception);
 		}
+	}
+	
+	@Test
+	public void testFinishedAddingItems() {
+		boolean useMembershipCard=true; 
+		String numberMember = "123456";
+		String cardholderMember = "Bob"; 
+		boolean tap = true;
+		String cardCompany = "RBC VISA"; 
+		String type = "Credit"; 
+		String number = "2468"; 
+		String cardholder = "Bob";;
+		String cvv = "345"; 
+		String pin = "2345"; 
+		boolean isTapEnabled = true;
+		boolean hasChip = false; 
+		Calendar expiry = Calendar.getInstance();
+		expiry.set(Calendar.YEAR, 2023);
+		BigDecimal cardLimit = new BigDecimal(1000); 
+		BufferedImage signature = null; 
+		boolean insertCard = false; 
+		String pinInput = "2345";
+		
+		try {
+			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, isTapEnabled, tap, number, cardLimit, cardCompany, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit, signature, insertCard, pinInput);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Test
+	public void testFinishedAddingItemsTap() {
+		boolean useMembershipCard=false; 
+		String numberMember = "123456";
+		String cardholderMember = "Bob"; 
+		boolean tap = true;
+		String cardCompany = "RBC VISA"; 
+		String type = "Credit"; 
+		String number = "2468"; 
+		String cardholder = "Bob";;
+		String cvv = "345"; 
+		String pin = "2345"; 
+		boolean isTapEnabled = true;
+		boolean hasChip = false; 
+		Calendar expiry = Calendar.getInstance();
+		expiry.set(Calendar.YEAR, 2023);
+		BigDecimal cardLimit = new BigDecimal(1000); 
+		BufferedImage signature = null; 
+		boolean insertCard = false; 
+		String pinInput = "2345";
+		
+		try {
+			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, isTapEnabled, tap, number, cardLimit, cardCompany, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit, signature, insertCard, pinInput);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

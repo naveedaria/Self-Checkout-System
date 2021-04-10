@@ -5,10 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.lsmr.selfcheckout.devices.SimulationException;
 
-import attendent.AttendantLogIn_Out;
-import attendent.AttendantProfile;
-import attendent.AttendantProfileDatabase;
+import attendant.AttendantLogIn_Out;
+import attendant.AttendantProfile;
+import attendant.AttendantProfileDatabase;
 
 public class AttendantLogIn_OutTest {
 
@@ -39,6 +40,31 @@ public class AttendantLogIn_OutTest {
 		inOut.loadAttendantProfileDatabase(profiles);
 		
 		assertFalse(inOut.logOut("attendant2", "password1"));
+		
+	}
+	
+	@Test(expected = SimulationException.class) 
+	public void usernameNullTest() {
+		String username = null;
+		String password = "12344";
+		
+		AttendantProfile profile3 = new AttendantProfile(username, password);
+	}
+	@Test(expected = SimulationException.class) 
+	public void passwordNullTest() {
+		String username = "Bob";
+		String password = null;
+		
+		AttendantProfile profile3 = new AttendantProfile(username, password);
+	}
+	
+	@Test
+	public void removeProfileTest() {
+		AttendantProfile profile2 = new AttendantProfile("Bob", "hunter2");
+		profiles.addProfile(profile2);
+		profiles.removeProfile(profile2);
+		
+		assertEquals(false, profiles.lookForProfile(profile2));
 		
 	}
 }

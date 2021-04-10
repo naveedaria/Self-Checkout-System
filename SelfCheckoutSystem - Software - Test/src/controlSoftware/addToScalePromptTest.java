@@ -31,7 +31,12 @@ public class addToScalePromptTest {
 		
 		controlSoft = new ControlSoftware(currency, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleMaximumWeight);
 		
-		controlSoft.addToBaggingArea(barcodedItem);
+		try {
+			controlSoft.addToBaggingArea(barcodedItem);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		String inputPass = "0";
 		
