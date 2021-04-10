@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Compiled class file
 *.class
 
@@ -21,3 +22,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+=======
+
+SelfCheckoutSystem - Software/bin/panels/GotoGiftcardScreen.class
+SelfCheckoutSystem - Software/bin/panels/CardPaymentScreen.class
+SelfCheckoutSystem - Software/bin/panels/CardPaymentScreen$1.class
+SelfCheckoutSystem - Software/bin/driver/CommandLineDriver.class
+>>>>>>> refs/heads/Anay's-branch
