@@ -15,6 +15,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import driver.CommandLineDriver;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -150,6 +151,11 @@ public class MainScreen extends JPanel {
 		//Step 3: Then add the listener to the button LIKE THIS
 		nextButton.addActionListener(new GotoNextScreen());
 		attendantButton.addActionListener(new GotoAttendantScreen());
+		txtEnterYourBarcode.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                barcodeFieldMouseClicked(evt);
+            }
+        });
 	}
 	//Step 2: if you have a button that you want to do something, you need to make an action listener LIKE THIS
 	private class GotoNextScreen implements ActionListener{
@@ -157,6 +163,12 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			String bag = showBagsScreen();
+			if(!bag.trim().isEmpty()) {
+				int bagNum = Integer.parseInt(bag);
+			}
+			
+			
 			CommandLineDriver.goToScreen("pay");
 			
 		}
@@ -167,11 +179,58 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			CommandLineDriver.goToScreen("attendant");
+			String pass = showLoginScreen();
+			if(pass.trim().equals("seng2021")) {
+				CommandLineDriver.goToScreen("attendant");
+			} else {
+				showIncorrectMessage();
+			}
+			
 			
 		}
 		
 	}
+	
+	private String showLoginScreen() {
+		String s = JOptionPane.showInputDialog(
+                this,
+                "Please enter the Attendant Passcode: ",
+                "Attendant Login",
+                JOptionPane.QUESTION_MESSAGE
+                );
+		if(s == null) {
+			s = "";
+		}
+		return s;
+	}
+	
+	private void showIncorrectMessage() {
+		JOptionPane.showMessageDialog(this,
+			    "The passcode entered is incorrect. Please try again.",
+			    "Incorrect Passcode",
+			    JOptionPane.WARNING_MESSAGE);
+	}
+	
+	private String showBagsScreen() {
+		String b = JOptionPane.showInputDialog(
+                this,
+                "How many bags would you like to purchase: ",
+                "Enter Bags",
+                JOptionPane.QUESTION_MESSAGE
+                );
+		if(b == null || b.trim() == "") {
+			b = "0";
+		}
+		return b;
+	}
+	
+	private void barcodeFieldMouseClicked(java.awt.event.MouseEvent evt) {                                       
+        // TODO add your handling code here:
+        if (this.txtEnterYourBarcode.getText().equals("Enter your barcode and press \"Scan Barcode\"...")) {
+            txtEnterYourBarcode.setText("");
+        }
+    } 
+	
 }
 
 
