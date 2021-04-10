@@ -210,7 +210,7 @@ public class MainScreen extends JPanel {
 		
 		JOptionPane.showConfirmDialog(
                 this,
-                pwd,"Please enter Attendat password: ",
+                pwd,"Attendant Login",
                 JOptionPane.OK_CANCEL_OPTION
                 );
 		String s = new String(pwd.getPassword());
