@@ -89,9 +89,6 @@ public class ScanMembershipCard {
 		}
 	}
 	
-<<<<<<< HEAD
-	//creating membership card method here **
-=======
 	
 	/**
 	 * Method for creating a new membership card
@@ -169,7 +166,6 @@ public class ScanMembershipCard {
 	}
 	
 	
->>>>>>> refs/heads/Samir's
 	
 
 }

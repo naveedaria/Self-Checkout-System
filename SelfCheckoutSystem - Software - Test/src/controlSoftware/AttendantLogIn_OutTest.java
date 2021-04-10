@@ -6,6 +6,10 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import attendent.AttendantLogIn_Out;
+import attendent.AttendantProfile;
+import attendent.AttendantProfileDatabase;
+
 public class AttendantLogIn_OutTest {
 
 	private AttendantProfileDatabase profiles;

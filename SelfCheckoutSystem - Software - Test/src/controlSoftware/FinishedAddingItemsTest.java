@@ -40,7 +40,7 @@ public class FinishedAddingItemsTest {
 		String cardCompany = "RBC VISA"; 
 		String type = "Credit"; 
 		String number = "2468"; 
-		String cardholder = "Bob"; 
+		String cardholder = "Bob";;
 		String cvv = "345"; 
 		String pin = "2345"; 
 		boolean isTapEnabled = true;
@@ -53,7 +53,7 @@ public class FinishedAddingItemsTest {
 		String pinInput = "2345";
 		
 		try {
-			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, tap, cardCompany, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit, signature, insertCard, pinInput);
+			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, tap, insertCard, cardCompany, cardLimit, type, number, cardholder, cvv, pin, pinInput, isTapEnabled, hasChip, expiry, cardLimit, signature, insertCard, pinInput);
 			if (control.change.compareTo(new BigDecimal(0))!=0) {
 				fail("Change was supposed to be 0.\n");
 			}
@@ -89,7 +89,7 @@ public class FinishedAddingItemsTest {
 		
 		try {
 			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, tap, 
-					cardCompany, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, 
+					insertCard, cardCompany, cardLimit, type, number, cardholder, cvv, pin, pinInput, isTapEnabled, hasChip, expiry, 
 					cardLimit, signature, insertCard, pinInput);
 			if (control.change.compareTo(new BigDecimal(0))!=0) {
 				fail("Change was supposed to be 0.\n");
@@ -111,7 +111,7 @@ public class FinishedAddingItemsTest {
 		Banknote[] banknotes = {new Banknote(5, this.currency), new Banknote(5, this.currency)};
 		
 		try {
-			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, coins, banknotes);
+			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, useMembershipCard, cardholderMember, null, useMembershipCard, coins, banknotes);
 		}catch(Exception e) {
 			e.printStackTrace();
 			assertTrue(e instanceof Exception);

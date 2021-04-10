@@ -451,9 +451,9 @@ public class ControlSoftware {
 		
 		if(payByGiftcard) {
 			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
-			giftcardPaymentHandler.detectCard(giftcardNumber);
+			giftcardPaymentHandler.detectCard(giftcardNumber, isTapEnabled);
 			String giftcardNum = "123456";
-			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNum, balance);
+			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNum, balance, isTapEnabled);
 			
 			// check if the full balance was paid by giftcard
 			if (amountRemaining.compareTo(new BigDecimal(0)) == 0) {	
@@ -475,7 +475,7 @@ public class ControlSoftware {
 	//Pay by cash 
 	//Assume user enters more than necessary cash, handle case of less cash than balance through GUI in Iteration 3
 	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, 
-			boolean payByGiftcard, String giftcardNumber, BigDecimal value,
+			boolean payByGiftcard, String giftcardNumber, BigDecimal value, boolean isTapEnabled,
 			Coin[] coins, Banknote[] banknotes) throws IOException, DisabledException, OverloadException {
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
 		
@@ -488,9 +488,9 @@ public class ControlSoftware {
 		
 		if(payByGiftcard) {
 			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
-			giftcardPaymentHandler.detectCard(giftcardNumber);
+			giftcardPaymentHandler.detectCard(giftcardNumber, isTapEnabled);
 			String giftcardNum = "123456";
-			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNum, balance);
+			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNum, balance, isTapEnabled);
 			
 			// check if the full balance was paid by giftcard
 			if (amountRemaining.compareTo(new BigDecimal(0)) == 0) {	

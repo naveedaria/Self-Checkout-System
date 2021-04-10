@@ -1,7 +1,9 @@
-package controlSoftware;
+package attendent;
 
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.Item;
+
+import controlSoftware.ControlSoftware;
 
 public class Attendant {
 	
