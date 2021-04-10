@@ -40,8 +40,9 @@ public class ControlSoftware {
 	private int scaleSensitivity;
 	public SelfCheckoutStation selfCheckout;
 	public Lookup lookup;
-	ElectronicScaleListenerStub electronicScaleStub = new ElectronicScaleListenerStub();
+	ElectronicScaleListenerStub electronicScaleStub;
 
+	public double expectedWeightOnScale;
 	
 	
 	
@@ -89,9 +90,11 @@ public class ControlSoftware {
 		selfCheckout.mainScanner.register(stub);
 		selfCheckout.mainScanner.enable();
 				
-		selfCheckout.baggingArea.register(electronicScaleStub);
-		selfCheckout.baggingArea.enable();
 		
+		ElectronicScaleListenerStub electronicScaleStub = new ElectronicScaleListenerStub();
+		
+		selfCheckout.scale.register(electronicScaleStub);
+		selfCheckout.scale.enable();
 	}
 	
 	
@@ -105,7 +108,9 @@ public class ControlSoftware {
 	public void scanProduct(BarcodedItem barcodedItem, int quantity) {
 		
 		selfCheckout.mainScanner.scan(barcodedItem);
-	
+		
+		expectedWeightOnScale = expectedWeightOnScale + (quantity * barcodedItem.getWeight()); //expected weight of scale incremented
+		
 		// For Iteration #3
 		//if(!shoppingCart.doesItemNeedToBeWeighed(barcodedItem)) {
 			// Pass execution flow back to user, and prompt to put item on scale (in main/driver/GUI)
@@ -177,6 +182,8 @@ public class ControlSoftware {
 		
 		}
 
+	
+	
 	
 	public boolean addToScalePrompt(Item item) {
 		System.out.println("Please add item to the bagging area \n");
@@ -522,6 +529,13 @@ public class ControlSoftware {
 			boolean payByGiftcard, String giftcardNumber, BigDecimal value, boolean isTapEnabled,
 			Coin[] coins, Banknote[] banknotes) throws IOException, DisabledException, OverloadException {
 		BigDecimal balance = this.shoppingCart.getTotalPayment();
+		
+		if(expectedWeightOnScale != selfCheckout.baggingArea.getCurrentWeight()) { //if scanned weight does not equal actual weight, then can't finish 
+			
+			System.out.println("Please place all items on bagging area then Try Again");
+			return;
+		}
+		
 		
 		if (useMembershipCard) {
 			//THIRD ITERATION - no discount or points implemented yet 
