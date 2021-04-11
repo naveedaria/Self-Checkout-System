@@ -6,9 +6,9 @@ import org.lsmr.selfcheckout.products.BarcodedProduct;
 
 public class Receipt {
 	
-	public void printReceipt(ControlSoftware cs) {
+	public static String[] printReceipt(ControlSoftware cs) {
 		// Some strings used to format the receipt 
-		String s1 = "------------------------------------";
+		//String s1 = "------------------------------------";
 		// 2-D Array from the shopping cart class
 		String[][] cart = cs.shoppingCart.SHOPPING_CART_ARRAY;
 		// Barcoded Item array from shopping cart class
@@ -16,10 +16,11 @@ public class Receipt {
 		// A barcoded product
 		BarcodedProduct prod;
 		// Printing 
-		System.out.println(s1);
-		String s2 = String.format("%-1s %1s %10s\n","Qty", "Item", "Price");
-		System.out.println(s2);
+		//System.out.println(s1);
+		//String s2 = String.format("%-1s %1s %10s\n","Qty", "Item", "Price");
+		//System.out.println(s2);
 		String line;
+		String[] transactionRecord = new String[cart.length];
 		for (int i = 0; i < cart.length; i++) {
 			try {
 			// Accessing the barcoded item from the array
@@ -30,14 +31,15 @@ public class Receipt {
 			// Quantity and Name are accessed from the shopping cart array
 			// Price is accessed from the product class
 			line = String.format("%-1s %1s %10s\n", cart[i][1], cart[i][0], prod.getPrice());
+			transactionRecord[i] = line;
 			// Print line
-			System.out.println(line);
+			//System.out.println(line);
 			}catch (NullPointerException e) {
 			}
 		}
 		// Print end line
-		System.out.println(s1);
-	
+		//System.out.println(s1);
+		return transactionRecord;
 	} 
 
 }

@@ -14,6 +14,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import controlSoftware.Receipt;
 import driver.CommandLineDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -25,6 +26,7 @@ public class MainScreen extends JPanel {
 	private JTextField txtEnterYourBarcode;
 	public JPasswordField pwd;
 	private JTextArea totalArea;
+	private JList itemList;
 	/**
 	 * Create the panel.
 	 */
@@ -33,7 +35,7 @@ public class MainScreen extends JPanel {
 		//Step 5 (optional) : if you have a UI element that you want to access the data of (i.e. text field) in an ActionListener, you need to make it a class field and make it public
 		JButton nextButton = new JButton("Finish & Pay");
 		
-		JList itemList = new JList();
+		itemList = new JList();
 		
 		totalArea = new JTextArea();
 		totalArea.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
@@ -161,6 +163,7 @@ public class MainScreen extends JPanel {
                 barcodeFieldMouseClicked(evt);
             }
         });
+		itemList.setListData(Receipt.printReceipt(CommandLineDriver.controlSoftware));
 	}
 	//Step 2: if you have a button that you want to do something, you need to make an action listener LIKE THIS
 	private class GotoNextScreen implements ActionListener{
@@ -248,6 +251,13 @@ public class MainScreen extends JPanel {
             txtEnterYourBarcode.setText("");
         }
     } 
+	
+	private void updateTransactionFields() {
+		
+		totalArea.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
+		itemList.setListData(Receipt.printReceipt(CommandLineDriver.controlSoftware));
+		
+	}
 }
 
 
