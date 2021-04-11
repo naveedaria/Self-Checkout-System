@@ -27,12 +27,12 @@ public class CommandLineDriver {
 	
 	public static CardPaymentScreen card;
 	public static CashPaymentScreen cash;
-	public static  GiftCardPaymentScreen giftcard;
-	public static  LookupItemScreen lookup;
-	public static  ThankYouForShoppingScreen thank;
-	public static  AttendantMenuScreen attendant;
-	public static  WelcomeScreen welcome;
-	
+	public static GiftCardPaymentScreen giftcard;
+	public static LookupItemScreen lookup;
+	public static ThankYouForShoppingScreen thank;
+	public static AttendantMenuScreen attendant;
+	public static WelcomeScreen welcome;
+	public static MembershipScreen membership;
 
 	
 	public static void main(String[] args) {
@@ -114,6 +114,7 @@ public class CommandLineDriver {
         thank = new ThankYouForShoppingScreen();
         attendant = new AttendantMenuScreen();
         welcome = new WelcomeScreen();
+        membership = new MembershipScreen();
         
         mainFrame = controlSoftware.selfCheckout.screen.getFrame();
         mainFrame.setVisible(true);
@@ -167,5 +168,11 @@ public class CommandLineDriver {
 			mainFrame.setContentPane(attendant);
 			mainFrame.pack();
 		}
+		if (idx == "member") { 
+			mainFrame.setContentPane(membership);
+			mainFrame.pack();
+		}
+		
+		
 	}
 }

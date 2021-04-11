@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 
 public class GiftCardPaymentScreen extends JPanel {
-	private JTextField textField;
+	private JTextField giftcardNumberInput;
 
 	/**
 	 * Create the panel.
@@ -42,25 +42,25 @@ public class GiftCardPaymentScreen extends JPanel {
 		JLabel lblNewLabel_1 = new JLabel("Enter your card number to check the amount available:");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		giftcardNumberInput = new JTextField();
+		giftcardNumberInput.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Tap to Redeem Gift Card!");
-		btnNewButton.setBackground(new Color(100, 149, 237));
-		btnNewButton.setForeground(Color.BLACK);
+		JButton btnRedeemGiftcard = new JButton("Tap to Redeem Gift Card!");
+		btnRedeemGiftcard.setBackground(new Color(100, 149, 237));
+		btnRedeemGiftcard.setForeground(Color.BLACK);
 		
 		JLabel lblNewLabel_2 = new JLabel("Your remaining payment balance is: ");
 		
-		JTextPane textPane = new JTextPane();
+		JTextPane remainingBalanceOutput = new JTextPane();
 		
 		JLabel lblNewLabel_3 = new JLabel("CAD $");
 		
-		JButton btnNewButton_1 = new JButton("Complete Payment");
-		btnNewButton_1.setBackground(new Color(100, 149, 237));
+		JButton btnCompletePayment = new JButton("Complete Payment");
+		btnCompletePayment.setBackground(new Color(100, 149, 237));
 		
 		JLabel lblNewLabel_4 = new JLabel("Current amount on Co-op GIft Card: ");
 		
-		JTextPane textPane_1 = new JTextPane();
+		JTextPane currentAmountOutput = new JTextPane();
 		
 		JLabel lblNewLabel_3_1 = new JLabel("CAD $");
 		GroupLayout groupLayout = new GroupLayout(this);
@@ -70,13 +70,13 @@ public class GiftCardPaymentScreen extends JPanel {
 					.addGap(30)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-							.addComponent(btnNewButton_1)
+							.addComponent(btnCompletePayment)
 							.addGroup(groupLayout.createSequentialGroup()
 								.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
 								.addGap(28)
 								.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 								.addGap(5)
-								.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)))
+								.addComponent(remainingBalanceOutput, GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(lblNewLabel_1)
@@ -87,12 +87,12 @@ public class GiftCardPaymentScreen extends JPanel {
 								.addComponent(lblNewLabel, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(textPane_1)
-								.addComponent(textField, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))))
+								.addComponent(currentAmountOutput)
+								.addComponent(giftcardNumberInput, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))))
 					.addGap(140))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap(280, Short.MAX_VALUE)
-					.addComponent(btnNewButton)
+					.addComponent(btnRedeemGiftcard)
 					.addGap(126))
 		);
 		groupLayout.setVerticalGroup(
@@ -103,21 +103,21 @@ public class GiftCardPaymentScreen extends JPanel {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(giftcardNumberInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 							.addComponent(lblNewLabel_3_1))
-						.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(currentAmountOutput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(25)
-					.addComponent(btnNewButton)
+					.addComponent(btnRedeemGiftcard)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(remainingBalanceOutput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addComponent(btnNewButton_1))
+							.addComponent(btnCompletePayment))
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblNewLabel_3)
 							.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
@@ -127,7 +127,7 @@ public class GiftCardPaymentScreen extends JPanel {
 
 		// tap to redeem button shouldn't go to new screen, only update the payment balance and print in text box 
 		//btnNewButton.addActionListener(new GotoAttendantScreen());
-		btnNewButton_1.addActionListener(new GotoPaymentSelector());
+		btnCompletePayment.addActionListener(new GotoPaymentSelector());
 		
 		
 		
