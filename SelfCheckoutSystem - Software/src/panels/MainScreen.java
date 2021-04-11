@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 public class MainScreen extends JPanel {
 	private JTextField txtEnterYourBarcode;
 	public JPasswordField pwd;
+	private JTextArea totalArea;
 	/**
 	 * Create the panel.
 	 */
@@ -34,9 +35,10 @@ public class MainScreen extends JPanel {
 		
 		JList itemList = new JList();
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		
+		totalArea = new JTextArea();
+		totalArea.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		totalArea.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
+		totalArea.setEditable(false);
 		txtEnterYourBarcode = new JTextField();
 		txtEnterYourBarcode.setText("Enter your barcode and press \"Scan Barcode\"...");
 		txtEnterYourBarcode.setColumns(10);
@@ -79,7 +81,7 @@ public class MainScreen extends JPanel {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtEnterYourBarcode))
 						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(textArea, Alignment.LEADING)
+							.addComponent(totalArea, Alignment.LEADING)
 							.addComponent(itemList, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE))
 						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE))
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -138,7 +140,7 @@ public class MainScreen extends JPanel {
 								.addComponent(lookupButton, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+						.addComponent(totalArea, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
 						.addComponent(nextButton, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)

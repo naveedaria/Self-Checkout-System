@@ -64,7 +64,7 @@ public class StationControl {
 		selfCheckout.coinStorage.unload();
 	}
 	
-	public void emptyBanknoteStorageUit() {
+	public void emptyBanknoteStorageUnit() {
 		selfCheckout.banknoteStorage.unload();
 	}
 	
