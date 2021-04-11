@@ -494,7 +494,7 @@ public class ControlSoftware {
 	public void useMembershipCard(String cardNumber, String cardHolder) throws IOException {
 		ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
 		membershipCardReader.tapMembershipCard(cardNumber, cardHolder);
-	}
+	} 
 	
 	/**
 	 * 
