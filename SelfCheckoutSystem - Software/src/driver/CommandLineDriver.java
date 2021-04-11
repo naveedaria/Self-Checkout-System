@@ -33,7 +33,7 @@ public class CommandLineDriver {
 	public static  ThankYouForShoppingScreen thank;
 	public static  AttendantMenuScreen attendant;
 	
-
+	public static ControlSoftware controlSoftware;
 	
 	public static void main(String[] args) {
         System.out.println("Self-Checkout Station turning on...");
@@ -68,7 +68,7 @@ public class CommandLineDriver {
     	final BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05), new BigDecimal(0.10), new BigDecimal(0.25), new BigDecimal(1.00), new BigDecimal(2.00)};
     	final int scaleMaximumWeight = 500; // Don't know the units of the scale, will figure out later
     	final int scaleSensitivity = 1; // Don't know the units also
-        ControlSoftware controlSoftware = new ControlSoftware(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
+        controlSoftware = new ControlSoftware(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
         
         System.out.println("Self-checkout is ready! Scan your item...");
         
@@ -78,8 +78,8 @@ public class CommandLineDriver {
         
          // Run of Use-Case #1: User wants to buy 2 bananas
         
-        BarcodedItem customerItem1 = new BarcodedItem(b1, 500);
-        int customerItem1quantity = 1;
+        //BarcodedItem customerItem1 = new BarcodedItem(b1, 500);
+        //int customerItem1quantity = 1;
         
         //Card card = new Card("Visa", "1234 5678 9102 2212", "Aris", String pin, boolean isTapEnabled, boolean hasChip)
         
@@ -99,8 +99,8 @@ public class CommandLineDriver {
         
         // Run of Use-case #2: User wants to buy Reese's Pieces (iteration 3)
         
-         PLUCodedItem pluCodedItem1 = new PLUCodedItem(plu1, 100);
-         int customerItem2quantity = 1;
+         //PLUCodedItem pluCodedItem1 = new PLUCodedItem(plu1, 100);
+         //int customerItem2quantity = 1;
 //        
 //        controlSoftware.scanProductUsingPLUCode(pluCodedItem1, customerItem2quantity);
         
@@ -110,7 +110,7 @@ public class CommandLineDriver {
         
         // Run of Use-case #3: User wants to look up the price via barcode
         
-        controlSoftware.lookup.lookupUsingPLU(plu1);
+        //controlSoftware.lookup.lookupUsingPLU(plu1);
         
         
         /*===============================================================

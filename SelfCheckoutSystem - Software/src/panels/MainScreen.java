@@ -14,6 +14,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import controlSoftware.Receipt;
 import driver.CommandLineDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -24,6 +25,8 @@ import javax.swing.JTextField;
 public class MainScreen extends JPanel {
 	private JTextField txtEnterYourBarcode;
 	public JPasswordField pwd;
+	private JTextArea totalArea;
+	private JList itemList;
 	/**
 	 * Create the panel.
 	 */
@@ -32,11 +35,12 @@ public class MainScreen extends JPanel {
 		//Step 5 (optional) : if you have a UI element that you want to access the data of (i.e. text field) in an ActionListener, you need to make it a class field and make it public
 		JButton nextButton = new JButton("Finish & Pay");
 		
-		JList itemList = new JList();
+		itemList = new JList();
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		
+		totalArea = new JTextArea();
+		totalArea.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		totalArea.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
+		totalArea.setEditable(false);
 		txtEnterYourBarcode = new JTextField();
 		txtEnterYourBarcode.setText("Enter your barcode and press \"Scan Barcode\"...");
 		txtEnterYourBarcode.setColumns(10);
@@ -79,7 +83,7 @@ public class MainScreen extends JPanel {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtEnterYourBarcode))
 						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(textArea, Alignment.LEADING)
+							.addComponent(totalArea, Alignment.LEADING)
 							.addComponent(itemList, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE))
 						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE))
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -138,7 +142,7 @@ public class MainScreen extends JPanel {
 								.addComponent(lookupButton, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+						.addComponent(totalArea, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
 						.addComponent(nextButton, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
@@ -159,6 +163,7 @@ public class MainScreen extends JPanel {
                 barcodeFieldMouseClicked(evt);
             }
         });
+		itemList.setListData(Receipt.printReceipt(CommandLineDriver.controlSoftware));
 	}
 	//Step 2: if you have a button that you want to do something, you need to make an action listener LIKE THIS
 	private class GotoNextScreen implements ActionListener{
@@ -246,6 +251,13 @@ public class MainScreen extends JPanel {
             txtEnterYourBarcode.setText("");
         }
     } 
+	
+	private void updateTransactionFields() {
+		
+		totalArea.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
+		itemList.setListData(Receipt.printReceipt(CommandLineDriver.controlSoftware));
+		
+	}
 }
 
 

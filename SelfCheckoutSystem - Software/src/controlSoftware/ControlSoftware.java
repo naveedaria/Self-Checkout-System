@@ -26,7 +26,7 @@ import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
 public class ControlSoftware {
-	private static BigDecimal paymentTotal = new BigDecimal(0);
+	public static BigDecimal paymentTotal = new BigDecimal(0);
 	public BigDecimal change;
 	private boolean coinProcessed = false;
 	private boolean billProcessed = false;
@@ -581,8 +581,8 @@ public class ControlSoftware {
 	//	}
 	}
 	
-	public int plasticBagsUsed(int quantity) {
-		return quantity;
+	public void plasticBagsUsed(int quantity) {
+		paymentTotal.add(new BigDecimal(0.05 * quantity));
 	}
 	
 	
