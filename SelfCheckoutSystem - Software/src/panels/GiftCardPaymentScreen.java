@@ -25,7 +25,10 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 
 public class GiftCardPaymentScreen extends JPanel {
-	private JTextField textField;
+	private JTextField giftcardNumInput;
+	private String giftcardNum;
+	private String amountAvail;
+	private String newBalance;
 
 	/**
 	 * Create the panel.
@@ -45,7 +48,7 @@ public class GiftCardPaymentScreen extends JPanel {
 			e.printStackTrace();
 		}
 		if(image != null) {
-			image = image.getScaledInstance(285, 100, Image.SCALE_DEFAULT);
+			image = image.getScaledInstance(-1, 100, Image.SCALE_DEFAULT);
 			ImageIcon iconLogo = new ImageIcon(image);
 			// In init() method write this code
 			lblNewLabel.setIcon(iconLogo);
@@ -56,39 +59,42 @@ public class GiftCardPaymentScreen extends JPanel {
 		JLabel lblNewLabel_1 = new JLabel("Enter your card number to check the amount available:");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		giftcardNumInput = new JTextField();
+		giftcardNumInput.setColumns(10);
+		//String giftcardNum = giftcardNumInput.getText();
 		
-		JButton btnNewButton = new JButton("Tap to Redeem Gift Card!");
-		btnNewButton.setBackground(new Color(100, 149, 237));
-		btnNewButton.setForeground(Color.BLACK);
+		JButton btnTapToRedeem = new JButton("Tap to Redeem Gift Card!");
+		btnTapToRedeem.setBackground(new Color(100, 149, 237));
+		btnTapToRedeem.setForeground(Color.BLACK);
 		
 		JLabel lblNewLabel_2 = new JLabel("Your remaining payment balance is: ");
 		
-		JTextPane textPane = new JTextPane();
+		JTextPane remainingBalanceOutput = new JTextPane();
 		
 		JLabel lblNewLabel_3 = new JLabel("CAD $");
 		
-		JButton btnNewButton_1 = new JButton("Complete Payment");
-		btnNewButton_1.setBackground(new Color(100, 149, 237));
+		JButton btnCompletePayment = new JButton("Continue Payment");
+		btnCompletePayment.setBackground(new Color(100, 149, 237));
 		
 		JLabel lblNewLabel_4 = new JLabel("Current amount on Co-op GIft Card: ");
 		
-		JTextPane textPane_1 = new JTextPane();
+		JTextPane currentAmountAvailOutput = new JTextPane();
 		
 		JLabel lblNewLabel_3_1 = new JLabel("CAD $");
+		
+		JButton btnGoBack = new JButton("Go back");
+		
+		JButton btnCallAttendant = new JButton("Call Attendant");
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(417, Short.MAX_VALUE)
-					.addComponent(btnNewButton)
+					.addContainerGap(208, Short.MAX_VALUE)
+					.addComponent(btnTapToRedeem)
 					.addGap(182))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap(500, Short.MAX_VALUE)
-							.addComponent(btnNewButton_1))
+						.addComponent(btnCompletePayment, Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
@@ -98,7 +104,7 @@ public class GiftCardPaymentScreen extends JPanel {
 										.addComponent(lblNewLabel_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addGroup(groupLayout.createSequentialGroup()
-											.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+											.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
 											.addComponent(lblNewLabel_3)
 											.addGap(18))
 										.addGroup(groupLayout.createSequentialGroup()
@@ -106,53 +112,93 @@ public class GiftCardPaymentScreen extends JPanel {
 											.addComponent(lblNewLabel_3_1, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE))))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(21)
-									.addComponent(lblNewLabel_1)))
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnGoBack)
+										.addComponent(lblNewLabel_1))))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-								.addComponent(textPane_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-								.addComponent(textPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))))
-					.addGap(139))
+								.addComponent(currentAmountAvailOutput, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+								.addComponent(remainingBalanceOutput, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+								.addComponent(giftcardNumInput, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))))
+					.addGap(55))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(205)
+					.addContainerGap()
+					.addComponent(btnCallAttendant)
+					.addGap(82)
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(313, Short.MAX_VALUE))
+					.addContainerGap(101, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(18)
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(18)
+							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnCallAttendant)))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(giftcardNumInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(38)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(currentAmountAvailOutput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblNewLabel_3_1)
 							.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
 					.addGap(29)
-					.addComponent(btnNewButton)
+					.addComponent(btnTapToRedeem)
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(remainingBalanceOutput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblNewLabel_3)
 							.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
-					.addGap(18)
-					.addComponent(btnNewButton_1)
-					.addGap(205))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(18)
+							.addComponent(btnCompletePayment))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(32)
+							.addComponent(btnGoBack)))
+					.addGap(191))
 		);
 		setLayout(groupLayout);
 
 		// tap to redeem button shouldn't go to new screen, only update the payment balance and print in text box 
 		//btnNewButton.addActionListener(new GotoAttendantScreen());
-		btnNewButton_1.addActionListener(new GotoPaymentSelector());
+		btnCompletePayment.addActionListener(new GotoPaymentSelector());
+		
+		btnGoBack.addActionListener(new GotoPaymentSelector());
+		
+		btnCallAttendant.addActionListener(new GotoAttendant());
+		
+		// Should happen when ENTER is pressed (by default). Maybe? Make sure that's actually how it works.
+		giftcardNumInput.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+            	giftcardNum = giftcardNumInput.getText();
+            	
+            	// LOGIC: retrieve the amount available from the database, maybe some error checking
+            	// to see if the card actually exists in the database. Put that amount into the 
+            	// amountAvail (String) variable, and then display it 
+            	
+            	currentAmountAvailOutput.setText(amountAvail);
+            }});
 		
 		
+		btnTapToRedeem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// LOGIC: subtract gift card balance from total balance, update giftcard balance and remaining balance.
+				// Display remaining balance in remainingBalanceOutput JTextField.
+				
+				remainingBalanceOutput.setText(newBalance);
+			}
+		});
 		
+		//btnTapToRedeem.addActionListener(new UpdatePaymentBalance());
 	}
 	
 	private class GotoPaymentSelector implements ActionListener{
@@ -162,7 +208,37 @@ public class GiftCardPaymentScreen extends JPanel {
 		}
 	}
 	
+	private class GotoAttendant implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			CommandLineDriver.goToScreen("attendant");
+		}
+	}
+
 	
+	/*
+	private class UpdatePaymentBalance implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// LOGIC: subtract gift card balance from total balance, update giftcard balance.
+			// Get remaining balance, and display it in remainingBalanceOutput JTextField.
+			
+			GiftCardPaymentScreen.remainingBalanceOutput.setText(newBalance);
+		}
+	}
+	*/
 	
-	
+	/*
+	private class GetGiftcardNum implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			String giftcardNum = getCardNum();
+			
+			
+		}
+	}
+	*/
+
 }

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class WelcomeScreen extends JPanel {
+	
 
 	/**
 	 * Create the panel.
@@ -34,17 +36,17 @@ public class WelcomeScreen extends JPanel {
 		
 		// Import ImageIcon - from stack 
 		//Image image = 
-		ImageIcon iconLogo = new ImageIcon("GUI Images/gift-card.gif");
+		//ImageIcon iconLogo = new ImageIcon("GUI Images/gift-card.gif");
 		// In init() method write this code
-		lblNewLabel.setIcon(iconLogo);
+		//lblNewLabel.setIcon(iconLogo);
 		
-		JButton btnNewButton = new JButton("Start");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnNewButton.setBackground(new Color(60, 179, 113));
+		JButton btnStart = new JButton("Start");
+		btnStart.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnStart.setBackground(new Color(60, 179, 113));
 		
-		JButton btnUseMyOwn = new JButton("I brought my own bag");
-		btnUseMyOwn.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnUseMyOwn.setBackground(new Color(60, 179, 113));
+		JButton btnBroughtOwnBag = new JButton("I brought my own bag");
+		btnBroughtOwnBag.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnBroughtOwnBag.setBackground(new Color(60, 179, 113));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -52,13 +54,13 @@ public class WelcomeScreen extends JPanel {
 					.addContainerGap(145, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
 							.addGap(177))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE)
 							.addGap(145))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnUseMyOwn, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnBroughtOwnBag, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
 							.addGap(136))))
 		);
 		groupLayout.setVerticalGroup(
@@ -67,15 +69,15 @@ public class WelcomeScreen extends JPanel {
 					.addGap(48)
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 					.addGap(43)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
 					.addGap(46)
-					.addComponent(btnUseMyOwn, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btnBroughtOwnBag, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(59, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 		
-		btnNewButton.addActionListener(new GotoMembershipScreen());
-		btnUseMyOwn.addActionListener(new GotoBagPopup());
+		btnStart.addActionListener(new GotoMembershipScreen());
+		btnBroughtOwnBag.addActionListener(new GotoBagPopup());
 		
 
 	}
@@ -83,17 +85,25 @@ public class WelcomeScreen extends JPanel {
 	private class GotoMembershipScreen implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//CommandLineDriver.goToScreen("membership");
+			CommandLineDriver.goToScreen("membership");
 		}
 	}
+
 	
 	private class GotoBagPopup implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//dialog with confirmation 
+			confirmBagPlacement();
 		}
 	}
+	
+	
+	private void confirmBagPlacement() {
+		JOptionPane.showMessageDialog(this, "Press OK when finished placing your bags in the bagging area.");
+		// after they click ok, we re-normalize the scale (however that's implemented)
+	}
 
+	/*
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -110,5 +120,7 @@ public class WelcomeScreen extends JPanel {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+		
 	}
+	*/
 }

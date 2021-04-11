@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -20,6 +21,8 @@ import javax.swing.JButton;
 public class MembershipScreen extends JPanel {
 	private JTextField membershipNumInput;
 	private JTextField nameInput;
+	private String customerName;
+	private String membershipNum;
 
 	/**
 	 * Create the panel.
@@ -95,17 +98,51 @@ public class MembershipScreen extends JPanel {
 		setLayout(groupLayout);
 		
 		btnNotMember.addActionListener(new GotoMainScreen());
-		btnContinue.addActionListener(new GotoMainScreen());
+		
+		btnContinue.addActionListener(new CheckGotoMainScreen());
+		
+		
+		// get the text input for the customer's name and membership number
+		nameInput.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+            	customerName = nameInput.getText();
+            }});
+		
+		
+		membershipNumInput.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+            	membershipNum = membershipNumInput.getText();
+            }});
 
 	}
 	
+	private class CheckGotoMainScreen implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			String customerName;
+			String membershipNum; 
+			
+			if(true /* name and num are valid (i.e. in the database) */) {
+				CommandLineDriver.goToScreen("main");
+			} else {
+				showIncorrectMessage();
+			}
+			
+		}
+	}
 	
 	
 	private class GotoMainScreen implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CommandLineDriver.goToScreen("m");
+			CommandLineDriver.goToScreen("main");
 		}
+	}
+	
+	private void showIncorrectMessage() {
+		JOptionPane.showMessageDialog(this,
+			    "Please enter valid membership information. Otherwise, press \"I\'m not a member. \"");
 	}
 	
 	

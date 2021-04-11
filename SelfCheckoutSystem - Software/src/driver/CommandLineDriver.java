@@ -119,7 +119,7 @@ public class CommandLineDriver {
         mainFrame = controlSoftware.selfCheckout.screen.getFrame();
         mainFrame.setVisible(true);
         mainFrame.setSize(600,500);
-        mainFrame.setContentPane(m);
+        mainFrame.setContentPane(welcome);
         mainFrame.pack();
        
         controlSoftware.selfCheckout.screen.setVisible(true);
@@ -168,7 +168,7 @@ public class CommandLineDriver {
 			mainFrame.setContentPane(attendant);
 			mainFrame.pack();
 		}
-		if (idx == "member") { 
+		if (idx == "membership") { 
 			mainFrame.setContentPane(membership);
 			mainFrame.pack();
 		}
