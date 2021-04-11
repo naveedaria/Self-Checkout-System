@@ -31,6 +31,7 @@ public class CommandLineDriver {
 	public static  LookupItemScreen lookup;
 	public static  ThankYouForShoppingScreen thank;
 	public static  AttendantMenuScreen attendant;
+	public static  WelcomeScreen welcome;
 	
 
 	
@@ -112,6 +113,7 @@ public class CommandLineDriver {
         lookup = new LookupItemScreen();
         thank = new ThankYouForShoppingScreen();
         attendant = new AttendantMenuScreen();
+        welcome = new WelcomeScreen();
         
         mainFrame = controlSoftware.selfCheckout.screen.getFrame();
         mainFrame.setVisible(true);
@@ -127,6 +129,10 @@ public class CommandLineDriver {
 	}
 	
 	public static void goToScreen(String idx) {
+		if (idx == "welcome") { 
+			mainFrame.setContentPane(welcome);
+			mainFrame.pack();
+		}
 		if(idx == "main") { //Main Screen
 			
 			mainFrame.setContentPane(m);

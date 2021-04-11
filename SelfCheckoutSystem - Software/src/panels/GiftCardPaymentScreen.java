@@ -14,6 +14,7 @@ import driver.CommandLineDriver;
 
 import javax.swing.JTextPane;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,7 +32,8 @@ public class GiftCardPaymentScreen extends JPanel {
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		// Import ImageIcon - from stack    
+		// Import ImageIcon - from stack 
+		//Image image = 
 		ImageIcon iconLogo = new ImageIcon("GUI Images/gift-card.gif");
 		// In init() method write this code
 		lblNewLabel.setIcon(iconLogo);
