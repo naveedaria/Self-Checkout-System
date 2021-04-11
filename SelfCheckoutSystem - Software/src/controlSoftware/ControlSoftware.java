@@ -105,7 +105,9 @@ public class ControlSoftware {
 	 * @param quantity
 	 * 		  quantity of item being scanned
 	 */
-	public void scanProduct(BarcodedItem barcodedItem, int quantity) {
+	public void scanProduct(Barcode barcode,int quantity) {
+		
+		BarcodedItem barcodedItem = BarcodedItemDatabase.BARCODED_ITEM_DATABASE.get(barcode);
 		
 		selfCheckout.mainScanner.scan(barcodedItem);
 		

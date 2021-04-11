@@ -15,6 +15,7 @@ import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
+import controlSoftware.BarcodedItemDatabase;
 import controlSoftware.ControlSoftware;
 
 import panels.*;
@@ -44,6 +45,7 @@ public class CommandLineDriver {
          *===============================================================*/
         
         Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
+        Map<Barcode, BarcodedItem> barcodedItemDatabase = BarcodedItemDatabase.BARCODED_ITEM_DATABASE;
 
         
         Barcode b1 = new Barcode("1111");
@@ -65,6 +67,13 @@ public class CommandLineDriver {
         Barcode b5 = new Barcode("5555");
         BarcodedItem bItem5 = new BarcodedItem(b5, 5);
         BarcodedProduct bp5 = new BarcodedProduct(b5, "500 Year Old Wine", new BigDecimal(52.00));
+        
+        
+        barcodedItemDatabase.put(b1, bItem);
+        barcodedItemDatabase.put(b2, bItem2);
+        barcodedItemDatabase.put(b3, bItem3);
+        barcodedItemDatabase.put(b4, bItem4);
+        barcodedItemDatabase.put(b5, bItem5);
         
         
         db.put(b1, bp1);
