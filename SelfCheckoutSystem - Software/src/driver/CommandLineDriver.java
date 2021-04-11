@@ -43,17 +43,35 @@ public class CommandLineDriver {
          *                INITIALIZE PRODUCT DATABASE
          *===============================================================*/
         
-        Barcode b1 = new Barcode("1234");
-        BarcodedProduct bp1 = new BarcodedProduct(b1, "Banana", new BigDecimal(1.5));
-        
-        //ProductDatabases.BARCODED_PRODUCT_DATABASE.put(b1, bp1);
         Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
-        db.put(b1, bp1);
+
         
-        PriceLookupCode plu1 = new PriceLookupCode("01864");
-        PLUCodedProduct pluProd1 = new PLUCodedProduct(plu1, "Reese's Pieces", new BigDecimal(0.25));
-        Map<PriceLookupCode, PLUCodedProduct> db2 = ProductDatabases.PLU_PRODUCT_DATABASE;
-        db2.put(plu1, pluProd1);
+        Barcode b1 = new Barcode("1111");
+        BarcodedItem bItem = new BarcodedItem(b1, 5);
+        BarcodedProduct bp1 = new BarcodedProduct(b1, "Banana", new BigDecimal(1.00));
+        
+        Barcode b2 = new Barcode("2222");
+        BarcodedItem bItem2 = new BarcodedItem(b2, 5);
+        BarcodedProduct bp2 = new BarcodedProduct(b2, "Milk", new BigDecimal(2.50));
+        
+        Barcode b3 = new Barcode("3333");
+        BarcodedItem bItem3 = new BarcodedItem(b3, 5);
+        BarcodedProduct bp3 = new BarcodedProduct(b3, "Cereal", new BigDecimal(5.00));
+        
+        Barcode b4 = new Barcode("4444");
+        BarcodedItem bItem4 = new BarcodedItem(b4, 5);
+        BarcodedProduct bp4 = new BarcodedProduct(b4, "Wagyu Beef", new BigDecimal(50.00));
+        
+        Barcode b5 = new Barcode("5555");
+        BarcodedItem bItem5 = new BarcodedItem(b5, 5);
+        BarcodedProduct bp5 = new BarcodedProduct(b5, "500 Year Old Wine", new BigDecimal(52.00));
+        
+        
+        db.put(b1, bp1);
+        db.put(b2, bp2);
+        db.put(b3, bp3);
+        db.put(b4, bp4);
+        db.put(b5, bp5);
         
         
         // System.out.println("The product is: " + db.get(b1).getPrice());
