@@ -9,9 +9,13 @@ import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.Coin;
 import org.lsmr.selfcheckout.PriceLookupCode;
+import org.lsmr.selfcheckout.devices.AbstractDevice;
 import org.lsmr.selfcheckout.devices.OverloadException;
+import org.lsmr.selfcheckout.devices.ReceiptPrinter;
 import org.lsmr.selfcheckout.devices.SelfCheckoutStation;
 import org.lsmr.selfcheckout.devices.SimulationException;
+import org.lsmr.selfcheckout.devices.listeners.AbstractDeviceListener;
+import org.lsmr.selfcheckout.devices.listeners.ReceiptPrinterListener;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 import org.lsmr.selfcheckout.products.PLUCodedProduct;
@@ -27,6 +31,79 @@ public class StationControl {
 	private int scaleSensitivity;
 	public SelfCheckoutStation selfCheckout;
 	double expectedWeight;
+	int units;
+	int quantity;
+	
+
+	private ReceiptPrinterListener receiptListener = new ReceiptPrinterListener () {
+
+		private boolean enabled = false;
+		private int units;
+		private int quantity;
+		
+		public void setUnit(int unit) {
+			this.units = unit;
+		}
+		
+		public void setQuantity(int quantity) {
+			this.quantity = quantity;
+		}
+
+		@Override
+		public void enabled(AbstractDevice<? extends AbstractDeviceListener> device) {
+			// TODO Auto-generated method stub
+			enabled   = true;
+			
+		}
+
+		@Override
+		public void disabled(AbstractDevice<? extends AbstractDeviceListener> device) {
+			// TODO Auto-generated method stub
+			enabled   = false;
+		}
+
+		@Override
+		public void outOfPaper(ReceiptPrinter printer) {
+			// TODO Auto-generated method stub
+			
+			// prompt the attendant panel
+			// maybe block station
+			
+			System.out.println("Station is out of receipt paper.");
+			
+			addPaperToStation(units);
+		}
+
+		@Override
+		public void outOfInk(ReceiptPrinter printer) {
+			// TODO Auto-generated method stub
+			
+			// prompt the attendant panel
+			// maybe block station
+			
+			System.out.println("Station is out of receipt ink.");
+			selfCheckout.printer.addInk(quantity);
+		}
+
+		@Override
+		public void paperAdded(ReceiptPrinter printer) {
+			// TODO Auto-generated method stub
+			
+			// Reset the paperCounter
+			// Enable the station
+			
+		}
+
+		@Override
+		public void inkAdded(ReceiptPrinter printer) {
+			// TODO Auto-generated method stub
+			
+			// Reset the InkVolume
+			// Enable the station
+		}
+		
+		
+	};
 
 	
 	public void turnOnStation(Currency currency, int[] banknoteDenominations, BigDecimal[] coinDenominations, int scaleMaxWeight, int scaleSensitivity) {
