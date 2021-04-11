@@ -22,7 +22,7 @@ import org.lsmr.selfcheckout.*;
 
 public class CashPaymentScreen extends JPanel {
 	BigDecimal cashPayed = new BigDecimal(0.0);
-	BigDecimal balance = new BigDecimal(40.25);
+	BigDecimal balance = new BigDecimal(0.70);
 	//Keep track of what cash has been inserted
 	int bills5 = 0;
 	int bills10 = 0;
@@ -198,6 +198,12 @@ public class CashPaymentScreen extends JPanel {
 			    {cashPayed, balance,},
 			};
 		
+		JLabel lblNewLabel_4 = new JLabel("Cash Payed");
+		
+		JLabel lblNewLabel_5 = new JLabel("Balance");
+		
+		JLabel lblNewLabel_6 = new JLabel("Total");
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -207,10 +213,6 @@ public class CashPaymentScreen extends JPanel {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnNewButton_4, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnNewButton_6, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup()
 									.addComponent(btnNewButton_7, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnNewButton_3, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
@@ -218,23 +220,43 @@ public class CashPaymentScreen extends JPanel {
 									.addComponent(btnNewButton_5, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-							.addComponent(lblNewLabel)
-							.addGap(219))
+							.addPreferredGap(ComponentPlacement.RELATED, 307, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(btnNewButton_8, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 							.addGap(6)
 							.addComponent(btnNewButton_9, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addGap(60)
-							.addComponent(lblNewLabel_1)
-							.addGap(61)
-							.addComponent(lblNewLabel_2)
-							.addGap(61)
-							.addComponent(lblNewLabel_3)))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+									.addGap(60)
+									.addComponent(lblNewLabel_1)
+									.addPreferredGap(ComponentPlacement.RELATED, 88, Short.MAX_VALUE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+											.addComponent(btnNewButton_4, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(btnNewButton_6, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+											.addComponent(lblNewLabel_4)
+											.addGap(25))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addPreferredGap(ComponentPlacement.RELATED, 234, Short.MAX_VALUE)
+											.addComponent(lblNewLabel)))
+									.addGap(35)))
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblNewLabel_5)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblNewLabel_6))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblNewLabel_2)
+									.addGap(74)
+									.addComponent(lblNewLabel_3)))
+							.addGap(23)))
 					.addGap(59))
 		);
 		groupLayout.setVerticalGroup(
@@ -247,12 +269,16 @@ public class CashPaymentScreen extends JPanel {
 						.addComponent(btnNewButton)
 						.addComponent(btnNewButton_1)
 						.addComponent(lblNewLabel_1)
-						.addComponent(lblNewLabel_2)
-						.addComponent(lblNewLabel_3))
+						.addComponent(lblNewLabel_3)
+						.addComponent(lblNewLabel_2))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(btnNewButton_4)
-						.addComponent(btnNewButton_6))
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnNewButton_6)
+							.addComponent(lblNewLabel_6)
+							.addComponent(lblNewLabel_5)
+							.addComponent(lblNewLabel_4)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnNewButton_7)
@@ -265,7 +291,7 @@ public class CashPaymentScreen extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnNewButton_8)
 						.addComponent(btnNewButton_9))
-					.addContainerGap(375, Short.MAX_VALUE))
+					.addContainerGap(120, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 
