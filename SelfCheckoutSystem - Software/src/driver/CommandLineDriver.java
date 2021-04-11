@@ -29,12 +29,17 @@ public class CommandLineDriver {
 	
 	public static CardPaymentScreen card;
 	public static CashPaymentScreen cash;
+
 	public static  GiftCardPaymentScreen giftcard;
 	public static  LookupItemScreen lookup;
 	public static  ThankYouForShoppingScreen thank;
 	public static  AttendantMenuScreen attendant;
 	
 	public static ControlSoftware controlSoftware;
+
+	public static WelcomeScreen welcome;
+	public static MembershipScreen membership;
+
 	
 	public static void main(String[] args) {
         System.out.println("Self-Checkout Station turning on...");
@@ -160,11 +165,13 @@ public class CommandLineDriver {
         lookup = new LookupItemScreen();
         thank = new ThankYouForShoppingScreen();
         attendant = new AttendantMenuScreen();
+        welcome = new WelcomeScreen();
+        membership = new MembershipScreen();
         
         mainFrame = controlSoftware.selfCheckout.screen.getFrame();
         mainFrame.setVisible(true);
         mainFrame.setSize(600,500);
-        mainFrame.setContentPane(m);
+        mainFrame.setContentPane(welcome);
         mainFrame.pack();
        
         controlSoftware.selfCheckout.screen.setVisible(true);
@@ -175,6 +182,10 @@ public class CommandLineDriver {
 	}
 	
 	public static void goToScreen(String idx) {
+		if (idx == "welcome") { 
+			mainFrame.setContentPane(welcome);
+			mainFrame.pack();
+		}
 		if(idx == "main") { //Main Screen
 			
 			mainFrame.setContentPane(m);
@@ -209,5 +220,11 @@ public class CommandLineDriver {
 			mainFrame.setContentPane(attendant);
 			mainFrame.pack();
 		}
+		if (idx == "membership") { 
+			mainFrame.setContentPane(membership);
+			mainFrame.pack();
+		}
+		
+		
 	}
 }
