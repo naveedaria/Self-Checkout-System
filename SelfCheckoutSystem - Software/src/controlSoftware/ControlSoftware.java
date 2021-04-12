@@ -491,7 +491,7 @@ public class ControlSoftware {
 	}
 	
 	public void setTotalBalance() {
-		this.paymentTotal = this.shoppingCart.getTotalPayment();
+		this.paymentTotal.add(this.shoppingCart.getTotalPayment());
 	}
 	
 	/**
