@@ -88,7 +88,5 @@ public class ScanMembershipCard {
 		}
 	}
 	
-	//creating membership card method here **
-	
 
 }
