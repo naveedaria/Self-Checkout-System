@@ -537,6 +537,12 @@ public class ControlSoftware {
 		return amountRemaining; 
 	}
 	
+	public BigDecimal getAmountOnGiftCard(String giftcardNumber) {
+		PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
+		giftcardPaymentHandler.detectCard(giftcardNumber, true);
+		return giftcardPaymentHandler.getAmount(giftcardNumber);
+	}
+	
 	/**
 	 * 
 	 * @param 

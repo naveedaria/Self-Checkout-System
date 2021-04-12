@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import javax.swing.ImageIcon;
 
@@ -178,12 +179,18 @@ public class GiftCardPaymentScreen extends JPanel {
 		// Should happen when ENTER is pressed (by default). Maybe? Make sure that's actually how it works.
 		giftcardNumInput.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-            	giftcardNum = giftcardNumInput.getText();
-            	
             	// LOGIC: retrieve the amount available from the database, maybe some error checking
             	// to see if the card actually exists in the database. Put that amount into the 
             	// amountAvail (String) variable, and then display it 
             	
+            	giftcardNum = giftcardNumInput.getText();
+				BigDecimal amountAvailNum= CommandLineDriver.controlSoftware.getAmountOnGiftCard(giftcardNum);
+				if(amountAvailNum.compareTo(new BigDecimal(-1))==0) {
+					
+				}
+				
+				
+				amountAvail = amountAvailNum.toString();
             	currentAmountAvailOutput.setText(amountAvail);
             }});
 		
