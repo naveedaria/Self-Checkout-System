@@ -27,6 +27,10 @@ import org.lsmr.selfcheckout.devices.SimulationException;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
+import attendant.AttendantProfile;
+import attendant.AttendantProfileDatabase;
+import attendant.StationControl;
+
 public class ControlSoftware {
 	public static BigDecimal paymentTotal = new BigDecimal(0);
 	public BigDecimal change;
@@ -43,7 +47,7 @@ public class ControlSoftware {
 	public SelfCheckoutStation selfCheckout;
 	public Lookup lookup;
 	ElectronicScaleListenerStub electronicScaleStub;
-
+	public StationControl stationControl;
 	public double expectedWeightOnScale;
 	
 	
@@ -75,12 +79,14 @@ public class ControlSoftware {
 		
 		this.selfCheckout = new SelfCheckoutStation(this.currency, this.banknoteDenominations, this.coinDenominations, this.scaleMaxWeight, this.scaleSensitivity);
 		
-		
-		
+		this.stationControl = new StationControl();
+		AttendantProfileDatabase users = new AttendantProfileDatabase();
+		users.addProfile(new AttendantProfile("clerk", "seng2021"));
+		stationControl.loadAttendantProfileDatabase(users);
 		// Create shopping cart object
 		shoppingCart = new ShoppingCart();
-		
 		lookup = new Lookup();
+		
 		
 		
 		// We already have a mainScanner as part of self-checkout
@@ -122,6 +128,7 @@ public class ControlSoftware {
 		//}else {
 			shoppingCart.addToShoppingCart(barcodedItem, quantity);
 		//}
+		this.paymentTotal = shoppingCart.totalPayment;
 		
 	}
 	
@@ -585,7 +592,7 @@ public class ControlSoftware {
 	 * @param 
 	 */
 	public void plasticBagsUsed(int quantity) {
-		paymentTotal.add(new BigDecimal(0.05 * quantity));
+		this.paymentTotal.add(new BigDecimal(0.05).multiply(new BigDecimal(quantity)));
 	}
 	
 	
