@@ -20,9 +20,16 @@ import java.math.RoundingMode;
 
 import org.lsmr.selfcheckout.*;
 
+import driver.CommandLineDriver;
+
+
+
+
+
+
 public class CashPaymentScreen extends JPanel {
-	BigDecimal cashPayed = new BigDecimal(0.0);
-	BigDecimal balance = new BigDecimal(0.70);
+	BigDecimal cashPayed = new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP);
+	BigDecimal balance = new BigDecimal(0.70).setScale(2, RoundingMode.HALF_UP);
 	//Keep track of what cash has been inserted
 	int bills5 = 0;
 	int bills10 = 0;
@@ -39,6 +46,14 @@ public class CashPaymentScreen extends JPanel {
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
+	
+	public boolean checkBalanceZero() {
+		if (balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) != 1) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	//Returns a hashmap that will allow control software to see how many of each type of cash was payed
 	public HashMap<String,Integer> getCashPayed(){
@@ -68,8 +83,27 @@ public class CashPaymentScreen extends JPanel {
 		JLabel lblNewLabel_2 = new JLabel(balance.toString());
 		BigDecimal combined = cashPayed.add(balance);
 		JLabel lblNewLabel_3 = new JLabel(combined.toString());
+	
+		JLabel lblNewLabel_8 = new JLabel("0.0");
 		
 		JButton btnNewButton = new JButton("Bill 5");
+		JButton btnNewButton_1 = new JButton("Nickel");
+		JButton btnNewButton_2 = new JButton("Loonie");
+		JButton btnNewButton_3 = new JButton("Quarter");
+		JButton btnNewButton_4 = new JButton("Bill 10");
+		JButton btnNewButton_5 = new JButton("Bill 50");
+		JButton btnNewButton_6 = new JButton("Dime");
+		JButton btnNewButton_7 = new JButton("Bill 20");
+		JButton btnNewButton_8 = new JButton("Bill 100");
+		JButton btnNewButton_9 = new JButton("Toonie");
+		JButton btnNewButton_10 = new JButton("Continue");
+		btnNewButton_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CommandLineDriver.goToScreen("thank");
+			}
+		});
+		btnNewButton_10.setEnabled(false);
+		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
@@ -79,10 +113,11 @@ public class CashPaymentScreen extends JPanel {
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}
+				if(checkBalanceZero()) {
+					
+				}
 			}
 		});
-		
-		JButton btnNewButton_1 = new JButton("Nickel");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
@@ -92,10 +127,22 @@ public class CashPaymentScreen extends JPanel {
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}
+				if(checkBalanceZero()) {
+					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
+					btnNewButton.setEnabled(false);
+					btnNewButton_1.setEnabled(false);
+					btnNewButton_2.setEnabled(false);
+					btnNewButton_3.setEnabled(false);
+					btnNewButton_4.setEnabled(false);
+					btnNewButton_5.setEnabled(false);
+					btnNewButton_6.setEnabled(false);
+					btnNewButton_7.setEnabled(false);
+					btnNewButton_8.setEnabled(false);
+					btnNewButton_9.setEnabled(false);
+					btnNewButton_10.setEnabled(true);
+				}
 			}
 		});
-		
-		JButton btnNewButton_2 = new JButton("Loonie");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
@@ -105,10 +152,22 @@ public class CashPaymentScreen extends JPanel {
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}
+				if(checkBalanceZero()) {
+					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
+					btnNewButton.setEnabled(false);
+					btnNewButton_1.setEnabled(false);
+					btnNewButton_2.setEnabled(false);
+					btnNewButton_3.setEnabled(false);
+					btnNewButton_4.setEnabled(false);
+					btnNewButton_5.setEnabled(false);
+					btnNewButton_6.setEnabled(false);
+					btnNewButton_7.setEnabled(false);
+					btnNewButton_8.setEnabled(false);
+					btnNewButton_9.setEnabled(false);
+					btnNewButton_10.setEnabled(true);
+				}
 			}
 		});
-		
-		JButton btnNewButton_3 = new JButton("Quarter");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
@@ -118,9 +177,22 @@ public class CashPaymentScreen extends JPanel {
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}
+					if(checkBalanceZero()) {
+						lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
+						btnNewButton.setEnabled(false);
+						btnNewButton_1.setEnabled(false);
+						btnNewButton_2.setEnabled(false);
+						btnNewButton_3.setEnabled(false);
+						btnNewButton_4.setEnabled(false);
+						btnNewButton_5.setEnabled(false);
+						btnNewButton_6.setEnabled(false);
+						btnNewButton_7.setEnabled(false);
+						btnNewButton_8.setEnabled(false);
+						btnNewButton_9.setEnabled(false);
+						btnNewButton_10.setEnabled(true);
+					}
 			}
 		});
-		JButton btnNewButton_4 = new JButton("Bill 10");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
@@ -130,9 +202,22 @@ public class CashPaymentScreen extends JPanel {
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}
+				if(checkBalanceZero()) {
+					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
+					btnNewButton.setEnabled(false);
+					btnNewButton_1.setEnabled(false);
+					btnNewButton_2.setEnabled(false);
+					btnNewButton_3.setEnabled(false);
+					btnNewButton_4.setEnabled(false);
+					btnNewButton_5.setEnabled(false);
+					btnNewButton_6.setEnabled(false);
+					btnNewButton_7.setEnabled(false);
+					btnNewButton_8.setEnabled(false);
+					btnNewButton_9.setEnabled(false);
+					btnNewButton_10.setEnabled(true);
+				}
 			}
 		});
-		JButton btnNewButton_5 = new JButton("Bill 50");
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
@@ -142,9 +227,22 @@ public class CashPaymentScreen extends JPanel {
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}
+				if(checkBalanceZero()) {
+					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
+					btnNewButton.setEnabled(false);
+					btnNewButton_1.setEnabled(false);
+					btnNewButton_2.setEnabled(false);
+					btnNewButton_3.setEnabled(false);
+					btnNewButton_4.setEnabled(false);
+					btnNewButton_5.setEnabled(false);
+					btnNewButton_6.setEnabled(false);
+					btnNewButton_7.setEnabled(false);
+					btnNewButton_8.setEnabled(false);
+					btnNewButton_9.setEnabled(false);
+					btnNewButton_10.setEnabled(true);
+				}
 			}
 		});
-		JButton btnNewButton_6 = new JButton("Dime");
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
@@ -154,9 +252,22 @@ public class CashPaymentScreen extends JPanel {
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}
+				if(checkBalanceZero()) {
+					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
+					btnNewButton.setEnabled(false);
+					btnNewButton_1.setEnabled(false);
+					btnNewButton_2.setEnabled(false);
+					btnNewButton_3.setEnabled(false);
+					btnNewButton_4.setEnabled(false);
+					btnNewButton_5.setEnabled(false);
+					btnNewButton_6.setEnabled(false);
+					btnNewButton_7.setEnabled(false);
+					btnNewButton_8.setEnabled(false);
+					btnNewButton_9.setEnabled(false);
+					btnNewButton_10.setEnabled(true);
+				}
 			}
 		});
-		JButton btnNewButton_7 = new JButton("Bill 20");
 		btnNewButton_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
@@ -166,9 +277,22 @@ public class CashPaymentScreen extends JPanel {
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}
+				if(checkBalanceZero()) {
+					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
+					btnNewButton.setEnabled(false);
+					btnNewButton_1.setEnabled(false);
+					btnNewButton_2.setEnabled(false);
+					btnNewButton_3.setEnabled(false);
+					btnNewButton_4.setEnabled(false);
+					btnNewButton_5.setEnabled(false);
+					btnNewButton_6.setEnabled(false);
+					btnNewButton_7.setEnabled(false);
+					btnNewButton_8.setEnabled(false);
+					btnNewButton_9.setEnabled(false);
+					btnNewButton_10.setEnabled(true);
+				}
 			}
 		});
-		JButton btnNewButton_8 = new JButton("Bill 100");
 		btnNewButton_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
@@ -178,9 +302,22 @@ public class CashPaymentScreen extends JPanel {
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}
+				if(checkBalanceZero()) {
+					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
+					btnNewButton.setEnabled(false);
+					btnNewButton_1.setEnabled(false);
+					btnNewButton_2.setEnabled(false);
+					btnNewButton_3.setEnabled(false);
+					btnNewButton_4.setEnabled(false);
+					btnNewButton_5.setEnabled(false);
+					btnNewButton_6.setEnabled(false);
+					btnNewButton_7.setEnabled(false);
+					btnNewButton_8.setEnabled(false);
+					btnNewButton_9.setEnabled(false);
+					btnNewButton_10.setEnabled(true);
+				}
 			}
 		});
-		JButton btnNewButton_9 = new JButton("Toonie");
 		btnNewButton_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
@@ -190,8 +327,24 @@ public class CashPaymentScreen extends JPanel {
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}
+				if(checkBalanceZero()) {
+					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
+					btnNewButton.setEnabled(false);
+					btnNewButton_1.setEnabled(false);
+					btnNewButton_2.setEnabled(false);
+					btnNewButton_3.setEnabled(false);
+					btnNewButton_4.setEnabled(false);
+					btnNewButton_5.setEnabled(false);
+					btnNewButton_6.setEnabled(false);
+					btnNewButton_7.setEnabled(false);
+					btnNewButton_8.setEnabled(false);
+					btnNewButton_9.setEnabled(false);
+					btnNewButton_10.setEnabled(true);
+				}
 			}
 		});
+		
+		
 		String[] columnNames = {"Cash Payed",
                 "Balance"};
 		Object[][] data = {
@@ -204,12 +357,50 @@ public class CashPaymentScreen extends JPanel {
 		
 		JLabel lblNewLabel_6 = new JLabel("Total");
 		
+		JLabel lblNewLabel_7 = new JLabel("Change");
+		
+		
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+									.addGap(62)
+									.addComponent(lblNewLabel_1)
+									.addGap(91))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addPreferredGap(ComponentPlacement.RELATED, 313, Short.MAX_VALUE)
+											.addComponent(lblNewLabel))
+										.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addGroup(groupLayout.createSequentialGroup()
+													.addComponent(btnNewButton_4, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+													.addPreferredGap(ComponentPlacement.RELATED)
+													.addComponent(btnNewButton_6, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+												.addGroup(groupLayout.createSequentialGroup()
+													.addComponent(btnNewButton_8, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+													.addPreferredGap(ComponentPlacement.RELATED)
+													.addComponent(btnNewButton_9, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
+											.addGap(50)
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblNewLabel_4)
+												.addComponent(lblNewLabel_7)
+												.addComponent(lblNewLabel_8))))
+									.addPreferredGap(ComponentPlacement.RELATED)))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewLabel_2)
+								.addComponent(lblNewLabel_5))
+							.addGap(46))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
@@ -220,80 +411,64 @@ public class CashPaymentScreen extends JPanel {
 									.addComponent(btnNewButton_5, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.RELATED, 307, Short.MAX_VALUE))
+							.addGap(166)))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnNewButton_8, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addComponent(btnNewButton_9, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-									.addGap(60)
-									.addComponent(lblNewLabel_1)
-									.addPreferredGap(ComponentPlacement.RELATED, 88, Short.MAX_VALUE))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-											.addComponent(btnNewButton_4, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(btnNewButton_6, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-											.addComponent(lblNewLabel_4)
-											.addGap(25))
-										.addGroup(groupLayout.createSequentialGroup()
-											.addPreferredGap(ComponentPlacement.RELATED, 234, Short.MAX_VALUE)
-											.addComponent(lblNewLabel)))
-									.addGap(35)))
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lblNewLabel_5)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lblNewLabel_6))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lblNewLabel_2)
-									.addGap(74)
-									.addComponent(lblNewLabel_3)))
-							.addGap(23)))
-					.addGap(59))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnNewButton_10))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(51)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblNewLabel_6)
+								.addComponent(lblNewLabel_3))))
+					.addContainerGap(112, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblNewLabel)
-					.addGap(16)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton)
-						.addComponent(btnNewButton_1)
-						.addComponent(lblNewLabel_1)
-						.addComponent(lblNewLabel_3)
-						.addComponent(lblNewLabel_2))
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblNewLabel)
+							.addGap(16)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnNewButton)
+								.addComponent(btnNewButton_1)
+								.addComponent(lblNewLabel_1)
+								.addComponent(lblNewLabel_2)))
+						.addComponent(lblNewLabel_3))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(btnNewButton_4)
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 							.addComponent(btnNewButton_6)
-							.addComponent(lblNewLabel_6)
+							.addComponent(lblNewLabel_4)
 							.addComponent(lblNewLabel_5)
-							.addComponent(lblNewLabel_4)))
+							.addComponent(lblNewLabel_6)))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton_7)
-						.addComponent(btnNewButton_3))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton_5)
-						.addComponent(btnNewButton_2))
-					.addGap(6)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnNewButton_7)
+								.addComponent(btnNewButton_3))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnNewButton_5)
+								.addComponent(btnNewButton_2))
+							.addGap(6))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblNewLabel_8)
+							.addGap(18)))
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnNewButton_8)
-						.addComponent(btnNewButton_9))
-					.addContainerGap(120, Short.MAX_VALUE))
+						.addComponent(btnNewButton_9)
+						.addComponent(btnNewButton_10)
+						.addComponent(lblNewLabel_7))
+					.addContainerGap(272, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 
 	}
+	
+	
 }
