@@ -2,9 +2,11 @@ package panels;
 
 import javax.swing.JPanel;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -12,14 +14,14 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import driver.CommandLineDriver;
+import javax.swing.JScrollPane;
 
-import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JList;
 
 public class LookupItemScreen extends JPanel {
-	private JTextField textField;
-	JList itemLst;
+	public JTextField textField;
+	JList<String> itemLst;
 	/**
 	 * Create the panel.
 	 */
@@ -33,12 +35,21 @@ public class LookupItemScreen extends JPanel {
 		textField.setText("Enter item name and press \"Search\"...");
 		textField.setColumns(10);
 		
+		DefaultListModel<String> listModel = new DefaultListModel<>();
 		
+		listModel.addElement(CommandLineDriver.controlSoftware.shoppingCart.getDescriptionOfBarcodedProduct(CommandLineDriver.bItem));
+        listModel.addElement(CommandLineDriver.controlSoftware.shoppingCart.getDescriptionOfBarcodedProduct(CommandLineDriver.bItem2));
+        listModel.addElement(CommandLineDriver.controlSoftware.shoppingCart.getDescriptionOfBarcodedProduct(CommandLineDriver.bItem3));
+        listModel.addElement(CommandLineDriver.controlSoftware.shoppingCart.getDescriptionOfBarcodedProduct(CommandLineDriver.bItem4));
+        listModel.addElement(CommandLineDriver.controlSoftware.shoppingCart.getDescriptionOfBarcodedProduct(CommandLineDriver.bItem5));
+
+        itemLst = new JList<>(listModel);
+        add(new JScrollPane(itemLst));
 		JButton searchBtn = new JButton("Search");
 		
 		JButton goBackBtn = new JButton("Go Back");
 		
-		itemLst = new JList();
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -102,7 +113,6 @@ public class LookupItemScreen extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
 			
 			
 		}
