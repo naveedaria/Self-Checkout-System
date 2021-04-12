@@ -168,7 +168,7 @@ public class MainScreen extends JPanel {
 			CommandLineDriver.controlSoftware.plasticBagsUsed(bagNum);
 			updateTransactionFields();
 			
-			//CommandLineDriver.goToScreen("pay");
+			CommandLineDriver.goToScreen("pay");
 			
 		}
 		

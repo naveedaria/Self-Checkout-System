@@ -29,7 +29,7 @@ import driver.CommandLineDriver;
 
 public class CashPaymentScreen extends JPanel {
 	BigDecimal cashPayed = new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP);
-	BigDecimal balance = new BigDecimal(0.70).setScale(2, RoundingMode.HALF_UP);
+	BigDecimal balance = CommandLineDriver.controlSoftware.paymentTotal;
 	//Keep track of what cash has been inserted
 	int bills5 = 0;
 	int bills10 = 0;
@@ -42,6 +42,9 @@ public class CashPaymentScreen extends JPanel {
 	int quarters = 0;
 	int loonies = 0;
 	int toonies = 0;
+	
+	public JLabel lblNewLabel_3;
+	public JLabel lblNewLabel_2;
 	
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
@@ -80,9 +83,9 @@ public class CashPaymentScreen extends JPanel {
 
 		JLabel lblNewLabel_1 = new JLabel(cashPayed.toString());
 		
-		JLabel lblNewLabel_2 = new JLabel(balance.toString());
+		lblNewLabel_2 = new JLabel(balance.toString());
 		BigDecimal combined = cashPayed.add(balance);
-		JLabel lblNewLabel_3 = new JLabel(combined.toString());
+		lblNewLabel_3 = new JLabel(CommandLineDriver.controlSoftware.paymentTotal.toString());
 	
 		JLabel lblNewLabel_8 = new JLabel("0.0");
 		
@@ -109,7 +112,8 @@ public class CashPaymentScreen extends JPanel {
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
 					bills5 += 1;
 					cashPayed = cashPayed.add(new BigDecimal(5.0));
-					balance = balance.subtract(new BigDecimal(5.0));
+					//balance = balance.subtract(new BigDecimal(5.0));
+					CommandLineDriver.controlSoftware.calculateBillPayment(5);
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}
