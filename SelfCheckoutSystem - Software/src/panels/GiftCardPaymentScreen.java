@@ -186,22 +186,38 @@ public class GiftCardPaymentScreen extends JPanel {
             	giftcardNum = giftcardNumInput.getText();
 				BigDecimal amountAvailNum= CommandLineDriver.controlSoftware.getAmountOnGiftCard(giftcardNum);
 				if(amountAvailNum.compareTo(new BigDecimal(-1))==0) {
-					
+					amountAvail = "Invalid Gift Card";
+				}else {
+					amountAvail = amountAvailNum.toString();
 				}
-				
-				
-				amountAvail = amountAvailNum.toString();
-            	currentAmountAvailOutput.setText(amountAvail);
+				currentAmountAvailOutput.setText(amountAvail);
+			
             }});
 		
 		
 		btnTapToRedeem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				// LOGIC: subtract gift card balance from total balance, update giftcard balance and remaining balance.
 				// Display remaining balance in remainingBalanceOutput JTextField.
-				
+
+				BigDecimal newBalanceNum;
+				try {
+					newBalanceNum = CommandLineDriver.controlSoftware.useGiftCard(giftcardNum);
+					if(newBalanceNum.compareTo(new BigDecimal(-1))==0) {
+						newBalance = "Invalid Gift Card";
+					}else {
+						newBalance = newBalanceNum.toString();
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 				remainingBalanceOutput.setText(newBalance);
+				
+				BigDecimal amountAvailNum= CommandLineDriver.controlSoftware.getAmountOnGiftCard(giftcardNum);
+				amountAvail = amountAvailNum.toString();
+				currentAmountAvailOutput.setText(amountAvail);
 			}
 		});
 		
