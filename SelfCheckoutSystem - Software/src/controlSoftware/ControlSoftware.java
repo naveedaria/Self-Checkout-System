@@ -14,8 +14,10 @@ import java.util.Scanner;
 import org.lsmr.selfcheckout.Banknote;
 import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
+import org.lsmr.selfcheckout.ChipFailureException;
 import org.lsmr.selfcheckout.Coin;
 import org.lsmr.selfcheckout.Item;
+import org.lsmr.selfcheckout.MagneticStripeFailureException;
 import org.lsmr.selfcheckout.PLUCodedItem;
 import org.lsmr.selfcheckout.devices.BarcodeScanner;
 import org.lsmr.selfcheckout.devices.DisabledException;
@@ -447,9 +449,6 @@ public class ControlSoftware {
 		this.change = new BigDecimal(0);
 	}
 	
-	
-	
-	
 	/**
 	 * Method to calculate payment by coin
 	 * @param coinValue
@@ -484,80 +483,59 @@ public class ControlSoftware {
 		}
 	}
 	
-	//Pay by card 
-	//Create Card before for Iteration 3
-	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, boolean tap, 
-			boolean payByGiftcard, String giftcardNumber, BigDecimal value,
-			String cardCompany, String type, String number, String cardholder, String cvv, String pin, boolean isTapEnabled,
-			boolean hasChip, Calendar expiry, BigDecimal cardLimit, BufferedImage signature, boolean insertCard, String pinInput) throws IOException {
-		
-		BigDecimal balance = this.shoppingCart.getTotalPayment();
-		PaymentByCard cardPaymentHandler = new PaymentByCard(this.selfCheckout, cardCompany);
-		cardPaymentHandler.detectCard(type, number, cardholder, cvv, pinInput, isTapEnabled, hasChip, expiry, cardLimit);
-		
-		if (useMembershipCard) {
-			//THIRD ITERATION - no discount or points implemented yet 
-			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
-			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
-		}
-		
-		
-		if(payByGiftcard) {
-			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
-			giftcardPaymentHandler.detectCard(giftcardNumber, isTapEnabled);
-			String giftcardNum = "123456";
-			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNum, balance, isTapEnabled);
-			
-			// check if the full balance was paid by giftcard
-			if (amountRemaining.compareTo(new BigDecimal(0)) == 0) {	
-				return;
-			}
-		}
-		
-		if (tap) {
-			cardPaymentHandler.tapToPay(balance, insertCard, pinInput);
-			this.change = new BigDecimal(0);
-		}else {
-			cardPaymentHandler.swipeToPay(signature, balance, insertCard, pinInput);
-			this.change = new BigDecimal(0);
-		}
-		//change is now 0, proceed to receipt 	
+	public void setTotalBalance() {
+		this.paymentTotal = this.shoppingCart.getTotalPayment();
 	}
 	
+	/**
+	 * 
+	 * @param 
+	 */
+	public void useMembershipCard(String cardNumber, String cardHolder) throws IOException {
+		ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
+		membershipCardReader.tapMembershipCard(cardNumber, cardHolder);
+	} 
 	
-	//Pay by cash 
-	//Assume user enters more than necessary cash, handle case of less cash than balance through GUI in Iteration 3
-	public void finishedAddingItems(boolean useMembershipCard, String numberMember, String cardholderMember, 
-			boolean payByGiftcard, String giftcardNumber, BigDecimal value, boolean isTapEnabled,
-			Coin[] coins, Banknote[] banknotes) throws IOException, DisabledException, OverloadException {
-		BigDecimal balance = this.shoppingCart.getTotalPayment();
+	/**
+	 * 
+	 * @param 
+	 */
+	public void finishedAddingItems() throws IOException, DisabledException, OverloadException {
+		setTotalBalance();
 		
 		if(expectedWeightOnScale != selfCheckout.baggingArea.getCurrentWeight()) { //if scanned weight does not equal actual weight, then can't finish 
 			
 			System.out.println("Please place all items on bagging area then Try Again");
 			return;
 		}
+		//proceed to pay by cash, tap, swipe, giftcard etc. 
+	}
+	
+	/**
+	 * 
+	 * @param 
+	 */
+	//returns the updated paymentBalance and sets the class variable paymentTotal to this new value 
+	//-1 means error encountered, or the giftcard is not valid 
+	public BigDecimal useGiftCard(String giftcardNumber) throws IOException {
+		PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
+		giftcardPaymentHandler.detectCard(giftcardNumber, true);
+		BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNumber, this.paymentTotal, true);
 		
-		
-		if (useMembershipCard) {
-			//THIRD ITERATION - no discount or points implemented yet 
-			
-			ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
-			membershipCardReader.tapMembershipCard(numberMember, cardholderMember);
+		//if the amount returned is not -1 
+		if(amountRemaining.compareTo(new BigDecimal (-1))!=0) {
+			this.paymentTotal = amountRemaining;
 		}
 		
-		if(payByGiftcard) {
-			PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
-			giftcardPaymentHandler.detectCard(giftcardNumber, isTapEnabled);
-			String giftcardNum = "123456";
-			BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNum, balance, isTapEnabled);
-			
-			// check if the full balance was paid by giftcard
-			if (amountRemaining.compareTo(new BigDecimal(0)) == 0) {	
-				return;
-			}
-		}
-
+		return amountRemaining; 
+	}
+	
+	/**
+	 * 
+	 * @param 
+	 */
+	//Assume user enters more than necessary cash, handle case of less cash than balance through GUI in Iteration 3
+	public void cashToPay(Coin[] coins, Banknote[] banknotes) throws DisabledException, OverloadException {
 		for (int i=0; i<coins.length; i++) {
 			BigDecimal coinVal = coinMethod(coins[i]);
 			calculateCoinPayment(coinVal);
@@ -568,21 +546,44 @@ public class ControlSoftware {
 			calculateBillPayment(billVal);
 		}
 		
-		//at this point, the this.change value should actually be the final change 
 		DispenseChange changeDispenser = new DispenseChange(this.selfCheckout, this.change);
 		this.change = changeDispenser.calculateChangeDenominations();
 		//change is now 0, proceed to receipt 
 	
-		
-	//	if (insertCoin) {
-			
-	//	}
-		
-	//	if (insertBill) {
-			
-	//	}
 	}
 	
+	/**
+	 * 
+	 * @param 
+	 */
+	public void tapToPay(String cardCompany, String type, String number, String cardholder, String cvv, String pinInput, boolean isTapEnabled,
+			boolean hasChip, Calendar expiry, BigDecimal cardLimit, boolean insertCard) throws ChipFailureException, IOException {
+		PaymentByCard cardPaymentHandler = new PaymentByCard(this.selfCheckout, cardCompany);
+		cardPaymentHandler.detectCard(type, number, cardholder, cvv, pinInput, isTapEnabled, hasChip, expiry, cardLimit);
+		
+		cardPaymentHandler.tapToPay(this.paymentTotal, insertCard, pinInput);
+		this.change = new BigDecimal(0);
+	}
+	
+	/**
+	 * 
+	 * @param 
+	 * @throws IOException 
+	 * @throws MagneticStripeFailureException 
+	 */
+	public void swipeToPay(String cardCompany, String type, String number, String cardholder, String cvv, String pinInput, boolean isTapEnabled,
+			boolean hasChip, Calendar expiry, BigDecimal cardLimit, BufferedImage signature, boolean insertCard) throws MagneticStripeFailureException, IOException {
+		PaymentByCard cardPaymentHandler = new PaymentByCard(this.selfCheckout, cardCompany);
+		cardPaymentHandler.detectCard(type, number, cardholder, cvv, pinInput, isTapEnabled, hasChip, expiry, cardLimit);
+		
+		cardPaymentHandler.swipeToPay(signature, this.paymentTotal, insertCard, pinInput);
+		this.change = new BigDecimal(0);
+	}
+	
+	/**
+	 * 
+	 * @param 
+	 */
 	public void plasticBagsUsed(int quantity) {
 		paymentTotal.add(new BigDecimal(0.05 * quantity));
 	}
