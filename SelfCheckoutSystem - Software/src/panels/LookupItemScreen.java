@@ -15,10 +15,11 @@ import driver.CommandLineDriver;
 
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import javax.swing.JList;
 
 public class LookupItemScreen extends JPanel {
 	private JTextField textField;
-	JTextArea textArea;
+	JList itemLst;
 	/**
 	 * Create the panel.
 	 */
@@ -31,32 +32,32 @@ public class LookupItemScreen extends JPanel {
 		textField = new JTextField();
 		textField.setText("Enter item name and press \"Search\"...");
 		textField.setColumns(10);
-		textArea = new JTextArea();
 		
 		
 		JButton searchBtn = new JButton("Search");
 		
 		JButton goBackBtn = new JButton("Go Back");
+		
+		itemLst = new JList();
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
-								.addContainerGap())
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(lblNewLabel)
-								.addGap(172))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(searchLbl)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(textField, GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(searchBtn)
-								.addContainerGap()))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(itemLst, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblNewLabel)
+							.addGap(172))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(searchLbl)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(searchBtn)
+							.addContainerGap())
 						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 							.addComponent(goBackBtn)
 							.addContainerGap())))
@@ -71,9 +72,9 @@ public class LookupItemScreen extends JPanel {
 						.addComponent(searchLbl)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(searchBtn))
-					.addGap(18)
-					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(itemLst, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
+					.addGap(12)
 					.addComponent(goBackBtn)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
@@ -101,7 +102,7 @@ public class LookupItemScreen extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			textArea.setText("Searching");
+			
 			
 			
 		}

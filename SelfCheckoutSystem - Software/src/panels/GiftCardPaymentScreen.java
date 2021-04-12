@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import javax.swing.ImageIcon;
 
@@ -178,23 +179,45 @@ public class GiftCardPaymentScreen extends JPanel {
 		// Should happen when ENTER is pressed (by default). Maybe? Make sure that's actually how it works.
 		giftcardNumInput.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-            	giftcardNum = giftcardNumInput.getText();
-            	
             	// LOGIC: retrieve the amount available from the database, maybe some error checking
             	// to see if the card actually exists in the database. Put that amount into the 
             	// amountAvail (String) variable, and then display it 
             	
-            	currentAmountAvailOutput.setText(amountAvail);
+            	giftcardNum = giftcardNumInput.getText();
+				BigDecimal amountAvailNum= CommandLineDriver.controlSoftware.getAmountOnGiftCard(giftcardNum);
+				if(amountAvailNum.compareTo(new BigDecimal(-1))==0) {
+					amountAvail = "Invalid Gift Card";
+				}else {
+					amountAvail = amountAvailNum.toString();
+				}
+				currentAmountAvailOutput.setText(amountAvail);
+			
             }});
 		
 		
 		btnTapToRedeem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				// LOGIC: subtract gift card balance from total balance, update giftcard balance and remaining balance.
 				// Display remaining balance in remainingBalanceOutput JTextField.
-				
+
+				BigDecimal newBalanceNum;
+				try {
+					newBalanceNum = CommandLineDriver.controlSoftware.useGiftCard(giftcardNum);
+					if(newBalanceNum.compareTo(new BigDecimal(-1))==0) {
+						newBalance = "Invalid Gift Card";
+					}else {
+						newBalance = newBalanceNum.toString();
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 				remainingBalanceOutput.setText(newBalance);
+				
+				BigDecimal amountAvailNum= CommandLineDriver.controlSoftware.getAmountOnGiftCard(giftcardNum);
+				amountAvail = amountAvailNum.toString();
+				currentAmountAvailOutput.setText(amountAvail);
 			}
 		});
 		

@@ -464,7 +464,7 @@ public class ControlSoftware {
 	public void calculateCoinPayment(BigDecimal coinValue) {
 
 		if (coinProcessed==false) {
-			BigDecimal balance = this.shoppingCart.getTotalPayment();
+			BigDecimal balance = this.paymentTotal;
 			this.change = balance.subtract(coinValue);
 			this.coinProcessed = true; 
 		}else if (coinProcessed==true) {
@@ -482,7 +482,7 @@ public class ControlSoftware {
 	public void calculateBillPayment(int banknoteValue) {
 		BigDecimal bankNoteVal = new BigDecimal(banknoteValue);
 		if (billProcessed==false) {
-			BigDecimal balance = this.shoppingCart.getTotalPayment();
+			BigDecimal balance = this.paymentTotal; 
 			this.change = balance.subtract(bankNoteVal);
 			billProcessed = true; 
 		}else {
@@ -491,7 +491,7 @@ public class ControlSoftware {
 	}
 	
 	public void setTotalBalance() {
-		this.paymentTotal = this.shoppingCart.getTotalPayment();
+		this.paymentTotal.add(this.shoppingCart.getTotalPayment());
 	}
 	
 	/**
@@ -535,6 +535,12 @@ public class ControlSoftware {
 		}
 		
 		return amountRemaining; 
+	}
+	
+	public BigDecimal getAmountOnGiftCard(String giftcardNumber) {
+		PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
+		giftcardPaymentHandler.detectCard(giftcardNumber, true);
+		return giftcardPaymentHandler.getAmount(giftcardNumber);
 	}
 	
 	/**
