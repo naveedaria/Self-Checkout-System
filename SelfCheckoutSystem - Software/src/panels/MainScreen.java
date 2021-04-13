@@ -180,6 +180,8 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			
+			LookupItemScreen.flag = "main";
 			CommandLineDriver.goToScreen("lookup");
 			
 		}
@@ -205,6 +207,8 @@ public class MainScreen extends JPanel {
 			// TODO Auto-generated method stub
 			boolean approved = showLoginScreen();
 			if(approved) {
+				
+				LookupItemScreen.flag = "attendant";
 				CommandLineDriver.goToScreen("attendant");
 			} else {
 				showIncorrectMessage();

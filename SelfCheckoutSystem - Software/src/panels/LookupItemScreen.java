@@ -22,6 +22,8 @@ import javax.swing.JList;
 public class LookupItemScreen extends JPanel {
 	public JTextField textField;
 	JList<String> itemLst;
+	public static String flag;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -104,7 +106,7 @@ public class LookupItemScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			CommandLineDriver.goToScreen("main");
+			CommandLineDriver.goToScreen(flag);
 			
 		}
 		

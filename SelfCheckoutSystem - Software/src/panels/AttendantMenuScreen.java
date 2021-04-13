@@ -2,6 +2,7 @@ package panels;
 
 import javax.swing.JPanel;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -66,14 +67,13 @@ public class AttendantMenuScreen extends JPanel {
 		JButton btnNewButton_8 = new JButton("logout");
 		
 		 banknotesDispenserStateLbl = new JLabel("Banknote dispenser state: filled");
+		
+		JButton lookupItemBtn = new JButton("Look Up Item");
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(163)
-							.addComponent(lblNewLabel))
 						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -88,7 +88,7 @@ public class AttendantMenuScreen extends JPanel {
 								.addComponent(blockStateLbl)
 								.addComponent(paperStateLbl)
 								.addComponent(inkStateLbl))
-							.addPreferredGap(ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(coinDispenserStateLbl)
 								.addComponent(banknoteStorageStateLbl)
@@ -103,15 +103,21 @@ public class AttendantMenuScreen extends JPanel {
 									.addComponent(refillBanknotesBtn))
 								.addComponent(banknotesDispenserStateLbl)))
 						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-							.addContainerGap(351, Short.MAX_VALUE)
-							.addComponent(btnNewButton_8)))
+							.addContainerGap(478, Short.MAX_VALUE)
+							.addComponent(btnNewButton_8))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lookupItemBtn))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(215)
+							.addComponent(lblNewLabel)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(lblNewLabel)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(11)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(refillBanknotesBtn)
 						.addComponent(blockBtn)
@@ -123,7 +129,9 @@ public class AttendantMenuScreen extends JPanel {
 						.addComponent(btnNewButton_5)
 						.addComponent(emptyCoinsBtn)
 						.addComponent(emptyBankotesBtn))
-					.addGap(53)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lookupItemBtn)
+					.addGap(19)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(blockStateLbl)
 						.addComponent(coinStorageStateLbl))
@@ -151,6 +159,7 @@ public class AttendantMenuScreen extends JPanel {
 		btnNewButton_8.addActionListener(new LogoutToMain());
 		btnNewButton_4.addActionListener(new AddInk());
 		btnNewButton_5.addActionListener(new AddPaper());
+		lookupItemBtn.addActionListener(new GoToLookupScreen());
 	}
 	
 	private class BlockStation implements ActionListener{
@@ -219,6 +228,18 @@ public class AttendantMenuScreen extends JPanel {
 		
 	}
 	
+	private class GoToLookupScreen implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			CommandLineDriver.goToScreen("lookup");
+			
+		}
+		
+	}
+
+	
 	private class LogoutToMain implements ActionListener{
 
 		@Override
@@ -251,5 +272,4 @@ public class AttendantMenuScreen extends JPanel {
 		}
 		
 	}
-	
 }
