@@ -89,7 +89,7 @@ public class ShoppingCart {
 //	}
 	
 	
-	//Aris: Overloaded method for handling a PLUCoded Item being entered
+	//Aris: Overloaded method for handling a PLUCoded Item being entered. Change to JavaDoc before Iteration 3 submission
 	public void addToShoppingCart(PLUCodedItem pluCodedItem, int quantity) {
 		PLUCodedProduct pluProd = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode());
 		
@@ -102,7 +102,7 @@ public class ShoppingCart {
 			
 			totalNumOfItems += quantity;
 			
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
 			throw new SimulationException(e);
 		}
 		
