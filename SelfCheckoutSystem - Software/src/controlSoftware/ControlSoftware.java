@@ -39,7 +39,7 @@ public class ControlSoftware {
 	private int numProducts = 0;
 	private ArrayList<Barcode> productBarcodes = new ArrayList<Barcode>();
 	
-	private Currency currency;
+	public Currency currency;
 	private int[] banknoteDenominations;
 	private BigDecimal[] coinDenominations;
 	private int scaleMaxWeight;
