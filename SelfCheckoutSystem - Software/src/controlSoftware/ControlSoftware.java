@@ -3,6 +3,7 @@ package controlSoftware;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
@@ -32,7 +33,7 @@ import attendant.AttendantProfileDatabase;
 import attendant.StationControl;
 
 public class ControlSoftware {
-	public static BigDecimal paymentTotal = new BigDecimal(0);
+	public static BigDecimal paymentTotal = BigDecimal.ZERO;
 	public BigDecimal change;
 	private boolean coinProcessed = false;
 	private boolean billProcessed = false;
@@ -451,9 +452,9 @@ public class ControlSoftware {
 	/**
 	 * Setter for the Customers Change
 	 */
-	public void setChange() {
+	public void setChange(double change) {
 
-		this.change = new BigDecimal(0);
+		this.change = new BigDecimal(change).setScale(2, RoundingMode.HALF_UP);
 	}
 	
 	/**
@@ -491,7 +492,7 @@ public class ControlSoftware {
 	}
 	
 	public void setTotalBalance() {
-		this.paymentTotal.add(this.shoppingCart.getTotalPayment());
+		paymentTotal = paymentTotal.add(this.shoppingCart.getTotalPayment());
 	}
 	
 	/**
@@ -598,8 +599,12 @@ public class ControlSoftware {
 	 * @param 
 	 */
 	public void plasticBagsUsed(int quantity) {
-		this.paymentTotal.add(new BigDecimal(0.05).multiply(new BigDecimal(quantity)));
+		double amtToAdd = 0.05 * quantity;
+		this.shoppingCart.updatePayment(BigDecimal.valueOf(amtToAdd));
+		
 	}
+	
+	
 	
 	
 }

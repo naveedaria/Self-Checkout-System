@@ -149,6 +149,7 @@ public class MainScreen extends JPanel {
 		attendantButton.addActionListener(new GotoAttendantScreen());
 		lookupButton.addActionListener(new GoToLookupScreen());
 		scanButton.addActionListener(new ScanItem());
+		removeItemButton.addActionListener(new RemoveItem());
 		txtEnterYourBarcode.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 barcodeFieldMouseClicked(evt);
@@ -168,7 +169,7 @@ public class MainScreen extends JPanel {
 			CommandLineDriver.controlSoftware.plasticBagsUsed(bagNum);
 			updateTransactionFields();
 			
-			//CommandLineDriver.goToScreen("pay");
+			CommandLineDriver.goToScreen("pay");
 			
 		}
 		
@@ -252,7 +253,8 @@ public class MainScreen extends JPanel {
 	
 	private void updateTransactionFields() {
 		
-		totalArea.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
+		double totalAmt = CommandLineDriver.controlSoftware.shoppingCart.getTotalPayment().doubleValue();
+		totalArea.setText(String.format("$%.2f", totalAmt));
 		itemList.setListData(Receipt.printReceipt(CommandLineDriver.controlSoftware));
 		
 	}
@@ -269,6 +271,36 @@ public class MainScreen extends JPanel {
 			txtEnterYourBarcode.setText("Enter your barcode and press \"Scan Barcode\"...");
 		}
 		
+	}
+	
+	private class RemoveItem implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			int idx = itemList.getSelectedIndex();
+			if(idx > 0) {
+				boolean app = showLoginScreen();
+				if(app) {
+					String el = (String)itemList.getModel().getElementAt(idx);
+					System.out.println(el);
+					Receipt.getItemFromReceipt(el, CommandLineDriver.controlSoftware);
+					updateTransactionFields();
+				} else {
+					showIncorrectMessage();
+				}
+			} else {
+				showErrorScreen();
+			}
+		}
+		
+	}
+	
+	private void showErrorScreen() {
+		JOptionPane.showMessageDialog(this,
+			    "No item has been selected, please select an item and try again.",
+			    "No Item Selected",
+			    JOptionPane.WARNING_MESSAGE);
 	}
 }
 
