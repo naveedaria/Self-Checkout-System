@@ -17,7 +17,7 @@ import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
 import controlSoftware.BarcodedItemDatabase;
 import controlSoftware.ControlSoftware;
-
+import controlSoftware.PLUCodedItemDatabase;
 import panels.*;
 
 public class CommandLineDriver {
@@ -32,6 +32,8 @@ public class CommandLineDriver {
 
 	public static  GiftCardPaymentScreen giftcard;
 	public static  LookupItemScreen lookup;
+	public static LookupPLUScreen plulookup;
+	
 	public static  ThankYouForShoppingScreen thank;
 	public static  AttendantMenuScreen attendant;
 	
@@ -49,6 +51,15 @@ public class CommandLineDriver {
     public static BarcodedItem bItem4 = new BarcodedItem(b4, 5);
     public static Barcode b5 = new Barcode("5555");
     public static BarcodedItem bItem5 = new BarcodedItem(b5, 5);
+    
+   
+    public static PriceLookupCode plucode1 = new PriceLookupCode("4011"); 
+    public static PLUCodedItem pluItem1 = new PLUCodedItem(plucode1,200);
+    public static PriceLookupCode plucode2 = new PriceLookupCode("2021"); 
+    public static PLUCodedItem pluItem2 = new PLUCodedItem(plucode2,500);
+    public static PriceLookupCode plucode3 = new PriceLookupCode("5552"); 
+    public static PLUCodedItem pluItem3 = new PLUCodedItem(plucode3,1000);
+	
 	
 	public static void main(String[] args) {
         System.out.println("Self-Checkout Station turning on...");
@@ -95,6 +106,21 @@ public class CommandLineDriver {
         db.put(b3, bp3);
         db.put(b4, bp4);
         db.put(b5, bp5);
+        
+        
+        Map<PriceLookupCode,PLUCodedProduct> pluDb = ProductDatabases.PLU_PRODUCT_DATABASE;
+        Map<PriceLookupCode,PLUCodedItem> pluCodedItemDatabase = PLUCodedItemDatabase.PLUCoded_ITEM_DATABASE;
+        PLUCodedProduct plu1 = new PLUCodedProduct(plucode1,"Banana [4011]", new BigDecimal(1.00));
+        PLUCodedProduct plu2 = new PLUCodedProduct(plucode2,"Wagyu Beef [2021]", new BigDecimal(50.00));
+        PLUCodedProduct plu3 = new PLUCodedProduct(plucode3,"500 Year Old Wine [5552]", new BigDecimal(52.00));
+        
+        
+        pluCodedItemDatabase.put(plucode1, pluItem1);
+        pluDb.put(plucode1, plu1);
+        pluCodedItemDatabase.put(plucode2, pluItem2);
+        pluDb.put(plucode2, plu2);
+        pluCodedItemDatabase.put(plucode3, pluItem3);
+        pluDb.put(plucode3, plu3);
         
         
         // System.out.println("The product is: " + db.get(b1).getPrice());
@@ -172,6 +198,7 @@ public class CommandLineDriver {
         cash = new CashPaymentScreen();
         giftcard = new GiftCardPaymentScreen();   
         lookup = new LookupItemScreen();
+        plulookup = new LookupPLUScreen();
         thank = new ThankYouForShoppingScreen();
         attendant = new AttendantMenuScreen();
         welcome = new WelcomeScreen();
@@ -231,6 +258,11 @@ public class CommandLineDriver {
 		}
 		if (idx == "membership") { 
 			mainFrame.setContentPane(membership);
+			mainFrame.pack();
+		}
+		//For PLU 
+		if (idx =="plulookup") {
+			mainFrame.setContentPane(plulookup);
 			mainFrame.pack();
 		}
 		

@@ -148,6 +148,7 @@ public class MainScreen extends JPanel {
 		nextButton.addActionListener(new GotoNextScreen());
 		attendantButton.addActionListener(new GotoAttendantScreen());
 		lookupButton.addActionListener(new GoToLookupScreen());
+		pluCodeButton.addActionListener(new GoToPLUScreen());
 		scanButton.addActionListener(new ScanItem());
 		removeItemButton.addActionListener(new RemoveItem());
 		txtEnterYourBarcode.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -184,6 +185,19 @@ public class MainScreen extends JPanel {
 		}
 		
 	}
+	
+	private class GoToPLUScreen implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			CommandLineDriver.goToScreen("plulookup");
+			
+		}
+		
+	}
+	
+	
 	private class GotoAttendantScreen implements ActionListener{
 
 		@Override
