@@ -89,15 +89,15 @@ public class CashPaymentScreen extends JPanel {
 	
 		JLabel lblNewLabel_8 = new JLabel("0.0");
 		
-		JButton btnNewButton = new JButton("Bill 5");
+		JButton btnNewButton = new JButton("$5 bill");
 		JButton btnNewButton_1 = new JButton("Nickel");
 		JButton btnNewButton_2 = new JButton("Loonie");
 		JButton btnNewButton_3 = new JButton("Quarter");
-		JButton btnNewButton_4 = new JButton("Bill 10");
-		JButton btnNewButton_5 = new JButton("Bill 50");
+		JButton btnNewButton_4 = new JButton("$10 bill");
+		JButton btnNewButton_5 = new JButton("$50 bill");
 		JButton btnNewButton_6 = new JButton("Dime");
-		JButton btnNewButton_7 = new JButton("Bill 20");
-		JButton btnNewButton_8 = new JButton("Bill 100");
+		JButton btnNewButton_7 = new JButton("$20 bill");
+		JButton btnNewButton_8 = new JButton("$100 bill");
 		JButton btnNewButton_9 = new JButton("Toonie");
 		JButton btnNewButton_10 = new JButton("Continue");
 		btnNewButton_10.addActionListener(new ActionListener() {
@@ -112,13 +112,24 @@ public class CashPaymentScreen extends JPanel {
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
 					bills5 += 1;
 					cashPayed = cashPayed.add(new BigDecimal(5.0));
-					//balance = balance.subtract(new BigDecimal(5.0));
+					balance = balance.subtract(new BigDecimal(5.0));
 					CommandLineDriver.controlSoftware.calculateBillPayment(5);
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}
 				if(checkBalanceZero()) {
-					
+					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
+					btnNewButton.setEnabled(false);
+					btnNewButton_1.setEnabled(false);
+					btnNewButton_2.setEnabled(false);
+					btnNewButton_3.setEnabled(false);
+					btnNewButton_4.setEnabled(false);
+					btnNewButton_5.setEnabled(false);
+					btnNewButton_6.setEnabled(false);
+					btnNewButton_7.setEnabled(false);
+					btnNewButton_8.setEnabled(false);
+					btnNewButton_9.setEnabled(false);
+					btnNewButton_10.setEnabled(true);
 				}
 			}
 		});
