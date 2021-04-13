@@ -102,7 +102,7 @@ public class ShoppingCart {
 			
 			totalNumOfItems += quantity;
 			
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
 			throw new SimulationException(e);
 		}
 		

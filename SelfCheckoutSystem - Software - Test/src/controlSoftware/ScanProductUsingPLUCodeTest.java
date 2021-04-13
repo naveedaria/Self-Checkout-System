@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.lsmr.selfcheckout.PLUCodedItem;
 import org.lsmr.selfcheckout.PriceLookupCode;
+import org.lsmr.selfcheckout.devices.SimulationException;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
@@ -28,7 +29,7 @@ public class ScanProductUsingPLUCodeTest {
 	}
 	
 	@Test
-	public void testScanProductUsingPLUCode() {
+	public void testPLUforOneSingleItemEntered() {
 		
         PriceLookupCode plu1 = new PriceLookupCode("01864");
         PLUCodedProduct pluProd1 = new PLUCodedProduct(plu1, "Reese's Pieces", new BigDecimal(0.25));
@@ -43,6 +44,28 @@ public class ScanProductUsingPLUCodeTest {
         controlSoft.scanProductUsingPLUCode(pluCodedItem1, customerItem2quantity);
         
         assertEquals(new BigDecimal(0.25), controlSoft.shoppingCart.getTotalPayment());
+		
+	}
+	
+	@Test
+	public void testPLUforSimulationException() {
+		
+		try {
+        PriceLookupCode plu1 = new PriceLookupCode(null);
+        PLUCodedProduct pluProd1 = new PLUCodedProduct(plu1, "Reese's Pieces", new BigDecimal(0.25));
+        
+        Map<PriceLookupCode, PLUCodedProduct> db = ProductDatabases.PLU_PRODUCT_DATABASE;
+        db.put(plu1, pluProd1);
+        
+        PLUCodedItem pluCodedItem1 = new PLUCodedItem(plu1, 1000);
+        int customerItem2quantity = 1;
+        
+        controlSoft.scanProductUsingPLUCode(pluCodedItem1, customerItem2quantity);
+        
+        assertEquals(new BigDecimal(0.25), controlSoft.shoppingCart.getTotalPayment());
+		}catch (Exception e) {
+			assertTrue(e instanceof SimulationException);
+		}
 		
 	}
 
