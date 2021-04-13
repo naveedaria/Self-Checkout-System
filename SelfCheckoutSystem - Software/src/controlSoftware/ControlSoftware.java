@@ -498,10 +498,17 @@ public class ControlSoftware {
 	 * 
 	 * @param 
 	 */
-	public void useMembershipCard(String cardNumber, String cardHolder) throws IOException {
+	public String useMembershipCard(String cardNumber, String cardHolder) throws IOException {
 		ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
-		membershipCardReader.tapMembershipCard(cardNumber, cardHolder);
+		String validatedCardNumber = membershipCardReader.tapMembershipCard(cardNumber, cardHolder);
+		return validatedCardNumber;
 	} 
+	
+	public String getMemberName(String cardNumber, String cardHolder) {
+		ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
+		membershipCardReader.detectCard(cardNumber, cardHolder);
+		return membershipCardReader.getMemberName(cardNumber);
+	}
 	
 	/**
 	 * 

@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 
@@ -96,41 +97,47 @@ public class MembershipScreen extends JPanel {
 					.addGap(20))
 		);
 		setLayout(groupLayout);
-		
-		btnNotMember.addActionListener(new GotoMainScreen());
-		
-		btnContinue.addActionListener(new CheckGotoMainScreen());
+	
 		
 		
-		// get the text input for the customer's name and membership number
-		nameInput.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-            	customerName = nameInput.getText();
-            }});
-		
-		
-		membershipNumInput.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-            	membershipNum = membershipNumInput.getText();
-            }});
+		btnContinue.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// retrieve the text field input for customer name and membership number
+				
+				try {
+					customerName = nameInput.getText();
+					membershipNum = membershipNumInput.getText();
+	
+					
+					// check if the given member information is valid 
+					String validatedNum = CommandLineDriver.controlSoftware.useMembershipCard(membershipNum, customerName);
+					String validatedName = CommandLineDriver.controlSoftware.getMemberName(membershipNum, customerName);
+					
+					
+					if(membershipNum.equals(validatedNum) && customerName.equals(validatedName)) {
+						showWelcomeMessage();
+						CommandLineDriver.goToScreen("main");
+					}
 
+					else {
+						showIncorrectMessage();
+					}
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					showIncorrectMessage();
+					System.out.println("ERROR in validating membership card");
+				}
+			}
+		});
+		
+		
+		// non-members can go directly to the main screen
+		btnNotMember.addActionListener(new GotoMainScreen());	
+		
 	}
 	
-	private class CheckGotoMainScreen implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			String customerName;
-			String membershipNum; 
-			
-			if(true /* name and num are valid (i.e. in the database) */) {
-				CommandLineDriver.goToScreen("main");
-			} else {
-				showIncorrectMessage();
-			}
-			
-		}
-	}
 	
 	
 	private class GotoMainScreen implements ActionListener{
@@ -144,6 +151,12 @@ public class MembershipScreen extends JPanel {
 		JOptionPane.showMessageDialog(this,
 			    "Please enter valid membership information. Otherwise, press \"I\'m not a member. \"");
 	}
+	
+	private void showWelcomeMessage() {
+		JOptionPane.showMessageDialog(this,
+			    "Welcome to Co-op, " + customerName + "!");
+	}
+	
 	
 	
 	
