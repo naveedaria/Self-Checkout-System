@@ -3,6 +3,7 @@ package controlSoftware;
 import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.Map;
 
@@ -66,6 +67,27 @@ public class ScanProductUsingPLUCodeTest {
 		}catch (Exception e) {
 			assertTrue(e instanceof SimulationException);
 		}
+		
+	}
+	
+	
+	@Test
+	public void testPLUforSingleItemSmallWeight() {
+		
+        PriceLookupCode plu1 = new PriceLookupCode("01864");
+        PLUCodedProduct pluProd1 = new PLUCodedProduct(plu1, "Reese's Pieces", new BigDecimal(0.25));
+        
+        Map<PriceLookupCode, PLUCodedProduct> db = ProductDatabases.PLU_PRODUCT_DATABASE;
+        db.put(plu1, pluProd1);
+        
+        // Buying 100 g of Reese's Pieces @ $0.25 / kg
+        // The total cost of this should round to 3 cents (ie. $0.03)
+        PLUCodedItem pluCodedItem1 = new PLUCodedItem(plu1, 100);
+        int customerItem2quantity = 1;
+        
+        controlSoft.scanProductUsingPLUCode(pluCodedItem1, customerItem2quantity);
+        
+        assertEquals( new BigDecimal(0.03).setScale(2, RoundingMode.HALF_UP),controlSoft.shoppingCart.getTotalPayment());
 		
 	}
 
