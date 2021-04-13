@@ -26,8 +26,8 @@ import javax.swing.JTextField;
 
 public class MainScreen extends JPanel {
 	private JTextField txtEnterYourBarcode;
-	private JTextArea totalArea;
-	private JList itemList;
+	public static JTextArea totalArea;
+	public static JList itemList;
 	/**
 	 * Create the panel.
 	 */
@@ -250,7 +250,7 @@ public class MainScreen extends JPanel {
         }
     } 
 	
-	private void updateTransactionFields() {
+	public static void updateTransactionFields() {
 		
 		totalArea.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
 		itemList.setListData(Receipt.printReceipt(CommandLineDriver.controlSoftware));

@@ -29,10 +29,10 @@ public class LookupItemScreen extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel("Look Up an Item");
 		
-		JLabel searchLbl = new JLabel("Search item:");
+		JLabel searchLbl = new JLabel("Add item:");
 		
 		textField = new JTextField();
-		textField.setText("Enter item name and press \"Search\"...");
+		textField.setText("Enter exact item name and press \"Add\"...");
 		textField.setColumns(10);
 		
 		DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -45,7 +45,7 @@ public class LookupItemScreen extends JPanel {
 
         itemLst = new JList<>(listModel);
         add(new JScrollPane(itemLst));
-		JButton searchBtn = new JButton("Search");
+		JButton searchBtn = new JButton("Add");
 		
 		JButton goBackBtn = new JButton("Go Back");
 		
@@ -113,16 +113,73 @@ public class LookupItemScreen extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			if(textField.getText().equalsIgnoreCase("Banana")) {
+				
+				CommandLineDriver.controlSoftware.scanProduct(CommandLineDriver.b1, 1);
+				MainScreen.updateTransactionFields();
+				textField.setText("Item added succsessfully!");
+				
+				
+			}
 			
+			else if(textField.getText().equalsIgnoreCase("Milk")) {
+				
+				CommandLineDriver.controlSoftware.scanProduct(CommandLineDriver.b2, 1);
+				MainScreen.updateTransactionFields();
+				textField.setText("Item added succsessfully!");
+				
+				
+			}
+			
+			else if(textField.getText().equalsIgnoreCase("Cereal")) {
+				
+				CommandLineDriver.controlSoftware.scanProduct(CommandLineDriver.b3, 1);
+				MainScreen.updateTransactionFields();
+				textField.setText("Item added succsessfully!");
+				
+				
+			}
+
+			
+			else if(textField.getText().equalsIgnoreCase("Wagyu Beef")) {
+				
+				CommandLineDriver.controlSoftware.scanProduct(CommandLineDriver.b4, 1);
+				MainScreen.updateTransactionFields();
+				textField.setText("Item added succsessfully!");
+				
+				
+			}
+
+			else if(textField.getText().equalsIgnoreCase("500 Year Old Wine")) {
+				
+				CommandLineDriver.controlSoftware.scanProduct(CommandLineDriver.b5, 1);
+				MainScreen.updateTransactionFields();
+				textField.setText("Item added succsessfully!");
+				
+				
+			}
+			
+			else {
+				
+				textField.setText("Item does not exist! Enter exact item name.");
+			}
+
 			
 		}
 		
 	}
 	private void textFieldMouseClicked(java.awt.event.MouseEvent evt) {                                       
         // TODO add your handling code here:
-        if (this.textField.getText().equals("Enter item name and press \"Search\"...")) {
-            textField.setText("");
+        if (this.textField.getText().equals("Enter exact item name and press \"Add\"...")) {
+           this.textField.setText("");
         }
-    
+        
+        if (this.textField.getText().equals("Item added succsessfully!")) {
+            this.textField.setText("");
+        }
+        
+        if (this.textField.getText().equals("Item does not exist! Enter exact item name.")) {
+            this.textField.setText("");
+        }
 }
 }
