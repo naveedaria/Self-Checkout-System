@@ -13,12 +13,14 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import org.lsmr.selfcheckout.*;
+import org.lsmr.selfcheckout.devices.*;
 
 import driver.CommandLineDriver;
 
@@ -29,7 +31,7 @@ import driver.CommandLineDriver;
 
 public class CashPaymentScreen extends JPanel {
 	BigDecimal cashPayed = new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP);
-	BigDecimal balance = new BigDecimal(0.70).setScale(2, RoundingMode.HALF_UP);
+	BigDecimal balance = CommandLineDriver.controlSoftware.paymentTotal;
 	//Keep track of what cash has been inserted
 	int bills5 = 0;
 	int bills10 = 0;
@@ -42,6 +44,9 @@ public class CashPaymentScreen extends JPanel {
 	int quarters = 0;
 	int loonies = 0;
 	int toonies = 0;
+	
+	public JLabel lblNewLabel_3;
+	public JLabel lblNewLabel_2;
 	
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
@@ -80,25 +85,68 @@ public class CashPaymentScreen extends JPanel {
 
 		JLabel lblNewLabel_1 = new JLabel(cashPayed.toString());
 		
-		JLabel lblNewLabel_2 = new JLabel(balance.toString());
+		lblNewLabel_2 = new JLabel(balance.toString());
 		BigDecimal combined = cashPayed.add(balance);
-		JLabel lblNewLabel_3 = new JLabel(combined.toString());
+		lblNewLabel_3 = new JLabel(CommandLineDriver.controlSoftware.paymentTotal.toString());
 	
 		JLabel lblNewLabel_8 = new JLabel("0.0");
 		
-		JButton btnNewButton = new JButton("Bill 5");
+		JButton btnNewButton = new JButton("$5 bill");
 		JButton btnNewButton_1 = new JButton("Nickel");
 		JButton btnNewButton_2 = new JButton("Loonie");
 		JButton btnNewButton_3 = new JButton("Quarter");
-		JButton btnNewButton_4 = new JButton("Bill 10");
-		JButton btnNewButton_5 = new JButton("Bill 50");
+		JButton btnNewButton_4 = new JButton("$10 bill");
+		JButton btnNewButton_5 = new JButton("$50 bill");
 		JButton btnNewButton_6 = new JButton("Dime");
-		JButton btnNewButton_7 = new JButton("Bill 20");
-		JButton btnNewButton_8 = new JButton("Bill 100");
+		JButton btnNewButton_7 = new JButton("$20 bill");
+		JButton btnNewButton_8 = new JButton("$100 bill");
 		JButton btnNewButton_9 = new JButton("Toonie");
 		JButton btnNewButton_10 = new JButton("Continue");
 		btnNewButton_10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int numOfNotes = bills5 + bills10 + bills20 + bills50 + bills100;
+				Banknote[] banknoteArray = new Banknote[numOfNotes];
+				int i;
+				for(i = 0; i<bills5; i++) {
+					banknoteArray[i] = new Banknote(5, CommandLineDriver.controlSoftware.currency);
+				}
+				for(i = i; i < bills10; i++) {
+					banknoteArray[i] = new Banknote(10, CommandLineDriver.controlSoftware.currency);
+				}
+				for(i = i; i < bills20; i++) {
+					banknoteArray[i] = new Banknote(20, CommandLineDriver.controlSoftware.currency);
+				}
+				for(i = i; i < bills50; i++) {
+					banknoteArray[i] = new Banknote(50, CommandLineDriver.controlSoftware.currency);
+				}
+				for(i = i; i < bills100; i++) {
+					banknoteArray[i] = new Banknote(100, CommandLineDriver.controlSoftware.currency);
+				}
+				
+				int numOfCoins = nickels + dimes + quarters + loonies + toonies;
+				Coin[] coinArray = new Coin[numOfCoins];
+				int j;
+				for(j = 0; j<nickels; j++) {
+					coinArray[j] = new Coin(new BigDecimal(0.05).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+				}
+				for(j = j; j<dimes; j++) {
+					coinArray[j] = new Coin(new BigDecimal(0.10).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+				}
+				for(j = j; j<quarters; j++) {
+					coinArray[j] = new Coin(new BigDecimal(0.25).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+				}
+				for(j = j; j<loonies; j++) {
+					coinArray[j] = new Coin(new BigDecimal(1.0).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+				}
+				for(j = j; j<toonies; j++) {
+					coinArray[j] = new Coin(new BigDecimal(2.0).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+				}
+				try {
+				CommandLineDriver.controlSoftware.cashToPay(coinArray, banknoteArray);
+				}
+				catch(Exception we) {
+					we.printStackTrace();
+				}
 				CommandLineDriver.goToScreen("thank");
 			}
 		});
@@ -110,11 +158,29 @@ public class CashPaymentScreen extends JPanel {
 					bills5 += 1;
 					cashPayed = cashPayed.add(new BigDecimal(5.0));
 					balance = balance.subtract(new BigDecimal(5.0));
+					CommandLineDriver.controlSoftware.calculateBillPayment(5);
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
+					try {
+					CommandLineDriver.controlSoftware.selfCheckout.banknoteInput.accept(new Banknote(5, CommandLineDriver.controlSoftware.currency));
+					}
+					catch(Exception exc) {
+						exc.printStackTrace();
+					}
 				}
 				if(checkBalanceZero()) {
-					
+					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
+					btnNewButton.setEnabled(false);
+					btnNewButton_1.setEnabled(false);
+					btnNewButton_2.setEnabled(false);
+					btnNewButton_3.setEnabled(false);
+					btnNewButton_4.setEnabled(false);
+					btnNewButton_5.setEnabled(false);
+					btnNewButton_6.setEnabled(false);
+					btnNewButton_7.setEnabled(false);
+					btnNewButton_8.setEnabled(false);
+					btnNewButton_9.setEnabled(false);
+					btnNewButton_10.setEnabled(true);
 				}
 			}
 		});
@@ -126,6 +192,12 @@ public class CashPaymentScreen extends JPanel {
 					balance = balance.subtract(new BigDecimal(0.05).setScale(2, RoundingMode.HALF_UP));
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
+					try {
+						CommandLineDriver.controlSoftware.selfCheckout.coinSlot.accept(new Coin(new BigDecimal(0.05).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency));
+						}
+						catch(Exception exc) {
+							exc.printStackTrace();
+						}
 				}
 				if(checkBalanceZero()) {
 					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
@@ -151,6 +223,12 @@ public class CashPaymentScreen extends JPanel {
 					balance = balance.subtract(new BigDecimal(1.0));
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
+					try {
+						CommandLineDriver.controlSoftware.selfCheckout.coinSlot.accept(new Coin(new BigDecimal(1.00).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency));
+						}
+						catch(Exception exc) {
+							exc.printStackTrace();
+						}
 				}
 				if(checkBalanceZero()) {
 					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
@@ -176,6 +254,12 @@ public class CashPaymentScreen extends JPanel {
 					balance = balance.subtract(new BigDecimal(0.25));
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
+					try {
+						CommandLineDriver.controlSoftware.selfCheckout.coinSlot.accept(new Coin(new BigDecimal(0.25).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency));
+						}
+						catch(Exception exc) {
+							exc.printStackTrace();
+						}
 				}
 					if(checkBalanceZero()) {
 						lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
@@ -201,6 +285,12 @@ public class CashPaymentScreen extends JPanel {
 					balance = balance.subtract(new BigDecimal(10.0));
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
+					try {
+						CommandLineDriver.controlSoftware.selfCheckout.banknoteInput.accept(new Banknote(10, CommandLineDriver.controlSoftware.currency));
+						}
+						catch(Exception exc) {
+							exc.printStackTrace();
+						}
 				}
 				if(checkBalanceZero()) {
 					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
@@ -226,6 +316,12 @@ public class CashPaymentScreen extends JPanel {
 					balance = balance.subtract(new BigDecimal(50.0));
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
+					try {
+						CommandLineDriver.controlSoftware.selfCheckout.banknoteInput.accept(new Banknote(50, CommandLineDriver.controlSoftware.currency));
+						}
+						catch(Exception exc) {
+							exc.printStackTrace();
+						}
 				}
 				if(checkBalanceZero()) {
 					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
@@ -251,6 +347,12 @@ public class CashPaymentScreen extends JPanel {
 					balance = balance.subtract(new BigDecimal(0.10).setScale(2, RoundingMode.HALF_UP));
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
+					try {
+						CommandLineDriver.controlSoftware.selfCheckout.coinSlot.accept(new Coin(new BigDecimal(0.1).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency));
+						}
+						catch(Exception exc) {
+							exc.printStackTrace();
+						}
 				}
 				if(checkBalanceZero()) {
 					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
@@ -276,6 +378,12 @@ public class CashPaymentScreen extends JPanel {
 					balance = balance.subtract(new BigDecimal(20.0));
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
+					try {
+						CommandLineDriver.controlSoftware.selfCheckout.banknoteInput.accept(new Banknote(20, CommandLineDriver.controlSoftware.currency));
+						}
+						catch(Exception exc) {
+							exc.printStackTrace();
+						}
 				}
 				if(checkBalanceZero()) {
 					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
@@ -301,6 +409,12 @@ public class CashPaymentScreen extends JPanel {
 					balance = balance.subtract(new BigDecimal(100.0));
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
+					try {
+						CommandLineDriver.controlSoftware.selfCheckout.banknoteInput.accept(new Banknote(100, CommandLineDriver.controlSoftware.currency));
+						}
+						catch(Exception exc) {
+							exc.printStackTrace();
+						}
 				}
 				if(checkBalanceZero()) {
 					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());
@@ -326,6 +440,12 @@ public class CashPaymentScreen extends JPanel {
 					balance = balance.subtract(new BigDecimal(2.0));
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
+					try {
+						CommandLineDriver.controlSoftware.selfCheckout.coinSlot.accept(new Coin(new BigDecimal(2.00).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency));
+						}
+						catch(Exception exc) {
+							exc.printStackTrace();
+						}
 				}
 				if(checkBalanceZero()) {
 					lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(balance).setScale(2, RoundingMode.HALF_UP).toString());

@@ -118,6 +118,11 @@ public class PaymentSelectorScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+
+			CommandLineDriver.cash.lblNewLabel_2.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
+			CommandLineDriver.cash.lblNewLabel_3.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
+			CommandLineDriver.cash.balance = CommandLineDriver.controlSoftware.paymentTotal;
+			
 			CommandLineDriver.goToScreen("cash");
 		}
 	

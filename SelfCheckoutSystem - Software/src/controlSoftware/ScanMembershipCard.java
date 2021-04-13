@@ -44,6 +44,7 @@ public class ScanMembershipCard {
 		testerRecord.number = testerCardNumber;
 		testerRecord.cardholder = testerCardHolder;
 		this.membershipDatabase.put(testerCardNumber, testerRecord);
+
 	}
 	
 	/**
@@ -53,7 +54,7 @@ public class ScanMembershipCard {
 	 * @param cardHolder 
 	 * 		  The name of the card holder. 
 	 */
-	private void detectCard(String number, String cardHolder) {
+	public void detectCard(String number, String cardHolder) {
 		try {
 			this.inputCard = new Card("Membership", number, cardHolder, null, null, true, false);
 		}catch(SimulationException e) {
@@ -162,6 +163,15 @@ public class ScanMembershipCard {
 		}
 		catch(IOException e) {
 			throw e;
+		}
+	}
+	
+	public String getMemberName(String cardNumber) {
+		if (this.membershipDatabase.containsKey(cardNumber)) {
+			return membershipDatabase.get(cardNumber).cardholder;
+		}
+		else {
+			return "";
 		}
 	}
 	

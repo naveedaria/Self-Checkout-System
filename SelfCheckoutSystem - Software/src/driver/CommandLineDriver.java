@@ -39,7 +39,16 @@ public class CommandLineDriver {
 
 	public static WelcomeScreen welcome;
 	public static MembershipScreen membership;
-
+	public static Barcode b1 = new Barcode("1111");
+    public static BarcodedItem bItem = new BarcodedItem(b1, 5);
+    public static Barcode b2 = new Barcode("2222");
+    public static BarcodedItem bItem2 = new BarcodedItem(b2, 5);
+    public static Barcode b3 = new Barcode("3333");
+    public static BarcodedItem bItem3 = new BarcodedItem(b3, 5);
+    public static Barcode b4 = new Barcode("4444");
+    public static BarcodedItem bItem4 = new BarcodedItem(b4, 5);
+    public static Barcode b5 = new Barcode("5555");
+    public static BarcodedItem bItem5 = new BarcodedItem(b5, 5);
 	
 	public static void main(String[] args) {
         System.out.println("Self-Checkout Station turning on...");
@@ -53,24 +62,24 @@ public class CommandLineDriver {
         Map<Barcode, BarcodedItem> barcodedItemDatabase = BarcodedItemDatabase.BARCODED_ITEM_DATABASE;
 
         
-        Barcode b1 = new Barcode("1111");
-        BarcodedItem bItem = new BarcodedItem(b1, 5);
+       // Barcode b1 = new Barcode("1111");
+      //  BarcodedItem bItem = new BarcodedItem(b1, 5);
         BarcodedProduct bp1 = new BarcodedProduct(b1, "Banana", new BigDecimal(1.00));
         
-        Barcode b2 = new Barcode("2222");
-        BarcodedItem bItem2 = new BarcodedItem(b2, 5);
+       // Barcode b2 = new Barcode("2222");
+    //    BarcodedItem bItem2 = new BarcodedItem(b2, 5);
         BarcodedProduct bp2 = new BarcodedProduct(b2, "Milk", new BigDecimal(2.50));
         
-        Barcode b3 = new Barcode("3333");
-        BarcodedItem bItem3 = new BarcodedItem(b3, 5);
+     //   Barcode b3 = new Barcode("3333");
+     //   BarcodedItem bItem3 = new BarcodedItem(b3, 5);
         BarcodedProduct bp3 = new BarcodedProduct(b3, "Cereal", new BigDecimal(5.00));
         
-        Barcode b4 = new Barcode("4444");
-        BarcodedItem bItem4 = new BarcodedItem(b4, 5);
+      //  Barcode b4 = new Barcode("4444");
+      //  BarcodedItem bItem4 = new BarcodedItem(b4, 5);
         BarcodedProduct bp4 = new BarcodedProduct(b4, "Wagyu Beef", new BigDecimal(50.00));
         
-        Barcode b5 = new Barcode("5555");
-        BarcodedItem bItem5 = new BarcodedItem(b5, 5);
+     //   Barcode b5 = new Barcode("5555");
+    //    BarcodedItem bItem5 = new BarcodedItem(b5, 5);
         BarcodedProduct bp5 = new BarcodedProduct(b5, "500 Year Old Wine", new BigDecimal(52.00));
         
         
