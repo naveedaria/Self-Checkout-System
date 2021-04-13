@@ -170,7 +170,7 @@ public class GiftCardPaymentScreen extends JPanel {
 
 		// tap to redeem button shouldn't go to new screen, only update the payment balance and print in text box 
 		//btnNewButton.addActionListener(new GotoAttendantScreen());
-		btnCompletePayment.addActionListener(new GotoPaymentSelector());
+		btnCompletePayment.addActionListener(new CheckIfComplete());
 		
 		btnGoBack.addActionListener(new GotoPaymentSelector());
 		
@@ -235,6 +235,21 @@ public class GiftCardPaymentScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			CommandLineDriver.goToScreen("attendant");
+		}
+	}
+	
+	private class CheckIfComplete implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			BigDecimal newBalanceBD = new BigDecimal(newBalance);
+			
+			if (newBalanceBD.compareTo(new BigDecimal("0")) == 0){
+				CommandLineDriver.goToScreen("thank");
+			}
+			else {
+				CommandLineDriver.goToScreen("pay");
+			}
+			
 		}
 	}
 
