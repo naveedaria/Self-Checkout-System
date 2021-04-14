@@ -31,6 +31,10 @@ public class MainScreen extends JPanel {
 	public static JTextArea totalArea;
 	public static JList itemList;
 	public static JLabel status;
+	public static JLabel inkLabel;
+	public static JLabel paperLabel;
+	// Randome level initialized for the levels
+	public static int inkLevel = 100, paperLevel = 100;
 
 	/**
 	 * Create the panel.
@@ -82,22 +86,42 @@ public class MainScreen extends JPanel {
 		// If station is blocked status msg
 		if(CommandLineDriver.isBlocked) {
 			status.setForeground(Color.red);
-			/*
-			 *	Buttons that should be disable.
-			 *	lookupButton.setEnabled(false);
-				scanButton.setEnabled(false);
-				bagItemButton.setEnabled(false);
-				skipBaggingBUtton.setEnabled(false);
-				pluCodeButton.setEnabled(false);
-				attendantButton.setEnabled(false);
-				removeItemButton.setEnabled(false);
-			 */
+			
 			status.setText("Station state: Blocked");
 			// If station is unblocked status msg
 		}else {
 			status.setForeground(Color.green);
 			status.setText("Station state: Unblocked");
 		}
+		
+		// Initializing the labels for the ink and paper
+		inkLabel = new JLabel();
+		inkLabel.setText("Ink Level: " + inkLevel);
+		paperLabel = new JLabel();
+		paperLabel.setText("Paper Level: "+ paperLevel);
+		
+		// Ink level color of msg 
+		if(inkLevel > 99) {
+			inkLabel.setForeground(Color.green);
+		}
+		else if(inkLevel < 99 &&  inkLevel > 30) {
+			inkLabel.setForeground(Color.yellow);
+		}else {
+			inkLabel.setForeground(Color.red);
+		}
+		
+		// Paper level color of msg 
+		if(paperLevel > 99) {
+			paperLabel.setForeground(Color.green);
+		}
+		else if(paperLevel < 99 &&  paperLevel > 30) {
+			paperLabel.setForeground(Color.yellow);
+		}else {
+			paperLabel.setForeground(Color.red);
+		}
+		
+		
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -111,36 +135,36 @@ public class MainScreen extends JPanel {
 						.addComponent(itemList, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
 						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
 						.addComponent(totalArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(6)
-									.addComponent(scanButton)
-									.addPreferredGap(ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
-									.addComponent(bagItemButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(skipBaggingBUtton))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(nextButton, GroupLayout.PREFERRED_SIZE, 355, GroupLayout.PREFERRED_SIZE)
-										.addComponent(announcementsLabel, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addComponent(attendantButton, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-												.addComponent(lookupButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
-											.addGap(24)
-											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addComponent(removeItemButton, GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
-												.addComponent(pluCodeButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))))))
-							.addGap(24))
+							.addGap(6)
+							.addComponent(scanButton)
+							.addPreferredGap(ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
+							.addComponent(bagItemButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(skipBaggingBUtton))
 						.addGroup(groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(announcementsLabel, GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(attendantButton, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+										.addComponent(lookupButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
+									.addGap(24)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(removeItemButton, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+										.addComponent(pluCodeButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+											.addComponent(inkLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(paperLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE))))
+								.addComponent(nextButton, GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)))
+						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 							.addGap(18)
-							.addComponent(status, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
+							.addComponent(status, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)))
+					.addGap(24))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(406, Short.MAX_VALUE)
+					.addContainerGap(408, Short.MAX_VALUE)
 					.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 224, GroupLayout.PREFERRED_SIZE)
 					.addGap(273))
 		);
@@ -157,20 +181,24 @@ public class MainScreen extends JPanel {
 							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(announcementsLabel)
-							.addGap(264)
-							.addComponent(status)
+							.addGap(235)
+							.addComponent(inkLabel)
+							.addGap(16)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(status)
+								.addComponent(paperLabel))
 							.addGap(14)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(removeItemButton, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
 								.addComponent(attendantButton, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(pluCodeButton, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lookupButton, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(nextButton, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-						.addComponent(totalArea, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+						.addComponent(totalArea, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+						.addComponent(nextButton, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_1)

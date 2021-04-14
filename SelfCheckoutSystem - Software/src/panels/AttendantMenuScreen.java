@@ -267,7 +267,11 @@ public class AttendantMenuScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			inkStateLbl.setText("Ink state: filled");
+			int inkAdded = 10;
+			MainScreen.inkLevel += inkAdded;
+			inkStateLbl.setText("Ink state: " + MainScreen.inkLevel);
+			CommandLineDriver.controlSoftware.stationControl.addInkToStation(inkAdded);
+			MainScreen.inkLabel.setText("Ink Level: " + MainScreen.inkLevel);
 			
 		}
 		
@@ -278,8 +282,11 @@ public class AttendantMenuScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			paperStateLbl.setText("Paper state: filled");
-			
+			int paperAdded = 10;
+			MainScreen.paperLevel += paperAdded;
+			paperStateLbl.setText("Paper state: " + MainScreen.paperLevel);
+			CommandLineDriver.controlSoftware.stationControl.addInkToStation(paperAdded);
+			MainScreen.paperLabel.setText("Paper Level: " + MainScreen.paperLevel);
 		}
 		
 	}
