@@ -46,15 +46,15 @@ public class CommandLineDriver {
 	public static SwipeCardScreen swipe;
 	
 	public static Barcode b1 = new Barcode("1111");
-    public static BarcodedItem bItem = new BarcodedItem(b1, 5);
+    public static BarcodedItem bItem = new BarcodedItem(b1, 20);
     public static Barcode b2 = new Barcode("2222");
-    public static BarcodedItem bItem2 = new BarcodedItem(b2, 5);
+    public static BarcodedItem bItem2 = new BarcodedItem(b2, 20);
     public static Barcode b3 = new Barcode("3333");
-    public static BarcodedItem bItem3 = new BarcodedItem(b3, 5);
+    public static BarcodedItem bItem3 = new BarcodedItem(b3, 20);
     public static Barcode b4 = new Barcode("4444");
-    public static BarcodedItem bItem4 = new BarcodedItem(b4, 5);
+    public static BarcodedItem bItem4 = new BarcodedItem(b4, 20);
     public static Barcode b5 = new Barcode("5555");
-    public static BarcodedItem bItem5 = new BarcodedItem(b5, 5);
+    public static BarcodedItem bItem5 = new BarcodedItem(b5, 20);
     
    
     public static PriceLookupCode plucode1 = new PriceLookupCode("4011"); 
@@ -95,11 +95,11 @@ public class CommandLineDriver {
         
       //  Barcode b4 = new Barcode("4444");
       //  BarcodedItem bItem4 = new BarcodedItem(b4, 5);
-        BarcodedProduct bp4 = new BarcodedProduct(b4, "Wagyu Beef", new BigDecimal(50.00));
+        BarcodedProduct bp4 = new BarcodedProduct(b4, "WagyuBeef", new BigDecimal(50.00));
         
      //   Barcode b5 = new Barcode("5555");
     //    BarcodedItem bItem5 = new BarcodedItem(b5, 5);
-        BarcodedProduct bp5 = new BarcodedProduct(b5, "500 Year Old Wine", new BigDecimal(52.00));
+        BarcodedProduct bp5 = new BarcodedProduct(b5, "500YearOldWine", new BigDecimal(52.00));
         
         
         barcodedItemDatabase.put(b1, bItem);

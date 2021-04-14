@@ -31,7 +31,7 @@ import driver.CommandLineDriver;
 
 public class CashPaymentScreen extends JPanel {
 	BigDecimal cashPayed = new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP);
-	BigDecimal balance = CommandLineDriver.controlSoftware.shoppingCart.getTotalPayment();
+	BigDecimal balance = CommandLineDriver.controlSoftware.paymentTotal;
 	//Keep track of what cash has been inserted
 	int bills5 = 0;
 	int bills10 = 0;
@@ -45,22 +45,20 @@ public class CashPaymentScreen extends JPanel {
 	int loonies = 0;
 	int toonies = 0;
 	
+	public JButton btnNewButton;
+	public JButton btnNewButton_1;
+	public JButton btnNewButton_2;
+	public JButton btnNewButton_3;
+	public JButton btnNewButton_4;
+	public JButton btnNewButton_5;
+	public JButton btnNewButton_6;
+	public JButton btnNewButton_7;
+	public JButton btnNewButton_8;
+	public JButton btnNewButton_9;
+	public JButton btnNewButton_10; 
+	public JLabel lblNewLabel_8;
 	public JLabel lblNewLabel_3;
 	public JLabel lblNewLabel_2;
-	public JLabel lblNewLabel_8;
-	
-	JButton btnNewButton = new JButton("$5 bill");
-	JButton btnNewButton_1 = new JButton("Nickel");
-	JButton btnNewButton_2 = new JButton("Loonie");
-	JButton btnNewButton_3 = new JButton("Quarter");
-	JButton btnNewButton_4 = new JButton("$10 bill");
-	JButton btnNewButton_5 = new JButton("$50 bill");
-	JButton btnNewButton_6 = new JButton("Dime");
-	JButton btnNewButton_7 = new JButton("$20 bill");
-	JButton btnNewButton_8 = new JButton("$100 bill");
-	JButton btnNewButton_9 = new JButton("Toonie");
-	JButton btnNewButton_10 = new JButton("Continue");
-	
 	
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
@@ -101,73 +99,73 @@ public class CashPaymentScreen extends JPanel {
 		
 		lblNewLabel_2 = new JLabel(balance.toString());
 		BigDecimal combined = cashPayed.add(balance);
-		lblNewLabel_3 = new JLabel(CommandLineDriver.controlSoftware.shoppingCart.getTotalPayment().toString());
+		lblNewLabel_3 = new JLabel(CommandLineDriver.controlSoftware.paymentTotal.toString());
 	
 		lblNewLabel_8 = new JLabel("0.0");
 		
+		btnNewButton = new JButton("$5 bill");
+		btnNewButton_1 = new JButton("Nickel");
+		btnNewButton_2 = new JButton("Loonie");
+		btnNewButton_3 = new JButton("Quarter");
+		btnNewButton_4 = new JButton("$10 bill");
+		btnNewButton_5 = new JButton("$50 bill");
+		btnNewButton_6 = new JButton("Dime");
+		btnNewButton_7 = new JButton("$20 bill");
+		btnNewButton_8 = new JButton("$100 bill");
+		btnNewButton_9 = new JButton("Toonie");
+		btnNewButton_10 = new JButton("Continue");
 		btnNewButton_10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(CommandLineDriver.controlSoftware.shoppingCart.getTotalPayment().compareTo(new BigDecimal(0)) == 1) {
-					int numOfNotes = bills5 + bills10 + bills20 + bills50 + bills100;
-					Banknote[] banknoteArray = new Banknote[numOfNotes];
-					int i;
-					for(i = 0; i<bills5; i++) {
-						banknoteArray[i] = new Banknote(5, CommandLineDriver.controlSoftware.currency);
-					}
-					for(i = i; i < bills10; i++) {
-						banknoteArray[i] = new Banknote(10, CommandLineDriver.controlSoftware.currency);
-					}
-					for(i = i; i < bills20; i++) {
-						banknoteArray[i] = new Banknote(20, CommandLineDriver.controlSoftware.currency);
-					}
-					for(i = i; i < bills50; i++) {
-						banknoteArray[i] = new Banknote(50, CommandLineDriver.controlSoftware.currency);
-					}
-					for(i = i; i < bills100; i++) {
-						banknoteArray[i] = new Banknote(100, CommandLineDriver.controlSoftware.currency);
-					}
-					
-					int numOfCoins = nickels + dimes + quarters + loonies + toonies;
-					Coin[] coinArray = new Coin[numOfCoins];
-					int j;
-					for(j = 0; j<nickels; j++) {
-						coinArray[j] = new Coin(new BigDecimal(0.05).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
-					}
-					for(j = j; j<dimes; j++) {
-						coinArray[j] = new Coin(new BigDecimal(0.10).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
-					}
-					for(j = j; j<quarters; j++) {
-						coinArray[j] = new Coin(new BigDecimal(0.25).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
-					}
-					for(j = j; j<loonies; j++) {
-						coinArray[j] = new Coin(new BigDecimal(1.0).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
-					}
-					for(j = j; j<toonies; j++) {
-						coinArray[j] = new Coin(new BigDecimal(2.0).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
-					}
-					try {
-					CommandLineDriver.controlSoftware.cashToPay(coinArray, banknoteArray);
-					}
-					catch(Exception we) {
-						we.printStackTrace();
-					}
+				int numOfNotes = bills5 + bills10 + bills20 + bills50 + bills100;
+				Banknote[] banknoteArray = new Banknote[numOfNotes];
+				int i;
+				for(i = 0; i<bills5; i++) {
+					banknoteArray[i] = new Banknote(5, CommandLineDriver.controlSoftware.currency);
+				}
+				for(i = i; i < bills10; i++) {
+					banknoteArray[i] = new Banknote(10, CommandLineDriver.controlSoftware.currency);
+				}
+				for(i = i; i < bills20; i++) {
+					banknoteArray[i] = new Banknote(20, CommandLineDriver.controlSoftware.currency);
+				}
+				for(i = i; i < bills50; i++) {
+					banknoteArray[i] = new Banknote(50, CommandLineDriver.controlSoftware.currency);
+				}
+				for(i = i; i < bills100; i++) {
+					banknoteArray[i] = new Banknote(100, CommandLineDriver.controlSoftware.currency);
+				}
+				
+				int numOfCoins = nickels + dimes + quarters + loonies + toonies;
+				Coin[] coinArray = new Coin[numOfCoins];
+				int j;
+				for(j = 0; j<nickels; j++) {
+					coinArray[j] = new Coin(new BigDecimal(0.05).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+				}
+				for(j = j; j<dimes; j++) {
+					coinArray[j] = new Coin(new BigDecimal(0.10).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+				}
+				for(j = j; j<quarters; j++) {
+					coinArray[j] = new Coin(new BigDecimal(0.25).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+				}
+				for(j = j; j<loonies; j++) {
+					coinArray[j] = new Coin(new BigDecimal(1.0).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+				}
+				for(j = j; j<toonies; j++) {
+					coinArray[j] = new Coin(new BigDecimal(2.0).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+				}
+				try {
+				CommandLineDriver.controlSoftware.cashToPay(coinArray, banknoteArray);
+				}
+				catch(Exception we) {
+					we.printStackTrace();
 				}
 				CommandLineDriver.goToScreen("thank");
 			}
 		});
-		
-		JButton btnNewButton_11 = new JButton("Back");
-		btnNewButton_11.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CommandLineDriver.goToScreen("pay");
-			}
-		});
-		
 		btnNewButton_10.setEnabled(false);
 		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_11.setEnabled(false);
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
 					bills5 += 1;
 					cashPayed = cashPayed.add(new BigDecimal(5.0));
@@ -200,7 +198,6 @@ public class CashPaymentScreen extends JPanel {
 		});
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_11.setEnabled(false);
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
 					nickels += 1;
 					cashPayed = cashPayed.add(new BigDecimal(0.05).setScale(2, RoundingMode.HALF_UP));
@@ -232,7 +229,6 @@ public class CashPaymentScreen extends JPanel {
 		});
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_11.setEnabled(false);
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
 					loonies += 1;
 					cashPayed = cashPayed.add(new BigDecimal(1.0));
@@ -264,7 +260,6 @@ public class CashPaymentScreen extends JPanel {
 		});
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_11.setEnabled(false);
 					if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
 					quarters += 1;
 					cashPayed = cashPayed.add(new BigDecimal(0.25));
@@ -296,7 +291,6 @@ public class CashPaymentScreen extends JPanel {
 		});
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_11.setEnabled(false);
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
 					bills10 += 1;
 					cashPayed = cashPayed.add(new BigDecimal(10.0));
@@ -328,7 +322,6 @@ public class CashPaymentScreen extends JPanel {
 		});
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_11.setEnabled(false);
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
 					bills50 += 1;
 					cashPayed = cashPayed.add(new BigDecimal(50.0));
@@ -360,7 +353,6 @@ public class CashPaymentScreen extends JPanel {
 		});
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_11.setEnabled(false);
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
 					dimes += 1;
 					cashPayed = cashPayed.add(new BigDecimal(0.10).setScale(2, RoundingMode.HALF_UP));
@@ -392,7 +384,6 @@ public class CashPaymentScreen extends JPanel {
 		});
 		btnNewButton_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_11.setEnabled(false);
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
 					bills20 += 1;
 					cashPayed = cashPayed.add(new BigDecimal(20.0));
@@ -424,7 +415,6 @@ public class CashPaymentScreen extends JPanel {
 		});
 		btnNewButton_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_11.setEnabled(false);
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
 					bills100 += 1;
 					cashPayed = cashPayed.add(new BigDecimal(100.0));
@@ -456,7 +446,6 @@ public class CashPaymentScreen extends JPanel {
 		});
 		btnNewButton_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton_11.setEnabled(false);
 				if(balance.compareTo(new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP)) == 1) {
 					toonies += 1;
 					cashPayed = cashPayed.add(new BigDecimal(2.0));
@@ -503,6 +492,7 @@ public class CashPaymentScreen extends JPanel {
 		JLabel lblNewLabel_7 = new JLabel("Change");
 		
 		
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -519,20 +509,18 @@ public class CashPaymentScreen extends JPanel {
 									.addComponent(lblNewLabel_1)
 									.addGap(91))
 								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 										.addGroup(groupLayout.createSequentialGroup()
-											.addPreferredGap(ComponentPlacement.RELATED, 306, Short.MAX_VALUE)
+											.addPreferredGap(ComponentPlacement.RELATED, 313, Short.MAX_VALUE)
 											.addComponent(lblNewLabel))
-										.addGroup(groupLayout.createSequentialGroup()
+										.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 												.addGroup(groupLayout.createSequentialGroup()
 													.addComponent(btnNewButton_4, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 													.addPreferredGap(ComponentPlacement.RELATED)
 													.addComponent(btnNewButton_6, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
 												.addGroup(groupLayout.createSequentialGroup()
-													.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-														.addComponent(btnNewButton_11)
-														.addComponent(btnNewButton_8, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+													.addComponent(btnNewButton_8, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 													.addPreferredGap(ComponentPlacement.RELATED)
 													.addComponent(btnNewButton_9, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
 											.addGap(50)
@@ -565,7 +553,7 @@ public class CashPaymentScreen extends JPanel {
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblNewLabel_6)
 								.addComponent(lblNewLabel_3))))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap(112, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -608,15 +596,11 @@ public class CashPaymentScreen extends JPanel {
 						.addComponent(btnNewButton_9)
 						.addComponent(btnNewButton_10)
 						.addComponent(lblNewLabel_7))
-					.addPreferredGap(ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-					.addComponent(btnNewButton_11)
-					.addGap(20))
+					.addContainerGap(272, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 
 	}
 	
-	public void enableContinue() {
-		
-	}
+	
 }

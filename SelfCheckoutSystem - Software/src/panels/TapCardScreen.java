@@ -9,9 +9,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
-import org.lsmr.selfcheckout.devices.SimulationException;
-
 import javax.swing.JCheckBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JOptionPane;
@@ -71,6 +68,8 @@ public class TapCardScreen extends JPanel {
 		JLabel lblNewLabel_4 = new JLabel("Please enter card details below");
 		
 		JButton btnGoBack = new JButton("Go Back");
+		
+		JButton btnCallAttendant = new JButton("Call Attendant");
 		
 		expiry_textField = new JTextField();
 		expiry_textField.setColumns(10);
@@ -142,14 +141,19 @@ public class TapCardScreen extends JPanel {
 							.addComponent(btnCompletePayment)
 							.addGap(122))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(251)
+							.addComponent(btnCallAttendant)
+							.addGap(150)
 							.addComponent(card_Payment_Label, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(287, Short.MAX_VALUE))))
+							.addContainerGap(0, Short.MAX_VALUE))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(card_Payment_Label, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(28)
+							.addComponent(btnCallAttendant))
+						.addComponent(card_Payment_Label, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 					.addGap(37)
@@ -214,6 +218,8 @@ public class TapCardScreen extends JPanel {
 		
 		btnGoBack.addActionListener(new GotoPreviousScreen());
 		
+		btnCallAttendant.addActionListener(new GotoAttendant());
+		
 		// Should happen when ENTER is pressed (by default). Maybe? Make sure that's actually how it works.
 //{
            
@@ -230,6 +236,16 @@ public class TapCardScreen extends JPanel {
 
 		
 	}
+
+
+
+	
+	private class GotoAttendant implements ActionListener{
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CommandLineDriver.goToScreen("attendant");
+			}
+		}
 	
 	
 
@@ -289,7 +305,7 @@ public class TapCardScreen extends JPanel {
 						cvv_textField.getText(),pinString,true,true,expiryCal, new BigDecimal(1000), true);
 					
 				CommandLineDriver.goToScreen("thank");
-			} catch (IOException | ArrayIndexOutOfBoundsException | SimulationException e1) {
+			} catch (IOException | ArrayIndexOutOfBoundsException e1) {
 				
 				warningDialog("Invalid Card","The card tapped was invalid please try again");
 				eraseAll();

@@ -47,11 +47,10 @@ public class ControlSoftware {
 	private int scaleSensitivity;
 	public SelfCheckoutStation selfCheckout;
 	public Lookup lookup;
-	ElectronicScaleListenerStub electronicScaleStub;
+	public ElectronicScaleListenerStub electronicScaleStub;
 	public StationControl stationControl;
 	public double expectedWeightOnScale;
-	
-	
+	public static boolean scanned = false;
 	
 	public ShoppingCart shoppingCart;
 	
@@ -100,10 +99,10 @@ public class ControlSoftware {
 		selfCheckout.mainScanner.enable();
 				
 		
-		ElectronicScaleListenerStub electronicScaleStub = new ElectronicScaleListenerStub();
+		this.electronicScaleStub = new ElectronicScaleListenerStub();
 		
-		selfCheckout.scale.register(electronicScaleStub);
-		selfCheckout.scale.enable();
+		selfCheckout.baggingArea.register(this.electronicScaleStub);
+		
 	}
 	
 	
@@ -131,6 +130,7 @@ public class ControlSoftware {
 		//}
 		this.paymentTotal = shoppingCart.totalPayment;
 		
+		ControlSoftware.scanned = true;
 	}
 	
 	/**
@@ -246,7 +246,9 @@ public class ControlSoftware {
 		return ooo;
 	}
 	
-	public void addToBaggingArea(BarcodedItem item) throws Exception {
+	public void addToBaggingArea(Barcode b) throws Exception {
+		BarcodedItem item = BarcodedItemDatabase.BARCODED_ITEM_DATABASE.get(b);
+		
 		// Checking for null item
 		if(item == null) throw new SimulationException("Null item.");
 	
@@ -259,10 +261,10 @@ public class ControlSoftware {
 		
 		// Add item to the scale
 		selfCheckout.baggingArea.add(item);
-		
+		ControlSoftware.scanned = false;
 		// Get the total weight of the new item added 
 		double newWeight = electronicScaleStub.getCurrentWeight();
-		
+		System.out.println(newWeight);
 		// If the new weight is greater the maximum that the scale can measure
 		if(newWeight > electronicScaleStub.maximumWeightInGrams) {
 			// Set the overload flag
@@ -274,17 +276,18 @@ public class ControlSoftware {
 		else if (!electronicScaleStub.isOverload) {
 			// Checking if the new weight is the same as the item weight
 			newWeight = newWeight - weight;
-			System.out.println("New Weight" + newWeight+ " Weight: " + weight);
+			//System.out.println("New Weight" + newWeight+ " Weight: " + weight);
 			// New weight should not greater or less than the item weight 
 			if(newWeight != item.getWeight()) {
 				// Print statement for the non successful attempt
-				System.out.println("Weight has changed, item was not successfully added to bagging area.");
+				//System.out.println("Weight has changed, item was not successfully added to bagging area.");
 				// Call GUI to prompt the attendant 
 				// Attendant should enter their number and by-pass this prompt 
 			}
 			else {
 				// Print statement for the successful attempt
-				System.out.println("Weight has not changed, item was successfully added to bagging area.");
+				//System.out.println("Weight has not changed, item was successfully added to bagging area.");
+				
 				// Successful prompt or do nothing
 			}
 		}
@@ -605,6 +608,8 @@ public class ControlSoftware {
 		this.shoppingCart.updatePayment(BigDecimal.valueOf(amtToAdd));
 		
 	}
+	
+	
 	
 	
 	

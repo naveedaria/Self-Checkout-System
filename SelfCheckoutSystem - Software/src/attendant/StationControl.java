@@ -21,7 +21,6 @@ import org.lsmr.selfcheckout.products.BarcodedProduct;
 import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
 import controlSoftware.ControlSoftware;
-import panels.MainScreen;
 
 public class StationControl extends AttendantLogIn_Out{
 	
@@ -32,22 +31,22 @@ public class StationControl extends AttendantLogIn_Out{
 	private int scaleSensitivity;
 	public SelfCheckoutStation selfCheckout;
 	double expectedWeight;
-	int inkQuantity;
-	int paperQuantity;
+	int units;
+	int quantity;
 	
 
 	private ReceiptPrinterListener receiptListener = new ReceiptPrinterListener () {
 
 		private boolean enabled = false;
-		private int inkQuantity;
-		private int paperQuantity;
+		private int units;
+		private int quantity;
 		
-		public void setinkQuantity(int inkQuantity) {
-			this.inkQuantity = inkQuantity;
+		public void setUnit(int unit) {
+			this.units = unit;
 		}
 		
-		public void setPaperQuantity(int paperQuantity) {
-			this.paperQuantity = paperQuantity;
+		public void setQuantity(int quantity) {
+			this.quantity = quantity;
 		}
 
 		@Override
@@ -72,7 +71,7 @@ public class StationControl extends AttendantLogIn_Out{
 			
 			System.out.println("Station is out of receipt paper.");
 			
-			addPaperToStation(paperQuantity);
+			addPaperToStation(units);
 		}
 
 		@Override
@@ -83,7 +82,7 @@ public class StationControl extends AttendantLogIn_Out{
 			// maybe block station
 			
 			System.out.println("Station is out of receipt ink.");
-			selfCheckout.printer.addInk(inkQuantity);
+			selfCheckout.printer.addInk(quantity);
 		}
 
 		@Override
@@ -125,23 +124,17 @@ public class StationControl extends AttendantLogIn_Out{
 	
 	public void addPaperToStation(int units) {
 		if (units < 0) {
-			MainScreen.paperLevel += units;
-			MainScreen.paperLabel.setText("Paper Level: " + MainScreen.paperLevel);
-			this.paperQuantity += units;
 			throw new IllegalArgumentException("Wrong units added");
 		}
-		//selfCheckout.printer.addPaper(units);
+		selfCheckout.printer.addPaper(units);
 	}
 	
 	public void addInkToStation(int quantity) {
 		if (quantity < 0) {
-			MainScreen.inkLevel += quantity;
-			//MainScreen.inkLabel.setText("Ink Level: " + MainScreen.inkLevel);
-			this.inkQuantity += quantity;
 			throw new IllegalArgumentException("Wrong units added");
 		}
 		
-		//selfCheckout.printer.addInk(quantity);
+		selfCheckout.printer.addInk(quantity);
 	}
 	
 	public void emptyCoinStorageUnit() {

@@ -2,30 +2,155 @@ package panels;
 
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.imageio.ImageIO;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JCheckBox;
-import javax.swing.LayoutStyle.ComponentPlacement;
-
-import driver.CommandLineDriver;
-
-import javax.swing.JTextPane;
-import java.awt.Color;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import javax.imageio.ImageIO;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+
+import org.lsmr.selfcheckout.Barcode;
+
+import controlSoftware.Receipt;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
+import driver.CommandLineDriver;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
 
 public class GiftCardPaymentScreen extends JPanel {
 	private JTextField giftcardNumInput;
@@ -176,7 +301,7 @@ public class GiftCardPaymentScreen extends JPanel {
 		
 		btnGoBack.addActionListener(new GotoPaymentSelector());
 		
-		btnCallAttendant.addActionListener(new GotoAttendantScreen());
+		btnCallAttendant.addActionListener(new GotoAttendant());
 		
 		// Should happen when ENTER is pressed (by default). Maybe? Make sure that's actually how it works.
 		giftcardNumInput.addActionListener(new ActionListener(){
@@ -233,57 +358,12 @@ public class GiftCardPaymentScreen extends JPanel {
 		}
 	}
 	
-	
-	private class GotoAttendantScreen implements ActionListener{
-
+	private class GotoAttendant implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			boolean approved = showLoginScreen();
-			if(approved) {
-				
-				LookupItemScreen.flag = "attendant";
-				CommandLineDriver.goToScreen("attendant");
-			} else {
-				showIncorrectMessage();
-			}
-			
-			
+			CommandLineDriver.goToScreen("attendant");
 		}
-		
 	}
-	
-	private boolean showLoginScreen() {
-		//https://stackoverflow.com/questions/6555040/multiple-input-in-joptionpane-showinputdialog/6555051
-		JPasswordField pwd = new JPasswordField(10);
-		JTextField user = new JTextField();
-		boolean app = false;
-		Object[] message = {
-			    "Username: ", user,
-			    "Password: ", pwd
-			};
-		
-		int option = JOptionPane.showConfirmDialog(
-                this,
-                message,"Attendant Login",
-                JOptionPane.OK_CANCEL_OPTION
-                );
-		
-		if(option == JOptionPane.OK_OPTION) {
-			app = CommandLineDriver.controlSoftware.stationControl.logIn(user.getText().trim(), String.valueOf(pwd.getPassword()));
-		}
-		
-		return app;
-	}
-	
-	private void showIncorrectMessage() {
-		JOptionPane.showMessageDialog(this,
-			    "The passcode entered is incorrect. Please try again.",
-			    "Incorrect Passcode",
-			    JOptionPane.WARNING_MESSAGE);
-	}
-	
-	
 	
 	private class CheckIfComplete implements ActionListener{
 		@Override
