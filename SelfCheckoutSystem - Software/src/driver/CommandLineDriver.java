@@ -1,6 +1,7 @@
 package driver;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.Map;
 
@@ -37,11 +38,13 @@ public class CommandLineDriver {
 	
 	public static  ThankYouForShoppingScreen thank;
 	public static  AttendantMenuScreen attendant;
-	
 	public static ControlSoftware controlSoftware;
-
 	public static WelcomeScreen welcome;
 	public static MembershipScreen membership;
+	public static CardSelectMethodScreen selectmethod;
+	public static TapCardScreen tap;
+	public static SwipeCardScreen swipe;
+	
 	public static Barcode b1 = new Barcode("1111");
     public static BarcodedItem bItem = new BarcodedItem(b1, 5);
     public static Barcode b2 = new Barcode("2222");
@@ -64,10 +67,11 @@ public class CommandLineDriver {
     public static BlockStation blockStation;
     public static boolean isBlocked = false;
 	
-	
+
 	public static void main(String[] args) {
         System.out.println("Self-Checkout Station turning on...");
         System.out.println("Initializing Control Software v.1......");
+        
         
         /*===============================================================
          *                INITIALIZE PRODUCT DATABASE
@@ -136,13 +140,11 @@ public class CommandLineDriver {
         // Initialize Control Software
         final Currency c1 = Currency.getInstance("CAD");
     	final int[] banknoteDenominations = new int[]{5, 10, 20, 50, 100};
-    	final BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05), new BigDecimal(0.10), new BigDecimal(0.25), new BigDecimal(1.00), new BigDecimal(2.00)};
+    	final BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05).setScale(2, RoundingMode.HALF_UP), new BigDecimal(0.10).setScale(2, RoundingMode.HALF_UP), new BigDecimal(0.25).setScale(2, RoundingMode.HALF_UP), new BigDecimal(1.00).setScale(2, RoundingMode.HALF_UP), new BigDecimal(2.00).setScale(2, RoundingMode.HALF_UP)};
     	final int scaleMaximumWeight = 500; // Don't know the units of the scale, will figure out later
     	final int scaleSensitivity = 1; // Don't know the units also
         controlSoftware = new ControlSoftware(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
-        
         blockStation = new BlockStation(controlSoftware.selfCheckout);
-        
         System.out.println("Self-checkout is ready! Scan your item...");
         
         /*===============================================================
@@ -210,6 +212,11 @@ public class CommandLineDriver {
         welcome = new WelcomeScreen();
         membership = new MembershipScreen();
         
+        selectmethod = new CardSelectMethodScreen();
+        tap = new TapCardScreen();
+        swipe = new SwipeCardScreen();
+        
+        
         mainFrame = controlSoftware.selfCheckout.screen.getFrame();
         mainFrame.setVisible(true);
         mainFrame.setSize(600,500);
@@ -224,6 +231,7 @@ public class CommandLineDriver {
 	}
 	
 	public static void goToScreen(String idx) {
+		
 		if (idx == "welcome") { 
 			mainFrame.setContentPane(welcome);
 			mainFrame.pack();
@@ -271,7 +279,17 @@ public class CommandLineDriver {
 			mainFrame.setContentPane(plulookup);
 			mainFrame.pack();
 		}
-		
-		
+		if (idx =="selectmethod") {
+			mainFrame.setContentPane(selectmethod);
+			mainFrame.pack();
+		}
+		if (idx =="tap") {
+			mainFrame.setContentPane(tap);
+			mainFrame.pack();
+		}
+		if (idx =="swipe") {
+			mainFrame.setContentPane(swipe);
+			mainFrame.pack();
+		}
 	}
 }
