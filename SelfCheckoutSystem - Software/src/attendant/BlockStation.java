@@ -3,7 +3,7 @@ package attendant;
 import org.lsmr.selfcheckout.devices.SelfCheckoutStation;
 
 public class BlockStation {
-	boolean isBlocked;
+	public boolean isBlocked;
 	
 	public BlockStation(SelfCheckoutStation station) {
 		if (isBlocked) {

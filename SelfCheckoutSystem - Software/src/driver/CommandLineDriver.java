@@ -15,6 +15,7 @@ import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
+import attendant.BlockStation;
 import controlSoftware.BarcodedItemDatabase;
 import controlSoftware.ControlSoftware;
 import controlSoftware.PLUCodedItemDatabase;
@@ -59,6 +60,9 @@ public class CommandLineDriver {
     public static PLUCodedItem pluItem2 = new PLUCodedItem(plucode2,500);
     public static PriceLookupCode plucode3 = new PriceLookupCode("5552"); 
     public static PLUCodedItem pluItem3 = new PLUCodedItem(plucode3,1000);
+    
+    public static BlockStation blockStation;
+    public static boolean isBlocked = false;
 	
 	
 	public static void main(String[] args) {
@@ -136,6 +140,8 @@ public class CommandLineDriver {
     	final int scaleMaximumWeight = 500; // Don't know the units of the scale, will figure out later
     	final int scaleSensitivity = 1; // Don't know the units also
         controlSoftware = new ControlSoftware(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
+        
+        blockStation = new BlockStation(controlSoftware.selfCheckout);
         
         System.out.println("Self-checkout is ready! Scan your item...");
         

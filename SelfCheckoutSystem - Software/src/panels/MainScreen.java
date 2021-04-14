@@ -21,6 +21,8 @@ import driver.CommandLineDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+
+import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
@@ -28,6 +30,8 @@ public class MainScreen extends JPanel {
 	private JTextField txtEnterYourBarcode;
 	public static JTextArea totalArea;
 	public static JList itemList;
+	public static JLabel status;
+
 	/**
 	 * Create the panel.
 	 */
@@ -68,7 +72,32 @@ public class MainScreen extends JPanel {
 		
 		JButton attendantButton = new JButton("Call Attendant");
 		
+		
 		JButton removeItemButton = new JButton("Remove Item");
+		
+		// Status label for blocked/unblocked
+		status = new JLabel();
+		status.setText("Is Blocked: " + CommandLineDriver.isBlocked);
+		
+		// If station is blocked status msg
+		if(CommandLineDriver.isBlocked) {
+			status.setForeground(Color.red);
+			/*
+			 *	Buttons that should be disable.
+			 *	lookupButton.setEnabled(false);
+				scanButton.setEnabled(false);
+				bagItemButton.setEnabled(false);
+				skipBaggingBUtton.setEnabled(false);
+				pluCodeButton.setEnabled(false);
+				attendantButton.setEnabled(false);
+				removeItemButton.setEnabled(false);
+			 */
+			status.setText("Station state: Blocked");
+			// If station is unblocked status msg
+		}else {
+			status.setForeground(Color.green);
+			status.setText("Station state: Unblocked");
+		}
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -81,31 +110,37 @@ public class MainScreen extends JPanel {
 							.addComponent(txtEnterYourBarcode))
 						.addComponent(itemList, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
 						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-						.addComponent(totalArea))
+						.addComponent(totalArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addComponent(scanButton)
-							.addPreferredGap(ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-							.addComponent(bagItemButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(skipBaggingBUtton))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(nextButton, GroupLayout.PREFERRED_SIZE, 355, GroupLayout.PREFERRED_SIZE)
-								.addComponent(announcementsLabel, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
-								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(attendantButton, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-										.addComponent(lookupButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
-									.addGap(24)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(removeItemButton, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-										.addComponent(pluCodeButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-					.addGap(24))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(6)
+									.addComponent(scanButton)
+									.addPreferredGap(ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
+									.addComponent(bagItemButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(skipBaggingBUtton))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(nextButton, GroupLayout.PREFERRED_SIZE, 355, GroupLayout.PREFERRED_SIZE)
+										.addComponent(announcementsLabel, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(attendantButton, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+												.addComponent(lookupButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
+											.addGap(24)
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(removeItemButton, GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+												.addComponent(pluCodeButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))))))
+							.addGap(24))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(18)
+							.addComponent(status, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(305, Short.MAX_VALUE)
+					.addContainerGap(406, Short.MAX_VALUE)
 					.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 224, GroupLayout.PREFERRED_SIZE)
 					.addGap(273))
 		);
@@ -122,11 +157,13 @@ public class MainScreen extends JPanel {
 							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(announcementsLabel)
-							.addGap(291)
+							.addGap(264)
+							.addComponent(status)
+							.addGap(14)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(removeItemButton, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
 								.addComponent(attendantButton, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(pluCodeButton, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lookupButton, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))))
@@ -151,6 +188,7 @@ public class MainScreen extends JPanel {
 		pluCodeButton.addActionListener(new GoToPLUScreen());
 		scanButton.addActionListener(new ScanItem());
 		removeItemButton.addActionListener(new RemoveItem());
+		
 		txtEnterYourBarcode.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 barcodeFieldMouseClicked(evt);
@@ -163,14 +201,16 @@ public class MainScreen extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			String bag = showBagsScreen();
-			
-			int bagNum = Integer.parseInt(bag);
-			CommandLineDriver.controlSoftware.plasticBagsUsed(bagNum);
-			updateTransactionFields();
-			
-			CommandLineDriver.goToScreen("pay");
+			if(!CommandLineDriver.isBlocked){
+				// TODO Auto-generated method stub
+				String bag = showBagsScreen();
+				
+				int bagNum = Integer.parseInt(bag);
+				CommandLineDriver.controlSoftware.plasticBagsUsed(bagNum);
+				updateTransactionFields();
+				
+				CommandLineDriver.goToScreen("pay");
+			}
 			
 		}
 		
@@ -180,9 +220,10 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
-			LookupItemScreen.flag = "main";
-			CommandLineDriver.goToScreen("lookup");
+			if(!CommandLineDriver.isBlocked){
+				LookupItemScreen.flag = "main";
+				CommandLineDriver.goToScreen("lookup");
+			}
 			
 		}
 		
@@ -193,7 +234,9 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			CommandLineDriver.goToScreen("plulookup");
+			if(!CommandLineDriver.isBlocked){
+				CommandLineDriver.goToScreen("plulookup");
+			}
 			
 		}
 		
@@ -205,16 +248,17 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			boolean approved = showLoginScreen();
-			if(approved) {
-				
-				LookupItemScreen.flag = "attendant";
-				CommandLineDriver.goToScreen("attendant");
-			} else {
-				showIncorrectMessage();
+			if(!CommandLineDriver.isBlocked){
+				boolean approved = showLoginScreen();
+				if(approved) {
+					
+					LookupItemScreen.flag = "attendant";
+					CommandLineDriver.goToScreen("attendant");
+				} else {
+					showIncorrectMessage();
+				}
+			
 			}
-			
-			
 		}
 		
 	}
@@ -282,11 +326,13 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			String bar = txtEnterYourBarcode.getText();
-			Barcode b = new Barcode(bar);
-			CommandLineDriver.controlSoftware.scanProduct(b, 1);
-			updateTransactionFields();
-			txtEnterYourBarcode.setText("Enter your barcode and press \"Scan Barcode\"...");
+			if(!CommandLineDriver.isBlocked){
+				String bar = txtEnterYourBarcode.getText();
+				Barcode b = new Barcode(bar);
+				CommandLineDriver.controlSoftware.scanProduct(b, 1);
+				updateTransactionFields();
+				txtEnterYourBarcode.setText("Enter your barcode and press \"Scan Barcode\"...");
+			}
 		}
 		
 	}
@@ -296,19 +342,21 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			int idx = itemList.getSelectedIndex();
-			if(idx > 0) {
-				boolean app = showLoginScreen();
-				if(app) {
-					String el = (String)itemList.getModel().getElementAt(idx);
-					System.out.println(el);
-					Receipt.getItemFromReceipt(el, CommandLineDriver.controlSoftware);
-					updateTransactionFields();
+			if(!CommandLineDriver.isBlocked){
+				int idx = itemList.getSelectedIndex();
+				if(idx > 0) {
+					boolean app = showLoginScreen();
+					if(app) {
+						String el = (String)itemList.getModel().getElementAt(idx);
+						System.out.println(el);
+						Receipt.getItemFromReceipt(el, CommandLineDriver.controlSoftware);
+						updateTransactionFields();
+					} else {
+						showIncorrectMessage();
+					}
 				} else {
-					showIncorrectMessage();
+					showErrorScreen();
 				}
-			} else {
-				showErrorScreen();
 			}
 		}
 		
