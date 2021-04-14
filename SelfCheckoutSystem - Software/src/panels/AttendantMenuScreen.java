@@ -2,7 +2,7 @@ package panels;
 
 import javax.swing.JPanel;
 
-
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import attendant.StationControl;
 import driver.CommandLineDriver;
 
 
@@ -169,6 +170,11 @@ public class AttendantMenuScreen extends JPanel {
 			// TODO Auto-generated method stub
 			blockStateLbl.setText("Station state: blocked");
 			
+			CommandLineDriver.isBlocked = true;
+			MainScreen.status.setText("Station state: Blocked");
+			MainScreen.status.setForeground(Color.red);
+			CommandLineDriver.blockStation.isBlocked = true;
+			
 		}
 		
 	}
@@ -179,6 +185,11 @@ public class AttendantMenuScreen extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			blockStateLbl.setText("Station state: unblocked");
+			CommandLineDriver.isBlocked = false;
+			MainScreen.status.setText("Station state: Unblocked");
+			MainScreen.status.setForeground(Color.green);
+			
+			CommandLineDriver.blockStation.isBlocked = false;
 			
 		}
 		
@@ -256,7 +267,11 @@ public class AttendantMenuScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			inkStateLbl.setText("Ink state: filled");
+			int inkAdded = 10;
+			MainScreen.inkLevel += inkAdded;
+			inkStateLbl.setText("Ink state: " + MainScreen.inkLevel);
+			CommandLineDriver.controlSoftware.stationControl.addInkToStation(inkAdded);
+			MainScreen.inkLabel.setText("Ink Level: " + MainScreen.inkLevel);
 			
 		}
 		
@@ -267,8 +282,11 @@ public class AttendantMenuScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			paperStateLbl.setText("Paper state: filled");
-			
+			int paperAdded = 10;
+			MainScreen.paperLevel += paperAdded;
+			paperStateLbl.setText("Paper state: " + MainScreen.paperLevel);
+			CommandLineDriver.controlSoftware.stationControl.addInkToStation(paperAdded);
+			MainScreen.paperLabel.setText("Paper Level: " + MainScreen.paperLevel);
 		}
 		
 	}
