@@ -135,8 +135,8 @@ public class CommandLineDriver {
         // Initialize Control Software
         final Currency c1 = Currency.getInstance("CAD");
     	final int[] banknoteDenominations = new int[]{5, 10, 20, 50, 100};
-    	final BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05), new BigDecimal(0.10), new BigDecimal(0.25), new BigDecimal(1.00), new BigDecimal(2.00)};
-    	final int scaleMaximumWeight = 500; // Don't know the units of the scale, will figure out later
+	final BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05).setScale(2, RoundingMode.HALF_UP), new BigDecimal(0.10).setScale(2, RoundingMode.HALF_UP), new BigDecimal(0.25).setScale(2, RoundingMode.HALF_UP), new BigDecimal(1.00).setScale(2, RoundingMode.HALF_UP), new BigDecimal(2.00).setScale(2, RoundingMode.HALF_UP)};
+	final int scaleMaximumWeight = 500; // Don't know the units of the scale, will figure out later
     	final int scaleSensitivity = 1; // Don't know the units also
         controlSoftware = new ControlSoftware(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
         
