@@ -483,9 +483,6 @@ public class ControlSoftware {
 		}
 	}
 	
-	public void setTotalBalance() {
-		this.paymentTotal = this.shoppingCart.getTotalPayment();
-	}
 	
 	/**
 	 * 
@@ -501,7 +498,6 @@ public class ControlSoftware {
 	 * @param 
 	 */
 	public void finishedAddingItems() throws IOException, DisabledException, OverloadException {
-		setTotalBalance();
 		
 		if(expectedWeightOnScale != selfCheckout.baggingArea.getCurrentWeight()) { //if scanned weight does not equal actual weight, then can't finish 
 			
@@ -520,7 +516,7 @@ public class ControlSoftware {
 	public BigDecimal useGiftCard(String giftcardNumber) throws IOException {
 		PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
 		giftcardPaymentHandler.detectCard(giftcardNumber, true);
-		BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNumber, this.paymentTotal, true);
+		BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNumber, this.shoppingCart.getTotalPayment(), true);
 		
 		//if the amount returned is not -1 
 		if(amountRemaining.compareTo(new BigDecimal (-1))!=0) {
