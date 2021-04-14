@@ -120,7 +120,7 @@ public class MainScreen extends JPanel {
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(52)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
@@ -128,10 +128,10 @@ public class MainScreen extends JPanel {
 							.addComponent(lblNewLabel_1)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtEnterYourBarcode))
-						.addComponent(itemList, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+						.addComponent(itemList, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
 						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
 						.addComponent(totalArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(6)
 							.addComponent(scanButton)
@@ -167,12 +167,12 @@ public class MainScreen extends JPanel {
 					.addGap(273))
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE, false)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(itemList, GroupLayout.PREFERRED_SIZE, 373, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -182,14 +182,14 @@ public class MainScreen extends JPanel {
 							.addGap(235)
 							.addComponent(inkLabel)
 							.addGap(16)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(status)
 								.addComponent(paperLabel))
 							.addGap(14)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(removeItemButton, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
 								.addComponent(attendantButton, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
+							.addGap(14)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(pluCodeButton, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lookupButton, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))))
@@ -226,6 +226,10 @@ public class MainScreen extends JPanel {
 		itemList.setListData(Receipt.printReceipt(CommandLineDriver.controlSoftware));
 	}
 	//Step 2: if you have a button that you want to do something, you need to make an action listener LIKE THIS
+	
+	
+	
+	
 	private class GotoNextScreen implements ActionListener{
 
 		@Override

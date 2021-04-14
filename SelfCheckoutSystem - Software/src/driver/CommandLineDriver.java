@@ -1,5 +1,8 @@
 package driver;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
@@ -66,12 +69,14 @@ public class CommandLineDriver {
     
     public static BlockStation blockStation;
     public static boolean isBlocked = false;
+    public static int x;
+    public static int y;
 	
 
 	public static void main(String[] args) {
         System.out.println("Self-Checkout Station turning on...");
         System.out.println("Initializing Control Software v.1......");
-        
+       
         
         /*===============================================================
          *                INITIALIZE PRODUCT DATABASE
@@ -225,7 +230,19 @@ public class CommandLineDriver {
        
         controlSoftware.selfCheckout.screen.setVisible(true);
         
-       
+        mainFrame.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                    x = e.getX();
+                    y = e.getY();
+            }
+        });
+        mainFrame.addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                    int left = mainFrame.getLocation().x;
+                    int top = mainFrame.getLocation().y;
+                    mainFrame.setLocation(left + e.getX() - x, top + e.getY() - y);
+            }
+        });
         
         
 	}
