@@ -278,7 +278,7 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			if(!CommandLineDriver.isBlocked){
+		
 				boolean approved = showLoginScreen();
 				if(approved) {
 					
@@ -287,8 +287,6 @@ public class MainScreen extends JPanel {
 				} else {
 					showIncorrectMessage();
 				}
-			
-			}
 		}
 		
 	}
