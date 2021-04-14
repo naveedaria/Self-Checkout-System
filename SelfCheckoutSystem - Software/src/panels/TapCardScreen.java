@@ -9,6 +9,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import org.lsmr.selfcheckout.devices.SimulationException;
+
 import javax.swing.JCheckBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JOptionPane;
@@ -305,7 +308,7 @@ public class TapCardScreen extends JPanel {
 						cvv_textField.getText(),pinString,true,true,expiryCal, new BigDecimal(1000), true);
 					
 				CommandLineDriver.goToScreen("thank");
-			} catch (IOException | ArrayIndexOutOfBoundsException e1) {
+			} catch (IOException | ArrayIndexOutOfBoundsException | SimulationException e1) {
 				
 				warningDialog("Invalid Card","The card tapped was invalid please try again");
 				eraseAll();
