@@ -36,11 +36,13 @@ public class CommandLineDriver {
 	
 	public static  ThankYouForShoppingScreen thank;
 	public static  AttendantMenuScreen attendant;
-	
 	public static ControlSoftware controlSoftware;
-
 	public static WelcomeScreen welcome;
 	public static MembershipScreen membership;
+	public static CardSelectMethodScreen selectmethod;
+	public static TapCardScreen tap;
+	public static SwipeCardScreen swipe;
+	
 	public static Barcode b1 = new Barcode("1111");
     public static BarcodedItem bItem = new BarcodedItem(b1, 5);
     public static Barcode b2 = new Barcode("2222");
@@ -60,10 +62,11 @@ public class CommandLineDriver {
     public static PriceLookupCode plucode3 = new PriceLookupCode("5552"); 
     public static PLUCodedItem pluItem3 = new PLUCodedItem(plucode3,1000);
 	
-	
+
 	public static void main(String[] args) {
         System.out.println("Self-Checkout Station turning on...");
         System.out.println("Initializing Control Software v.1......");
+        
         
         /*===============================================================
          *                INITIALIZE PRODUCT DATABASE
@@ -204,6 +207,11 @@ public class CommandLineDriver {
         welcome = new WelcomeScreen();
         membership = new MembershipScreen();
         
+        selectmethod = new CardSelectMethodScreen();
+        tap = new TapCardScreen();
+        swipe = new SwipeCardScreen();
+        
+        
         mainFrame = controlSoftware.selfCheckout.screen.getFrame();
         mainFrame.setVisible(true);
         mainFrame.setSize(600,500);
@@ -218,6 +226,7 @@ public class CommandLineDriver {
 	}
 	
 	public static void goToScreen(String idx) {
+		
 		if (idx == "welcome") { 
 			mainFrame.setContentPane(welcome);
 			mainFrame.pack();
@@ -265,7 +274,17 @@ public class CommandLineDriver {
 			mainFrame.setContentPane(plulookup);
 			mainFrame.pack();
 		}
-		
-		
+		if (idx =="selectmethod") {
+			mainFrame.setContentPane(selectmethod);
+			mainFrame.pack();
+		}
+		if (idx =="tap") {
+			mainFrame.setContentPane(tap);
+			mainFrame.pack();
+		}
+		if (idx =="swipe") {
+			mainFrame.setContentPane(swipe);
+			mainFrame.pack();
+		}
 	}
 }

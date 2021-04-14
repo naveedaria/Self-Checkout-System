@@ -4,12 +4,16 @@ import javax.swing.JPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import org.lsmr.selfcheckout.devices.DisabledException;
+import org.lsmr.selfcheckout.devices.OverloadException;
 
 import driver.CommandLineDriver;
 
@@ -83,8 +87,15 @@ public class PaymentSelectorScreen extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+	
+			try {
+				CommandLineDriver.controlSoftware.finishedAddingItems();
+			} catch (IOException | DisabledException | OverloadException e1) {
+			
+				e1.printStackTrace();
+			}
 			CommandLineDriver.goToScreen("main");
+			
 		}
 		
 	}
@@ -94,7 +105,12 @@ public class PaymentSelectorScreen extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			try {
+				CommandLineDriver.controlSoftware.finishedAddingItems();
+			} catch (IOException | DisabledException | OverloadException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			CommandLineDriver.goToScreen("card");
 		}
 		
@@ -106,7 +122,12 @@ public class PaymentSelectorScreen extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			try {
+				CommandLineDriver.controlSoftware.finishedAddingItems();
+			} catch (IOException | DisabledException | OverloadException e1) {
+				
+				e1.printStackTrace();
+			}
 			CommandLineDriver.goToScreen("giftcard");
 		}
 		
@@ -117,7 +138,12 @@ public class PaymentSelectorScreen extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			try {
+				CommandLineDriver.controlSoftware.finishedAddingItems();
+			} catch (IOException | DisabledException | OverloadException e1) {
+				
+				e1.printStackTrace();
+			}
 
 			CommandLineDriver.cash.lblNewLabel_2.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
 			CommandLineDriver.cash.lblNewLabel_3.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
