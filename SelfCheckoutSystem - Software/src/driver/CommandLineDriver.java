@@ -140,7 +140,6 @@ public class CommandLineDriver {
     	final int scaleMaximumWeight = 500; // Don't know the units of the scale, will figure out later
     	final int scaleSensitivity = 1; // Don't know the units also
         controlSoftware = new ControlSoftware(c1, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleSensitivity);
-        BigDecimal decimal = new BigDecimal(0).setScale(2, RoundingMode.HALF_UP);
         System.out.println("Self-checkout is ready! Scan your item...");
         
         /*===============================================================
