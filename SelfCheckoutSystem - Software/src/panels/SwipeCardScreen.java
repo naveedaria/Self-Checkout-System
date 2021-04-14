@@ -74,8 +74,6 @@ public class SwipeCardScreen extends JPanel {
 		
 		JButton btnGoBack = new JButton("Go Back");
 		
-		JButton btnCallAttendant = new JButton("Call Attendant");
-		
 		expiry_textField = new JTextField();
 		expiry_textField.setColumns(10);
 		
@@ -132,9 +130,7 @@ public class SwipeCardScreen extends JPanel {
 									.addGap(22)
 									.addComponent(cvv_textField, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(76)
-							.addComponent(btnCallAttendant)
-							.addGap(150)
+							.addGap(327)
 							.addComponent(card_Payment_Label, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(299)
@@ -152,11 +148,7 @@ public class SwipeCardScreen extends JPanel {
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(28)
-							.addComponent(btnCallAttendant))
-						.addComponent(card_Payment_Label, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+					.addComponent(card_Payment_Label, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 					.addGap(37)
@@ -205,42 +197,18 @@ public class SwipeCardScreen extends JPanel {
 		
 		
 		
-		
 	
 		
-		
-		
-		
-		
-		
-		
 		// tap to redeem button shouldn't go to new screen, only update the payment balance and print in text box 
-		//btnNewButton.addActionListener(new GotoAttendantScreen());
+	
 		 
 		btnCompletePayment.addActionListener(new CheckIfComplete());
 		
 		btnGoBack.addActionListener(new GotoPreviousScreen());
 		
-		btnCallAttendant.addActionListener(new GotoAttendant());
-		
 		
 	}
-
-
-
 	
-	private class GotoAttendant implements ActionListener{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CommandLineDriver.goToScreen("attendant");
-			}
-		}
-	
-	
-
-
-
-
 	
 	private class GotoPreviousScreen implements ActionListener{
 			@Override
@@ -249,11 +217,6 @@ public class SwipeCardScreen extends JPanel {
 			}
 		}
 	
-	
-
-
-	 
-	 
 
 	 
 	 
@@ -287,8 +250,6 @@ public class SwipeCardScreen extends JPanel {
 				char[] pin = pin_PasswordField.getPassword();
 				String pinString = String.valueOf(pin);
 				
-		
-	
 				
 				CommandLineDriver.controlSoftware.swipeToPay(cardCompany_textField.getText(), "credit",cardNumber_textField.getText(), customerName_textField.getText(), 
 						cvv_textField.getText(),pinString,true,true,expiryCal, new BigDecimal(1000),null ,true);
@@ -302,21 +263,15 @@ public class SwipeCardScreen extends JPanel {
 			}
 	
 		
-
-		
 		}
 	}
 	
-
-
 	private void eraseAll() {
 			
 		cardNumber_textField.setText("");
 		cardCompany_textField.setText("");
-		expiry_textField.setText("");
-		
+		expiry_textField.setText("");	
 		cvv_textField.setText("");
-		
 		customerName_textField.setText("");
 		pin_PasswordField.setText("");
 	}

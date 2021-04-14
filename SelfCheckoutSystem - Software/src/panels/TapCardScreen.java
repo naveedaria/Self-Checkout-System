@@ -72,8 +72,6 @@ public class TapCardScreen extends JPanel {
 		
 		JButton btnGoBack = new JButton("Go Back");
 		
-		JButton btnCallAttendant = new JButton("Call Attendant");
-		
 		expiry_textField = new JTextField();
 		expiry_textField.setColumns(10);
 		
@@ -144,19 +142,14 @@ public class TapCardScreen extends JPanel {
 							.addComponent(btnCompletePayment)
 							.addGap(122))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnCallAttendant)
-							.addGap(150)
+							.addGap(251)
 							.addComponent(card_Payment_Label, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(0, Short.MAX_VALUE))))
+							.addContainerGap(287, Short.MAX_VALUE))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(28)
-							.addComponent(btnCallAttendant))
-						.addComponent(card_Payment_Label, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+					.addComponent(card_Payment_Label, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 					.addGap(37)
@@ -221,8 +214,6 @@ public class TapCardScreen extends JPanel {
 		
 		btnGoBack.addActionListener(new GotoPreviousScreen());
 		
-		btnCallAttendant.addActionListener(new GotoAttendant());
-		
 		// Should happen when ENTER is pressed (by default). Maybe? Make sure that's actually how it works.
 //{
            
@@ -239,16 +230,6 @@ public class TapCardScreen extends JPanel {
 
 		
 	}
-
-
-
-	
-	private class GotoAttendant implements ActionListener{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CommandLineDriver.goToScreen("attendant");
-			}
-		}
 	
 	
 
