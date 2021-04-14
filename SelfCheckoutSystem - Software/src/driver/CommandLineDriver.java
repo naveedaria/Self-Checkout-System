@@ -47,6 +47,7 @@ public class CommandLineDriver {
 	public static CardSelectMethodScreen selectmethod;
 	public static TapCardScreen tap;
 	public static SwipeCardScreen swipe;
+	public static ShutDownScreen shutdown;
 	
 	public static Barcode b1 = new Barcode("1111");
     public static BarcodedItem bItem = new BarcodedItem(b1, 20);
@@ -217,10 +218,11 @@ public class CommandLineDriver {
         welcome = new WelcomeScreen();
         membership = new MembershipScreen();
         
+        
         selectmethod = new CardSelectMethodScreen();
         tap = new TapCardScreen();
         swipe = new SwipeCardScreen();
-        
+        shutdown = new ShutDownScreen();
         
         mainFrame = controlSoftware.selfCheckout.screen.getFrame();
         mainFrame.setVisible(true);
@@ -306,6 +308,12 @@ public class CommandLineDriver {
 		}
 		if (idx =="swipe") {
 			mainFrame.setContentPane(swipe);
+			mainFrame.pack();
+		}
+		
+		if (idx == "shutdown") {
+			
+			mainFrame.setContentPane(shutdown);
 			mainFrame.pack();
 		}
 	}
