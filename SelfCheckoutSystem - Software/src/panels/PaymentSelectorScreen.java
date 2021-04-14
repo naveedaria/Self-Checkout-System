@@ -144,7 +144,22 @@ public class PaymentSelectorScreen extends JPanel {
 				
 				e1.printStackTrace();
 			}
-
+			
+			if(CommandLineDriver.controlSoftware.shoppingCart.getTotalPayment().compareTo(new BigDecimal(0)) == 0) {
+				CommandLineDriver.cash.lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(CommandLineDriver.cash.balance).setScale(2, RoundingMode.HALF_UP).toString());
+				CommandLineDriver.cash.btnNewButton.setEnabled(false);
+				CommandLineDriver.cash.btnNewButton_1.setEnabled(false);
+				CommandLineDriver.cash.btnNewButton_2.setEnabled(false);
+				CommandLineDriver.cash.btnNewButton_3.setEnabled(false);
+				CommandLineDriver.cash.btnNewButton_4.setEnabled(false);
+				CommandLineDriver.cash.btnNewButton_5.setEnabled(false);
+				CommandLineDriver.cash.btnNewButton_6.setEnabled(false);
+				CommandLineDriver.cash.btnNewButton_7.setEnabled(false);
+				CommandLineDriver.cash.btnNewButton_8.setEnabled(false);
+				CommandLineDriver.cash.btnNewButton_9.setEnabled(false);
+				CommandLineDriver.cash.btnNewButton_10.setEnabled(true);
+			}
+			
 			CommandLineDriver.cash.lblNewLabel_2.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
 			CommandLineDriver.cash.lblNewLabel_3.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
 			CommandLineDriver.cash.balance = CommandLineDriver.controlSoftware.paymentTotal;
