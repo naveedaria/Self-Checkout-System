@@ -143,7 +143,7 @@ public class LookupItemScreen extends JPanel {
 			}
 
 			
-			else if(textField.getText().equalsIgnoreCase("Wagyu Beef")) {
+			else if(textField.getText().equalsIgnoreCase("Wagyu Beef")||textField.getText().equalsIgnoreCase("WagyuBeef")) {
 				
 				CommandLineDriver.controlSoftware.scanProduct(CommandLineDriver.b4, 1);
 				MainScreen.updateTransactionFields();
@@ -152,7 +152,7 @@ public class LookupItemScreen extends JPanel {
 				
 			}
 
-			else if(textField.getText().equalsIgnoreCase("500 Year Old Wine")) {
+			else if(textField.getText().equalsIgnoreCase("500 Year Old Wine") || textField.getText().equalsIgnoreCase("500YearOldWine")) {
 				
 				CommandLineDriver.controlSoftware.scanProduct(CommandLineDriver.b5, 1);
 				MainScreen.updateTransactionFields();
