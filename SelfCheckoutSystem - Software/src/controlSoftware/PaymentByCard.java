@@ -185,21 +185,6 @@ public class PaymentByCard {
 		}
 	}
 	
-	// FOR THIRD ITERATION
-//	public boolean cancelReleasePayment(int holdNumber, CardData data) throws IOException {
-//		try {
-//			boolean checkReleaseHold = cardIssuer.releaseHold(data.getNumber(), holdNumber);
-//			if (checkReleaseHold == false) {
-//				System.out.println("Releasing hold on amount on card failed.\n");
-//				// failed release of holds
-//				return false;
-//			}
-//			// successful release of holds
-//			else return true;
-//		}
-//		catch(SimulationException e) {
-//			throw e;
-//		}
-//	}
+
 	
 }

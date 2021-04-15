@@ -3,6 +3,7 @@ package controlSoftware;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
@@ -27,24 +28,29 @@ import org.lsmr.selfcheckout.devices.SimulationException;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
+import attendant.AttendantProfile;
+import attendant.AttendantProfileDatabase;
+import attendant.StationControl;
+
 public class ControlSoftware {
-	public static BigDecimal paymentTotal = new BigDecimal(0);
+	public static BigDecimal paymentTotal = BigDecimal.ZERO;
 	public BigDecimal change;
 	private boolean coinProcessed = false;
 	private boolean billProcessed = false;
 	private int numProducts = 0;
 	private ArrayList<Barcode> productBarcodes = new ArrayList<Barcode>();
 	
-	private Currency currency;
+	public Currency currency;
 	private int[] banknoteDenominations;
 	private BigDecimal[] coinDenominations;
 	private int scaleMaxWeight;
 	private int scaleSensitivity;
 	public SelfCheckoutStation selfCheckout;
 	public Lookup lookup;
-	ElectronicScaleListenerStub electronicScaleStub;
-
+	public ElectronicScaleListenerStub electronicScaleStub;
+	public StationControl stationControl;
 	public double expectedWeightOnScale;
+	public static boolean scanned = false;
 	
 	
 	
@@ -75,13 +81,14 @@ public class ControlSoftware {
 		
 		this.selfCheckout = new SelfCheckoutStation(this.currency, this.banknoteDenominations, this.coinDenominations, this.scaleMaxWeight, this.scaleSensitivity);
 		
-		
-		
+		this.stationControl = new StationControl();
+		AttendantProfileDatabase users = new AttendantProfileDatabase();
+		users.addProfile(new AttendantProfile("clerk", "seng2021"));
+		stationControl.loadAttendantProfileDatabase(users);
 		// Create shopping cart object
 		shoppingCart = new ShoppingCart();
-		
 		lookup = new Lookup();
-		
+				
 		
 		// We already have a mainScanner as part of self-checkout
 		//scannerObject = new BarcodeScanner();
@@ -93,10 +100,10 @@ public class ControlSoftware {
 		selfCheckout.mainScanner.enable();
 				
 		
-		ElectronicScaleListenerStub electronicScaleStub = new ElectronicScaleListenerStub();
+		this.electronicScaleStub = new ElectronicScaleListenerStub();
 		
-		selfCheckout.scale.register(electronicScaleStub);
-		selfCheckout.scale.enable();
+		selfCheckout.baggingArea.register(this.electronicScaleStub);
+		
 	}
 	
 	
@@ -122,7 +129,9 @@ public class ControlSoftware {
 		//}else {
 			shoppingCart.addToShoppingCart(barcodedItem, quantity);
 		//}
+		this.paymentTotal = shoppingCart.totalPayment;
 		
+		ControlSoftware.scanned = true;
 	}
 	
 	/**
@@ -238,7 +247,9 @@ public class ControlSoftware {
 		return ooo;
 	}
 	
-	public void addToBaggingArea(BarcodedItem item) throws Exception {
+	public void addToBaggingArea(Barcode b) throws Exception {
+		BarcodedItem item = BarcodedItemDatabase.BARCODED_ITEM_DATABASE.get(b);
+		
 		// Checking for null item
 		if(item == null) throw new SimulationException("Null item.");
 	
@@ -251,10 +262,10 @@ public class ControlSoftware {
 		
 		// Add item to the scale
 		selfCheckout.baggingArea.add(item);
-		
+		ControlSoftware.scanned = false;
 		// Get the total weight of the new item added 
 		double newWeight = electronicScaleStub.getCurrentWeight();
-		
+		System.out.println(newWeight);
 		// If the new weight is greater the maximum that the scale can measure
 		if(newWeight > electronicScaleStub.maximumWeightInGrams) {
 			// Set the overload flag
@@ -266,17 +277,18 @@ public class ControlSoftware {
 		else if (!electronicScaleStub.isOverload) {
 			// Checking if the new weight is the same as the item weight
 			newWeight = newWeight - weight;
-			System.out.println("New Weight" + newWeight+ " Weight: " + weight);
+			//System.out.println("New Weight" + newWeight+ " Weight: " + weight);
 			// New weight should not greater or less than the item weight 
 			if(newWeight != item.getWeight()) {
 				// Print statement for the non successful attempt
-				System.out.println("Weight has changed, item was not successfully added to bagging area.");
+				//System.out.println("Weight has changed, item was not successfully added to bagging area.");
 				// Call GUI to prompt the attendant 
 				// Attendant should enter their number and by-pass this prompt 
 			}
 			else {
 				// Print statement for the successful attempt
-				System.out.println("Weight has not changed, item was successfully added to bagging area.");
+				//System.out.println("Weight has not changed, item was successfully added to bagging area.");
+				
 				// Successful prompt or do nothing
 			}
 		}
@@ -444,9 +456,9 @@ public class ControlSoftware {
 	/**
 	 * Setter for the Customers Change
 	 */
-	public void setChange() {
+	public void setChange(double change) {
 
-		this.change = new BigDecimal(0);
+		this.change = new BigDecimal(change).setScale(2, RoundingMode.HALF_UP);
 	}
 	
 	/**
@@ -457,7 +469,7 @@ public class ControlSoftware {
 	public void calculateCoinPayment(BigDecimal coinValue) {
 
 		if (coinProcessed==false) {
-			BigDecimal balance = this.paymentTotal; 
+			BigDecimal balance = this.paymentTotal;
 			this.change = balance.subtract(coinValue);
 			this.coinProcessed = true; 
 		}else if (coinProcessed==true) {
@@ -483,25 +495,29 @@ public class ControlSoftware {
 		}
 	}
 	
-	public void setTotalBalance() {
-		this.paymentTotal = this.shoppingCart.getTotalPayment();
-	}
-	
+
 	/**
 	 * 
 	 * @param 
 	 */
-	public void useMembershipCard(String cardNumber, String cardHolder) throws IOException {
+	public String useMembershipCard(String cardNumber, String cardHolder) throws IOException {
 		ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
-		membershipCardReader.tapMembershipCard(cardNumber, cardHolder);
+		String validatedCardNumber = membershipCardReader.tapMembershipCard(cardNumber, cardHolder);
+		return validatedCardNumber;
 	} 
+	
+	public String getMemberName(String cardNumber, String cardHolder) {
+		ScanMembershipCard membershipCardReader = new ScanMembershipCard(this.selfCheckout);
+		membershipCardReader.detectCard(cardNumber, cardHolder);
+		return membershipCardReader.getMemberName(cardNumber);
+	}
+	
 	
 	/**
 	 * 
 	 * @param 
 	 */
 	public void finishedAddingItems() throws IOException, DisabledException, OverloadException {
-		setTotalBalance();
 		
 		if(expectedWeightOnScale != selfCheckout.baggingArea.getCurrentWeight()) { //if scanned weight does not equal actual weight, then can't finish 
 			
@@ -520,7 +536,7 @@ public class ControlSoftware {
 	public BigDecimal useGiftCard(String giftcardNumber) throws IOException {
 		PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
 		giftcardPaymentHandler.detectCard(giftcardNumber, true);
-		BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNumber, this.paymentTotal, true);
+		BigDecimal amountRemaining = giftcardPaymentHandler.tapToRedeem(giftcardNumber, this.shoppingCart.getTotalPayment(), true);
 		
 		//if the amount returned is not -1 
 		if(amountRemaining.compareTo(new BigDecimal (-1))!=0) {
@@ -528,6 +544,13 @@ public class ControlSoftware {
 		}
 		
 		return amountRemaining; 
+	}
+	
+	
+	public BigDecimal getAmountOnGiftCard(String giftcardNumber) {
+		PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
+		giftcardPaymentHandler.detectCard(giftcardNumber, true);
+		return giftcardPaymentHandler.getAmount(giftcardNumber);
 	}
 	
 	/**
@@ -585,7 +608,9 @@ public class ControlSoftware {
 	 * @param 
 	 */
 	public void plasticBagsUsed(int quantity) {
-		paymentTotal.add(new BigDecimal(0.05 * quantity));
+		double amtToAdd = 0.05 * quantity;
+		this.shoppingCart.updatePayment(BigDecimal.valueOf(amtToAdd));
+		
 	}
 	
 	

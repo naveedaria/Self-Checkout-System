@@ -1,10 +1,13 @@
 package controlSoftware;
 
+import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
 public class Receipt {
+	
+	
 	
 	public static String[] printReceipt(ControlSoftware cs) {
 		// Some strings used to format the receipt 
@@ -41,5 +44,27 @@ public class Receipt {
 		//System.out.println(s1);
 		return transactionRecord;
 	} 
+	
+	public static void getItemFromReceipt(String string, ControlSoftware cs) {
+        String[][] cart = cs.shoppingCart.SHOPPING_CART_ARRAY;
+        String[] name = string.split("\\s+");
+        for (int i = 0; i < cart.length; i++) {
+        	if(cart[i][0] == null) {
+        		break;
+        	}
+            if (name[1].compareTo(cart[i][0].toString()) == 0) {
+                Barcode barcode = cs.shoppingCart.BARCODE_ARRAY[i];
+                BarcodedItem bItem = BarcodedItemDatabase.BARCODED_ITEM_DATABASE.get(barcode);
+                int quantity = Integer.parseInt(cart[i][1]);
+                cs.shoppingCart.removeFromShoppingCart(bItem, quantity);
+                cs.removeFromBaggingArea(bItem);
+                break;
+            }
+        }
+
+
+    }
+	
+	
 
 }
