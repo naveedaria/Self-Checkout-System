@@ -116,48 +116,50 @@ public class CashPaymentScreen extends JPanel {
 		btnNewButton_10 = new JButton("Continue");
 		btnNewButton_10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int numOfNotes = bills5 + bills10 + bills20 + bills50 + bills100;
-				Banknote[] banknoteArray = new Banknote[numOfNotes];
-				int i;
-				for(i = 0; i<bills5; i++) {
-					banknoteArray[i] = new Banknote(5, CommandLineDriver.controlSoftware.currency);
-				}
-				for(i = i; i < bills10; i++) {
-					banknoteArray[i] = new Banknote(10, CommandLineDriver.controlSoftware.currency);
-				}
-				for(i = i; i < bills20; i++) {
-					banknoteArray[i] = new Banknote(20, CommandLineDriver.controlSoftware.currency);
-				}
-				for(i = i; i < bills50; i++) {
-					banknoteArray[i] = new Banknote(50, CommandLineDriver.controlSoftware.currency);
-				}
-				for(i = i; i < bills100; i++) {
-					banknoteArray[i] = new Banknote(100, CommandLineDriver.controlSoftware.currency);
-				}
-				
-				int numOfCoins = nickels + dimes + quarters + loonies + toonies;
-				Coin[] coinArray = new Coin[numOfCoins];
-				int j;
-				for(j = 0; j<nickels; j++) {
-					coinArray[j] = new Coin(new BigDecimal(0.05).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
-				}
-				for(j = j; j<dimes; j++) {
-					coinArray[j] = new Coin(new BigDecimal(0.10).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
-				}
-				for(j = j; j<quarters; j++) {
-					coinArray[j] = new Coin(new BigDecimal(0.25).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
-				}
-				for(j = j; j<loonies; j++) {
-					coinArray[j] = new Coin(new BigDecimal(1.0).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
-				}
-				for(j = j; j<toonies; j++) {
-					coinArray[j] = new Coin(new BigDecimal(2.0).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
-				}
-				try {
-				CommandLineDriver.controlSoftware.cashToPay(coinArray, banknoteArray);
-				}
-				catch(Exception we) {
-					we.printStackTrace();
+				if(balance.compareTo(new BigDecimal(0).setScale(2, RoundingMode.HALF_UP)) == -1){
+					int numOfNotes = bills5 + bills10 + bills20 + bills50 + bills100;
+					Banknote[] banknoteArray = new Banknote[numOfNotes];
+					int i;
+					for(i = 0; i<bills5; i++) {
+						banknoteArray[i] = new Banknote(5, CommandLineDriver.controlSoftware.currency);
+					}
+					for(i = i; i < bills10; i++) {
+						banknoteArray[i] = new Banknote(10, CommandLineDriver.controlSoftware.currency);
+					}
+					for(i = i; i < bills20; i++) {
+						banknoteArray[i] = new Banknote(20, CommandLineDriver.controlSoftware.currency);
+					}
+					for(i = i; i < bills50; i++) {
+						banknoteArray[i] = new Banknote(50, CommandLineDriver.controlSoftware.currency);
+					}
+					for(i = i; i < bills100; i++) {
+						banknoteArray[i] = new Banknote(100, CommandLineDriver.controlSoftware.currency);
+					}
+					
+					int numOfCoins = nickels + dimes + quarters + loonies + toonies;
+					Coin[] coinArray = new Coin[numOfCoins];
+					int j;
+					for(j = 0; j<nickels; j++) {
+						coinArray[j] = new Coin(new BigDecimal(0.05).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+					}
+					for(j = j; j<dimes; j++) {
+						coinArray[j] = new Coin(new BigDecimal(0.10).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+					}
+					for(j = j; j<quarters; j++) {
+						coinArray[j] = new Coin(new BigDecimal(0.25).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+					}
+					for(j = j; j<loonies; j++) {
+						coinArray[j] = new Coin(new BigDecimal(1.0).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+					}
+					for(j = j; j<toonies; j++) {
+						coinArray[j] = new Coin(new BigDecimal(2.0).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+					}
+					try {
+					CommandLineDriver.controlSoftware.cashToPay(coinArray, banknoteArray);
+					}
+					catch(Exception we) {
+						we.printStackTrace();
+					}
 				}
 				CommandLineDriver.goToScreen("thank");
 			}
