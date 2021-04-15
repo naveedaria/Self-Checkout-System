@@ -16,7 +16,7 @@ import javax.swing.JCheckBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JOptionPane;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 
 import javax.swing.JTextPane;
 import java.awt.Color;
@@ -226,7 +226,7 @@ public class SwipeCardScreen extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eraseAll();
-				CommandLineDriver.goToScreen("selectmethod");
+				GUIDriver.goToScreen("selectmethod");
 			}
 		}
 	
@@ -271,10 +271,10 @@ public class SwipeCardScreen extends JPanel {
 		
 	
 				
-				CommandLineDriver.controlSoftware.swipeToPay(cardCompany_textField.getText(), "credit",cardNumber_textField.getText(), customerName_textField.getText(), 
+				GUIDriver.controlSoftware.swipeToPay(cardCompany_textField.getText(), "credit",cardNumber_textField.getText(), customerName_textField.getText(), 
 						cvv_textField.getText(),pinString,true,true,expiryCal, new BigDecimal(1000),null ,true);
 					
-				CommandLineDriver.goToScreen("thank");
+				GUIDriver.goToScreen("thank");
 			} catch (IOException | ArrayIndexOutOfBoundsException | SimulationException e1) {
 				
 				warningDialog("Invalid Card","The card swiped was invalid please try again");

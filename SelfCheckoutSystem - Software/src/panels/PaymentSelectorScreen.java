@@ -17,7 +17,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import org.lsmr.selfcheckout.devices.DisabledException;
 import org.lsmr.selfcheckout.devices.OverloadException;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 
 public class PaymentSelectorScreen extends JPanel {
 
@@ -91,12 +91,12 @@ public class PaymentSelectorScreen extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 	
 			try {
-				CommandLineDriver.controlSoftware.finishedAddingItems();
+				GUIDriver.controlSoftware.finishedAddingItems();
 			} catch (IOException | DisabledException | OverloadException e1) {
 			
 				e1.printStackTrace();
 			}
-			CommandLineDriver.goToScreen("main");
+			GUIDriver.goToScreen("main");
 			
 		}
 		
@@ -108,12 +108,12 @@ public class PaymentSelectorScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				CommandLineDriver.controlSoftware.finishedAddingItems();
+				GUIDriver.controlSoftware.finishedAddingItems();
 			} catch (IOException | DisabledException | OverloadException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			CommandLineDriver.goToScreen("card");
+			GUIDriver.goToScreen("card");
 		}
 		
 	}
@@ -125,12 +125,12 @@ public class PaymentSelectorScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				CommandLineDriver.controlSoftware.finishedAddingItems();
+				GUIDriver.controlSoftware.finishedAddingItems();
 			} catch (IOException | DisabledException | OverloadException e1) {
 				
 				e1.printStackTrace();
 			}
-			CommandLineDriver.goToScreen("giftcard");
+			GUIDriver.goToScreen("giftcard");
 		}
 		
 	}
@@ -141,32 +141,32 @@ public class PaymentSelectorScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				CommandLineDriver.controlSoftware.finishedAddingItems();
+				GUIDriver.controlSoftware.finishedAddingItems();
 			} catch (IOException | DisabledException | OverloadException e1) {
 				
 				e1.printStackTrace();
 			}
 			
-			if(CommandLineDriver.controlSoftware.shoppingCart.getTotalPayment().compareTo(new BigDecimal(0)) == 0) {
-				CommandLineDriver.cash.lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(CommandLineDriver.cash.balance).setScale(2, RoundingMode.HALF_UP).toString());
-				CommandLineDriver.cash.btnNewButton.setEnabled(false);
-				CommandLineDriver.cash.btnNewButton_1.setEnabled(false);
-				CommandLineDriver.cash.btnNewButton_2.setEnabled(false);
-				CommandLineDriver.cash.btnNewButton_3.setEnabled(false);
-				CommandLineDriver.cash.btnNewButton_4.setEnabled(false);
-				CommandLineDriver.cash.btnNewButton_5.setEnabled(false);
-				CommandLineDriver.cash.btnNewButton_6.setEnabled(false);
-				CommandLineDriver.cash.btnNewButton_7.setEnabled(false);
-				CommandLineDriver.cash.btnNewButton_8.setEnabled(false);
-				CommandLineDriver.cash.btnNewButton_9.setEnabled(false);
-				CommandLineDriver.cash.btnNewButton_10.setEnabled(true);
+			if(GUIDriver.controlSoftware.shoppingCart.getTotalPayment().compareTo(new BigDecimal(0)) == 0) {
+				GUIDriver.cash.lblNewLabel_8.setText(new BigDecimal(-1.0).multiply(GUIDriver.cash.balance).setScale(2, RoundingMode.HALF_UP).toString());
+				GUIDriver.cash.btnNewButton.setEnabled(false);
+				GUIDriver.cash.btnNewButton_1.setEnabled(false);
+				GUIDriver.cash.btnNewButton_2.setEnabled(false);
+				GUIDriver.cash.btnNewButton_3.setEnabled(false);
+				GUIDriver.cash.btnNewButton_4.setEnabled(false);
+				GUIDriver.cash.btnNewButton_5.setEnabled(false);
+				GUIDriver.cash.btnNewButton_6.setEnabled(false);
+				GUIDriver.cash.btnNewButton_7.setEnabled(false);
+				GUIDriver.cash.btnNewButton_8.setEnabled(false);
+				GUIDriver.cash.btnNewButton_9.setEnabled(false);
+				GUIDriver.cash.btnNewButton_10.setEnabled(true);
 			}
 			
-			CommandLineDriver.cash.lblNewLabel_2.setText(CommandLineDriver.controlSoftware.shoppingCart.getTotalPayment().toString());
-			CommandLineDriver.cash.lblNewLabel_3.setText(CommandLineDriver.controlSoftware.shoppingCart.getTotalPayment().toString());
-			CommandLineDriver.cash.balance = CommandLineDriver.controlSoftware.shoppingCart.getTotalPayment();
+			GUIDriver.cash.lblNewLabel_2.setText(GUIDriver.controlSoftware.shoppingCart.getTotalPayment().toString());
+			GUIDriver.cash.lblNewLabel_3.setText(GUIDriver.controlSoftware.shoppingCart.getTotalPayment().toString());
+			GUIDriver.cash.balance = GUIDriver.controlSoftware.shoppingCart.getTotalPayment();
 			
-			CommandLineDriver.goToScreen("cash");
+			GUIDriver.goToScreen("cash");
 		}
 	
 	
