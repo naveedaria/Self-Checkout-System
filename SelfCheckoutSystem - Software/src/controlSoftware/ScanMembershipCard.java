@@ -141,22 +141,24 @@ public class ScanMembershipCard {
 	}
 	
 	
-	// wouldn't the tap method do the same thing as below method? so is it necessary?
-	// method for a user with a membership card that forgot their card but remembers number
-	// also can check if a member has a card or not --> (check membership)
+	/**
+	 * Method for checking if a member has a card or not
+	 * @param cardNumber
+	 * 		  The possible cardNumber of a member
+	 * @return 
+	 * 		  String - member card number. 
+	 */
 	public String enterMembershipCard(String cardNumber) throws IOException{
 		try {
 			String memberName;
 			if(this.membershipDatabase.containsKey(cardNumber) == true) {
 				memberName = membershipDatabase.get(cardNumber).cardholder;
-				// review --> acceptable to detect card and tap for this to initialize bonus points
 				detectCard(cardNumber, memberName);
 				CardData data= this.cardReader.tap(this.inputCard);
 				System.out.println("Membership detected.\n");
 				return data.getNumber();
 			}
 			else {
-				// review --> what should be returned if error for interface?
 				System.out.println("Membership not found.\n");
 				throw new TapFailureException();
 			}
