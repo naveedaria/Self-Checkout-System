@@ -22,7 +22,7 @@ import java.math.RoundingMode;
 import org.lsmr.selfcheckout.*;
 import org.lsmr.selfcheckout.devices.*;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 
 
 
@@ -31,7 +31,7 @@ import driver.CommandLineDriver;
 
 public class CashPaymentScreen extends JPanel {
 	BigDecimal cashPayed = new BigDecimal(0.0).setScale(2, RoundingMode.HALF_UP);
-	BigDecimal balance = CommandLineDriver.controlSoftware.paymentTotal;
+	BigDecimal balance = GUIDriver.controlSoftware.paymentTotal;
 	//Keep track of what cash has been inserted
 	int bills5 = 0;
 	int bills10 = 0;
@@ -99,7 +99,7 @@ public class CashPaymentScreen extends JPanel {
 		
 		lblNewLabel_2 = new JLabel(balance.toString());
 		BigDecimal combined = cashPayed.add(balance);
-		lblNewLabel_3 = new JLabel(CommandLineDriver.controlSoftware.paymentTotal.toString());
+		lblNewLabel_3 = new JLabel(GUIDriver.controlSoftware.paymentTotal.toString());
 	
 		lblNewLabel_8 = new JLabel("0.0");
 		
@@ -121,47 +121,47 @@ public class CashPaymentScreen extends JPanel {
 					Banknote[] banknoteArray = new Banknote[numOfNotes];
 					int i;
 					for(i = 0; i<bills5; i++) {
-						banknoteArray[i] = new Banknote(5, CommandLineDriver.controlSoftware.currency);
+						banknoteArray[i] = new Banknote(5, GUIDriver.controlSoftware.currency);
 					}
 					for(i = i; i < bills10+bills5; i++) {
-						banknoteArray[i] = new Banknote(10, CommandLineDriver.controlSoftware.currency);
+						banknoteArray[i] = new Banknote(10, GUIDriver.controlSoftware.currency);
 					}
 					for(i = i; i < bills20+bills10+bills5; i++) {
-						banknoteArray[i] = new Banknote(20, CommandLineDriver.controlSoftware.currency);
+						banknoteArray[i] = new Banknote(20, GUIDriver.controlSoftware.currency);
 					}
 					for(i = i; i < bills50+bills20+bills10+bills5; i++) {
-						banknoteArray[i] = new Banknote(50, CommandLineDriver.controlSoftware.currency);
+						banknoteArray[i] = new Banknote(50, GUIDriver.controlSoftware.currency);
 					}
 					for(i = i; i < bills100+bills50+bills20+bills10+bills5; i++) {
-						banknoteArray[i] = new Banknote(100, CommandLineDriver.controlSoftware.currency);
+						banknoteArray[i] = new Banknote(100, GUIDriver.controlSoftware.currency);
 					}
 					
 					int numOfCoins = nickels + dimes + quarters + loonies + toonies;
 					Coin[] coinArray = new Coin[numOfCoins];
 					int j;
 					for(j = 0; j<nickels; j++) {
-						coinArray[j] = new Coin(new BigDecimal(0.05).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+						coinArray[j] = new Coin(new BigDecimal(0.05).setScale(2, RoundingMode.HALF_UP), GUIDriver.controlSoftware.currency);
 					}
 					for(j = j; j<dimes+nickels; j++) {
-						coinArray[j] = new Coin(new BigDecimal(0.10).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+						coinArray[j] = new Coin(new BigDecimal(0.10).setScale(2, RoundingMode.HALF_UP), GUIDriver.controlSoftware.currency);
 					}
 					for(j = j; j<quarters+dimes+nickels; j++) {
-						coinArray[j] = new Coin(new BigDecimal(0.25).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+						coinArray[j] = new Coin(new BigDecimal(0.25).setScale(2, RoundingMode.HALF_UP), GUIDriver.controlSoftware.currency);
 					}
 					for(j = j; j<loonies+quarters+dimes+nickels; j++) {
-						coinArray[j] = new Coin(new BigDecimal(1.0).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+						coinArray[j] = new Coin(new BigDecimal(1.0).setScale(2, RoundingMode.HALF_UP), GUIDriver.controlSoftware.currency);
 					}
 					for(j = j; j<toonies+loonies+quarters+dimes+nickels; j++) {
-						coinArray[j] = new Coin(new BigDecimal(2.0).setScale(2, RoundingMode.HALF_UP), CommandLineDriver.controlSoftware.currency);
+						coinArray[j] = new Coin(new BigDecimal(2.0).setScale(2, RoundingMode.HALF_UP), GUIDriver.controlSoftware.currency);
 					}
 					try {
-					CommandLineDriver.controlSoftware.cashToPay(coinArray, banknoteArray);
+					GUIDriver.controlSoftware.cashToPay(coinArray, banknoteArray);
 					}
 					catch(Exception we) {
 						we.printStackTrace();
 					}
 				}
-				CommandLineDriver.goToScreen("thank");
+				GUIDriver.goToScreen("thank");
 			}
 		});
 		btnNewButton_10.setEnabled(false);
@@ -172,7 +172,7 @@ public class CashPaymentScreen extends JPanel {
 					bills5 += 1;
 					cashPayed = cashPayed.add(new BigDecimal(5.0));
 					balance = balance.subtract(new BigDecimal(5.0));
-					CommandLineDriver.controlSoftware.calculateBillPayment(5);
+					GUIDriver.controlSoftware.calculateBillPayment(5);
 					lblNewLabel_1.setText(cashPayed.toString());
 					lblNewLabel_2.setText(balance.toString());
 				}

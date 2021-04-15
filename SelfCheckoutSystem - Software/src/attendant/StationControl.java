@@ -21,7 +21,7 @@ import org.lsmr.selfcheckout.products.BarcodedProduct;
 import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
 import controlSoftware.ControlSoftware;
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 
 public class StationControl extends AttendantLogIn_Out{
 	
@@ -127,7 +127,7 @@ public class StationControl extends AttendantLogIn_Out{
 		if (units < 0) {
 			throw new IllegalArgumentException("Wrong units added");
 		}
-		CommandLineDriver.controlSoftware.selfCheckout.printer.addPaper(units);
+		GUIDriver.controlSoftware.selfCheckout.printer.addPaper(units);
 	}
 	
 	public void addInkToStation(int quantity) {
@@ -135,15 +135,15 @@ public class StationControl extends AttendantLogIn_Out{
 			throw new IllegalArgumentException("Wrong units added");
 		}
 		
-		CommandLineDriver.controlSoftware.selfCheckout.printer.addInk(quantity);
+		GUIDriver.controlSoftware.selfCheckout.printer.addInk(quantity);
 	}
 	
 	public void emptyCoinStorageUnit() {
-		CommandLineDriver.controlSoftware.selfCheckout.coinStorage.unload();
+		GUIDriver.controlSoftware.selfCheckout.coinStorage.unload();
 	}
 	
 	public void emptyBanknoteStorageUnit() {
-		CommandLineDriver.controlSoftware.selfCheckout.banknoteStorage.unload();
+		GUIDriver.controlSoftware.selfCheckout.banknoteStorage.unload();
 	}
 	
 	public void attendantRemoveItem(ControlSoftware cs, BarcodedItem item, int quantity) {

@@ -25,7 +25,7 @@ import controlSoftware.ControlSoftware;
 import controlSoftware.PLUCodedItemDatabase;
 import panels.*;
 
-public class CommandLineDriver {
+public class GUIDriver {
 	
 	public static JFrame mainFrame;
 	

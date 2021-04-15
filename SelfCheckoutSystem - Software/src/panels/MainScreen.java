@@ -14,7 +14,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import org.lsmr.selfcheckout.Barcode;
 
 import controlSoftware.Receipt;
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -49,7 +49,7 @@ public class MainScreen extends JPanel {
 		
 		totalArea = new JTextArea();
 		totalArea.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		totalArea.setText(CommandLineDriver.controlSoftware.paymentTotal.toString());
+		totalArea.setText(GUIDriver.controlSoftware.paymentTotal.toString());
 		totalArea.setEditable(false);
 		txtEnterYourBarcode = new JTextField();
 		txtEnterYourBarcode.setText("Enter your barcode and press \"Scan Barcode\"...");
@@ -79,10 +79,10 @@ public class MainScreen extends JPanel {
 		
 		// Status label for blocked/unblocked
 		status = new JLabel();
-		status.setText("Is Blocked: " + CommandLineDriver.isBlocked);
+		status.setText("Is Blocked: " + GUIDriver.isBlocked);
 		
 		// If station is blocked status msg
-		if(CommandLineDriver.isBlocked) {
+		if(GUIDriver.isBlocked) {
 			status.setForeground(Color.red);
 			
 			status.setText("Station state: Blocked");
@@ -223,7 +223,7 @@ public class MainScreen extends JPanel {
                 barcodeFieldMouseClicked(evt);
             }
         });
-		itemList.setListData(Receipt.printReceipt(CommandLineDriver.controlSoftware));
+		itemList.setListData(Receipt.printReceipt(GUIDriver.controlSoftware));
 	}
 	//Step 2: if you have a button that you want to do something, you need to make an action listener LIKE THIS
 	
@@ -234,15 +234,15 @@ public class MainScreen extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(!CommandLineDriver.isBlocked){
+			if(!GUIDriver.isBlocked){
 				// TODO Auto-generated method stub
 				String bag = showBagsScreen();
 				
 				int bagNum = Integer.parseInt(bag);
-				CommandLineDriver.controlSoftware.plasticBagsUsed(bagNum);
+				GUIDriver.controlSoftware.plasticBagsUsed(bagNum);
 				updateTransactionFields();
 				
-				CommandLineDriver.goToScreen("pay");
+				GUIDriver.goToScreen("pay");
 			}
 			
 		}
@@ -253,9 +253,9 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			if(!CommandLineDriver.isBlocked){
+			if(!GUIDriver.isBlocked){
 				LookupItemScreen.flag = "main";
-				CommandLineDriver.goToScreen("lookup");
+				GUIDriver.goToScreen("lookup");
 			}
 			
 		}
@@ -267,8 +267,8 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			if(!CommandLineDriver.isBlocked){
-				CommandLineDriver.goToScreen("plulookup");
+			if(!GUIDriver.isBlocked){
+				GUIDriver.goToScreen("plulookup");
 			}
 			
 		}
@@ -286,7 +286,7 @@ public class MainScreen extends JPanel {
 				if(approved) {
 					
 					LookupItemScreen.flag = "attendant";
-					CommandLineDriver.goToScreen("attendant");
+					GUIDriver.goToScreen("attendant");
 				} else {
 					showIncorrectMessage();
 				}
@@ -311,7 +311,7 @@ public class MainScreen extends JPanel {
                 );
 		
 		if(option == JOptionPane.OK_OPTION) {
-			app = CommandLineDriver.controlSoftware.stationControl.logIn(user.getText().trim(), String.valueOf(pwd.getPassword()));
+			app = GUIDriver.controlSoftware.stationControl.logIn(user.getText().trim(), String.valueOf(pwd.getPassword()));
 		}
 		
 		return app;
@@ -346,9 +346,9 @@ public class MainScreen extends JPanel {
 	
 	public static void updateTransactionFields() {
 		
-		double totalAmt = CommandLineDriver.controlSoftware.shoppingCart.getTotalPayment().doubleValue();
+		double totalAmt = GUIDriver.controlSoftware.shoppingCart.getTotalPayment().doubleValue();
 		totalArea.setText(String.format("$%.2f", totalAmt));
-		itemList.setListData(Receipt.printReceipt(CommandLineDriver.controlSoftware));
+		itemList.setListData(Receipt.printReceipt(GUIDriver.controlSoftware));
 		
 	}
 	
@@ -361,12 +361,12 @@ public class MainScreen extends JPanel {
 			
 			
 
-			if(!CommandLineDriver.isBlocked){
-				if(!CommandLineDriver.controlSoftware.scanned) {
+			if(!GUIDriver.isBlocked){
+				if(!GUIDriver.controlSoftware.scanned) {
 					String bar = txtEnterYourBarcode.getText();
 					barScanned = bar;
 					Barcode b = new Barcode(bar);
-					CommandLineDriver.controlSoftware.scanProduct(b, 1);
+					GUIDriver.controlSoftware.scanProduct(b, 1);
 					updateTransactionFields();
 					txtEnterYourBarcode.setText("Enter your barcode and press \"Scan Barcode\"...");
 				} else {
@@ -391,14 +391,14 @@ public class MainScreen extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 
-			if(!CommandLineDriver.isBlocked){
+			if(!GUIDriver.isBlocked){
 				int idx = itemList.getSelectedIndex();
 				if(idx >= 0) {
 					boolean app = showLoginScreen();
 					if(app) {
 						String el = (String)itemList.getModel().getElementAt(idx);
 						System.out.println(el);
-						Receipt.getItemFromReceipt(el, CommandLineDriver.controlSoftware);
+						Receipt.getItemFromReceipt(el, GUIDriver.controlSoftware);
 						updateTransactionFields();
 					} else {
 						showIncorrectMessage();
@@ -423,9 +423,9 @@ public class MainScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			if(CommandLineDriver.controlSoftware.scanned) {
+			if(GUIDriver.controlSoftware.scanned) {
 				try {
-					CommandLineDriver.controlSoftware.addToBaggingArea(new Barcode(barScanned));
+					GUIDriver.controlSoftware.addToBaggingArea(new Barcode(barScanned));
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -452,9 +452,9 @@ public class MainScreen extends JPanel {
 			// TODO Auto-generated method stub
 			boolean a = showLoginScreen();
 			if(a) {
-				if(CommandLineDriver.controlSoftware.scanned) {
+				if(GUIDriver.controlSoftware.scanned) {
 					try {
-						CommandLineDriver.controlSoftware.addToBaggingArea(new Barcode(barScanned));
+						GUIDriver.controlSoftware.addToBaggingArea(new Barcode(barScanned));
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
