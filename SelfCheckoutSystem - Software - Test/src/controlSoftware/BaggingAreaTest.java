@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,9 +33,11 @@ public class BaggingAreaTest {
 			Barcode itemBarcode3 = new Barcode("1111");
 			BarcodedItem item250weight = new BarcodedItem(itemBarcode, 250);
 			BarcodedItem item50weight = new BarcodedItem(itemBarcode3, 50);
+			Map<Barcode, BarcodedItem> barcodedDB = BarcodedItemDatabase.BARCODED_ITEM_DATABASE;
+			barcodedDB.put(itemBarcode, item250weight);
 			
 			try {
-				controlSoft.addToBaggingArea(item250weight);
+				controlSoft.addToBaggingArea(itemBarcode);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -58,6 +61,7 @@ public class BaggingAreaTest {
 			int scaleSensitivity = 1;
 			
 			ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity); 
+			Map<Barcode, BarcodedItem> barcodedDB = BarcodedItemDatabase.BARCODED_ITEM_DATABASE;
 
 			Barcode itemBarcode = new Barcode("1234");
 			Barcode itemBarcode2 = new Barcode("4321");
@@ -65,8 +69,9 @@ public class BaggingAreaTest {
 			BarcodedItem item250weight = new BarcodedItem(itemBarcode, 250);
 			BarcodedItem item500weight = new BarcodedItem(itemBarcode2, 500);
 			BarcodedItem item50weight = new BarcodedItem(itemBarcode3, 50);
+			barcodedDB.put(itemBarcode2, item500weight);
 			
-			controlSoft.addToBaggingArea(item500weight);
+			controlSoft.addToBaggingArea(itemBarcode2);
 			controlSoft.removeFromBaggingArea(item500weight);
 			assertTrue(controlSoft.selfCheckout.baggingArea.getCurrentWeight() == 0);
 
@@ -83,14 +88,18 @@ public class BaggingAreaTest {
 		BigDecimal[] coinDenominations = new BigDecimal[] {new BigDecimal(0.05), new BigDecimal(0.10), new BigDecimal(0.25), new BigDecimal(1.00), new BigDecimal(2.00)};
 		int scaleMaximumWeight = 500; 
 		int scaleSensitivity = 1;
+		Map<Barcode, BarcodedItem> barcodedDB = BarcodedItemDatabase.BARCODED_ITEM_DATABASE;
+
 		
 		ControlSoftware controlSoft = new ControlSoftware(currency,banknoteDenominations,coinDenominations,scaleMaximumWeight,scaleSensitivity);
 		
 		Barcode nullB = new Barcode("");
 		BarcodedItem nullBarcode = new BarcodedItem(nullB, 20);
+		barcodedDB.put(nullB, nullBarcode);
+		
 		
 		try {
-			controlSoft.addToBaggingArea(nullBarcode);
+			controlSoft.addToBaggingArea(nullB);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

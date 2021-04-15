@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,34 +24,31 @@ public class CustomerBagTest {
 	ControlSoftware controlSoft;
 
 	@Test
-	public void testCustomerBag() throws OverloadException {
-		
-		try {
-			
+	public void testCustomerBag() throws Exception {
+					
 			Barcode barcode = new Barcode("1234");
+			Barcode barcode2 = new Barcode("12334");
+			Barcode barcode3 = new Barcode("12344");
+
 			BarcodedItem barcodedItem = new BarcodedItem(barcode, 20);
-			BarcodedItem barcodedItem2 = new BarcodedItem(barcode, 20);
-			BarcodedItem barcodedItem3 = new BarcodedItem(barcode, 20);
-			double expectedWeight = 65;
+			BarcodedItem barcodedItem2 = new BarcodedItem(barcode2, 20);
+			BarcodedItem barcodedItem3 = new BarcodedItem(barcode3, 20);
 			
 			controlSoft = new ControlSoftware(currency, banknoteDenominations, coinDenominations, scaleMaximumWeight, scaleMaximumWeight);
+			Map<Barcode, BarcodedItem> barcodedDB = BarcodedItemDatabase.BARCODED_ITEM_DATABASE;
+			barcodedDB.put(barcode, barcodedItem);
+			barcodedDB.put(barcode2, barcodedItem2);
+			barcodedDB.put(barcode3, barcodedItem3);
 			
-			controlSoft.addToBaggingArea(barcodedItem);
-			controlSoft.addToBaggingArea(barcodedItem2);
-			controlSoft.addToBaggingArea(barcodedItem3);
-			
+						
 			BarcodedItem customerBag = controlSoft.customerBag();
-			controlSoft.addToBaggingArea(customerBag);
+			double expectedWeight = customerBag.getWeight();
 			
+
 			double testWeight = controlSoft.selfCheckout.baggingArea.getCurrentWeight();
 			
-			assertTrue(testWeight == expectedWeight);
+			assertTrue(0.0 == testWeight);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail("Expected weight did not equal test");
-		}
-				
 	}
 
 }

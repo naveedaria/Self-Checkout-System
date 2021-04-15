@@ -37,7 +37,7 @@ public class ControlSoftTest {
 	@Test
 	public void calculateBillPaymentTest() {
 		
-		BigDecimal expectedChange = new BigDecimal("5");
+		BigDecimal expectedChange = new BigDecimal("-5");
 				
 		control.calculateBillPayment(5);
 		
@@ -48,7 +48,7 @@ public class ControlSoftTest {
 	@Test
 	public void calculateCoinPaymentTest() {
 		
-		BigDecimal expectedChange = new BigDecimal("8");
+		BigDecimal expectedChange = new BigDecimal("-2");
 
 		BigDecimal payment = new BigDecimal("2");
 

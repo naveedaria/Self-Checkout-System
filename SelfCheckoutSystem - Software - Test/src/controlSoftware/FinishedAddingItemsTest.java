@@ -13,6 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.lsmr.selfcheckout.Banknote;
 import org.lsmr.selfcheckout.Coin;
+import org.lsmr.selfcheckout.devices.DisabledException;
+import org.lsmr.selfcheckout.devices.OverloadException;
 
 public class FinishedAddingItemsTest {
 	ControlSoftware control;
@@ -54,7 +56,7 @@ public class FinishedAddingItemsTest {
 		String pinInput = "2345";
 		
 		try {
-			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, tap, insertCard, cardCompany, cardLimit, type, number, cardholder, cvv, pin, pinInput, isTapEnabled, hasChip, expiry, cardLimit, signature, insertCard, pinInput);
+			control.finishedAddingItems();
 			if (control.change.compareTo(new BigDecimal(0))!=0) {
 				fail("Change was supposed to be 0.\n");
 			}
@@ -89,9 +91,7 @@ public class FinishedAddingItemsTest {
 		String pinInput = "2345";
 		
 		try {
-			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, tap, 
-					insertCard, cardCompany, cardLimit, type, number, cardholder, cvv, pin, pinInput, isTapEnabled, hasChip, expiry, 
-					cardLimit, signature, insertCard, pinInput);
+			control.finishedAddingItems();
 			if (control.change.compareTo(new BigDecimal(0))!=0) {
 				fail("Change was supposed to be 0.\n");
 			}
@@ -112,7 +112,7 @@ public class FinishedAddingItemsTest {
 		Banknote[] banknotes = {new Banknote(5, this.currency), new Banknote(5, this.currency)};
 		
 		try {
-			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, useMembershipCard, cardholderMember, null, useMembershipCard, coins, banknotes);
+			control.finishedAddingItems();
 		}catch(Exception e) {
 			e.printStackTrace();
 			assertTrue(e instanceof Exception);
@@ -120,7 +120,7 @@ public class FinishedAddingItemsTest {
 	}
 	
 	@Test
-	public void testFinishedAddingItems() {
+	public void testFinishedAddingItems() throws DisabledException, OverloadException {
 		boolean useMembershipCard=true; 
 		String numberMember = "123456";
 		String cardholderMember = "Bob"; 
@@ -141,7 +141,7 @@ public class FinishedAddingItemsTest {
 		String pinInput = "2345";
 		
 		try {
-			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, isTapEnabled, tap, number, cardLimit, cardCompany, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit, signature, insertCard, pinInput);
+			control.finishedAddingItems();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -150,7 +150,7 @@ public class FinishedAddingItemsTest {
 	}
 
 	@Test
-	public void testFinishedAddingItemsTap() {
+	public void testFinishedAddingItemsTap() throws DisabledException, OverloadException {
 		boolean useMembershipCard=false; 
 		String numberMember = "123456";
 		String cardholderMember = "Bob"; 
@@ -171,7 +171,7 @@ public class FinishedAddingItemsTest {
 		String pinInput = "2345";
 		
 		try {
-			control.finishedAddingItems(useMembershipCard, numberMember, cardholderMember, isTapEnabled, tap, number, cardLimit, cardCompany, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit, signature, insertCard, pinInput);
+			control.finishedAddingItems();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
