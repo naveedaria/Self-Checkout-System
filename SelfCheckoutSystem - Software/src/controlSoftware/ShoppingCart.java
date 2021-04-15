@@ -85,14 +85,15 @@ public class ShoppingCart {
 //		item.getWeight();
 //	}
 	
+
 	
-	// Aris added: This method makes a call to the DB to check if isPerUnit is True or False
-//	public boolean doesItemNeedToBeWeighed(BarcodedItem item) {
-//		return ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode()).isPerUnit();
-//	}
-	
-	
-	//Aris: Overloaded method for handling a PLUCoded Item being entered. Change to JavaDoc before Iteration 3 submission
+	/**
+	 * Adds item to Shopping cart array
+	 * @param item
+	 * 		PLUCodedItem input, can access database using PLUCode
+	 * @param quantity
+	 * 		The number of times item was scanned
+	 */
 	public void addToShoppingCart(PLUCodedItem pluCodedItem, int quantity) {
 		PLUCodedProduct pluProd = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode());
 		
@@ -200,7 +201,14 @@ public class ShoppingCart {
 	}
 	
 	
-	// Aris comment: Need to overload updateTotalPayment() for when PLU coded item is used
+	/**
+	 * Updates the total payment. Calculates the correct price with respect to the quantity
+	 * of item and adds it to the totalpayment.
+	 * @param pluCodedItem
+	 * 		PLUCodedcodedItem to find the price
+	 * @param quantity
+	 * 		quantity of item
+	 */
 	private void updateTotalPayment(PLUCodedItem pluCodedItem, int quantity) {
 
 		double weight = pluCodedItem.getWeight() / 1000;
