@@ -137,5 +137,12 @@ public class ControlSoftTest {
 		assertEquals(cardHolder, control.getMemberName(cardNumber, cardHolder));
 	}
 	
+	@Test
+	public void testPlasticBags() {
+		control.plasticBagsUsed(2);
+		
+		assertEquals(new BigDecimal("10.1"), control.shoppingCart.getTotalPayment());
+	}
+	
 
 }
