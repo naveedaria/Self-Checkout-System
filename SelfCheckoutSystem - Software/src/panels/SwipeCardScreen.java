@@ -9,6 +9,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import org.lsmr.selfcheckout.devices.SimulationException;
+
 import javax.swing.JCheckBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JOptionPane;
@@ -71,8 +74,6 @@ public class SwipeCardScreen extends JPanel {
 		
 		JButton btnGoBack = new JButton("Go Back");
 		
-		JButton btnCallAttendant = new JButton("Call Attendant");
-		
 		expiry_textField = new JTextField();
 		expiry_textField.setColumns(10);
 		
@@ -129,9 +130,7 @@ public class SwipeCardScreen extends JPanel {
 									.addGap(22)
 									.addComponent(cvv_textField, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(76)
-							.addComponent(btnCallAttendant)
-							.addGap(150)
+							.addGap(327)
 							.addComponent(card_Payment_Label, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(299)
@@ -149,11 +148,7 @@ public class SwipeCardScreen extends JPanel {
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(28)
-							.addComponent(btnCallAttendant))
-						.addComponent(card_Payment_Label, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+					.addComponent(card_Payment_Label, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblNewLabel_4, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 					.addGap(37)
@@ -218,20 +213,8 @@ public class SwipeCardScreen extends JPanel {
 		
 		btnGoBack.addActionListener(new GotoPreviousScreen());
 		
-		btnCallAttendant.addActionListener(new GotoAttendant());
-		
 		
 	}
-
-
-
-	
-	private class GotoAttendant implements ActionListener{
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CommandLineDriver.goToScreen("attendant");
-			}
-		}
 	
 	
 
@@ -242,6 +225,7 @@ public class SwipeCardScreen extends JPanel {
 	private class GotoPreviousScreen implements ActionListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				eraseAll();
 				CommandLineDriver.goToScreen("selectmethod");
 			}
 		}
@@ -291,7 +275,7 @@ public class SwipeCardScreen extends JPanel {
 						cvv_textField.getText(),pinString,true,true,expiryCal, new BigDecimal(1000),null ,true);
 					
 				CommandLineDriver.goToScreen("thank");
-			} catch (IOException | ArrayIndexOutOfBoundsException e1) {
+			} catch (IOException | ArrayIndexOutOfBoundsException | SimulationException e1) {
 				
 				warningDialog("Invalid Card","The card swiped was invalid please try again");
 				eraseAll();
