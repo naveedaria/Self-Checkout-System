@@ -197,7 +197,12 @@ public class ControlSoftware {
 
 	
 	
-	
+	/**
+	 * Prompt to ask user if they would like to add their item to scale
+	 * Replaced by GUI Prompt in Iteration 3
+	 * @param item
+	 * @return
+	 */
 	public boolean addToScalePrompt(Item item) {
 		System.out.println("Please add item to the bagging area \n");
 		
@@ -239,6 +244,11 @@ public class ControlSoftware {
 		return customerBag;
 	}
 	
+	/**
+	 * Boolean to track whether items are all scanned
+	 * @param ooo
+	 * @return
+	 */
 	public boolean doneAddingItems(boolean ooo) {
 		return ooo;
 	}
@@ -247,6 +257,12 @@ public class ControlSoftware {
 		return ooo;
 	}
 	
+	/**
+	 * Class that adds items to the bagging area in hardware
+	 * @param b
+	 * takes in a barcode and searches through the database to find it
+	 * @throws Exception
+	 */
 	public void addToBaggingArea(Barcode b) throws Exception {
 		BarcodedItem item = BarcodedItemDatabase.BARCODED_ITEM_DATABASE.get(b);
 		
@@ -295,6 +311,11 @@ public class ControlSoftware {
 		
 	}
 	
+	/**
+	 * Method that removes items from the hardware bagging area
+	 * Checks if the weight is correctlly decremented
+	 * @param item
+	 */
 	public void removeFromBaggingArea(BarcodedItem item) {
 		
 		// Do not do anything if bagging area is disabled
@@ -547,6 +568,11 @@ public class ControlSoftware {
 	}
 	
 	
+	/**
+	 * return the balance on a gift card
+	 * @param giftcardNumber
+	 * @return
+	 */
 	public BigDecimal getAmountOnGiftCard(String giftcardNumber) {
 		PaymentByGiftcard giftcardPaymentHandler = new PaymentByGiftcard(this.selfCheckout);
 		giftcardPaymentHandler.detectCard(giftcardNumber, true);
@@ -576,7 +602,7 @@ public class ControlSoftware {
 	}
 	
 	/**
-	 * 
+	 * Tap to pay
 	 * @param 
 	 */
 	public void tapToPay(String cardCompany, String type, String number, String cardholder, String cvv, String pinInput, boolean isTapEnabled,
@@ -589,7 +615,7 @@ public class ControlSoftware {
 	}
 	
 	/**
-	 * 
+	 * Swipe to pay
 	 * @param 
 	 * @throws IOException 
 	 * @throws MagneticStripeFailureException 
@@ -604,7 +630,7 @@ public class ControlSoftware {
 	}
 	
 	/**
-	 * 
+	 * Increases the payment by number of plastic bags
 	 * @param 
 	 */
 	public void plasticBagsUsed(int quantity) {

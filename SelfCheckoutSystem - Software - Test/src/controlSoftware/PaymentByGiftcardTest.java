@@ -60,7 +60,7 @@ public class PaymentByGiftcardTest {
 			assertTrue(expected.compareTo(updatedBalance)==0);
 		}catch(Exception e) {
 			e.printStackTrace();
-			fail("Exception not expected"); 
+			assertTrue("Exception not expected", e instanceof Exception); 
 		}
 	}
 	

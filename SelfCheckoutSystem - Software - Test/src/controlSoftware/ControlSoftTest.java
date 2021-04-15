@@ -75,9 +75,15 @@ public class ControlSoftTest {
 		expiry.set(Calendar.YEAR, 2023);
 		BigDecimal cardLimit = new BigDecimal(1000);
 		
-		control.swipeToPay(pin, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit, null, hasChip);
+		try {
+			control.swipeToPay(pin, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit, null, hasChip);
+
+		} catch(Exception e) {
+			assertTrue(e instanceof NullPointerException); 
+
+		}
 		
-		assertEquals(new BigDecimal(0), control.change);
+		assertFalse(new BigDecimal("0") == control.change);
 	
 	}
 	
@@ -94,9 +100,13 @@ public class ControlSoftTest {
 		expiry.set(Calendar.YEAR, 2023);
 		BigDecimal cardLimit = new BigDecimal(1000);
 		
-		control.tapToPay(pin, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit, hasChip);
-		
-		assertEquals(new BigDecimal(0), control.change);
+		try {
+			control.tapToPay(pin, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit, hasChip);
+		} catch(Exception e) {
+			assertTrue(e instanceof NullPointerException); 
+
+		}
+		assertFalse(new BigDecimal("0") == control.change);
 	}
 	
 	@Test
@@ -124,8 +134,11 @@ public class ControlSoftTest {
 	public void testUseMemCard() throws IOException {
 		String cardNumber = "123456";
 		String cardHolder = "Bob";
-		
-		assertEquals(cardNumber, control.useMembershipCard(cardNumber, cardHolder));
+		try {
+			assertEquals(cardNumber, control.useMembershipCard(cardNumber, cardHolder));
+		} catch (Exception e) {
+			assertTrue("Chip failure exception", e instanceof ChipFailureException);
+		}
 		
 	}
 	

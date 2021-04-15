@@ -78,13 +78,6 @@ public class ShoppingCart {
 
 	}
 	
-	
-	
-	
-//	public void addToShoppingCart(BarcodedItem item) {
-//		item.getWeight();
-//	}
-	
 
 	
 	/**
