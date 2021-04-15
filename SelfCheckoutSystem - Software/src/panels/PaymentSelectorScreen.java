@@ -162,9 +162,9 @@ public class PaymentSelectorScreen extends JPanel {
 				GUIDriver.cash.btnNewButton_10.setEnabled(true);
 			}
 			
-			GUIDriver.cash.lblNewLabel_2.setText(GUIDriver.controlSoftware.shoppingCart.getTotalPayment().toString());
+			GUIDriver.cash.lblNewLabel_2.setText(GUIDriver.controlSoftware.paymentTotal.toString());
 			GUIDriver.cash.lblNewLabel_3.setText(GUIDriver.controlSoftware.shoppingCart.getTotalPayment().toString());
-			GUIDriver.cash.balance = GUIDriver.controlSoftware.shoppingCart.getTotalPayment();
+			GUIDriver.cash.balance = GUIDriver.controlSoftware.paymentTotal;
 			
 			GUIDriver.goToScreen("cash");
 		}
