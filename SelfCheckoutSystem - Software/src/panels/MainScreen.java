@@ -331,7 +331,7 @@ public class MainScreen extends JPanel {
                 "Enter Bags",
                 JOptionPane.QUESTION_MESSAGE
                 );
-		if(b == null || b.trim() == "") {
+		if(b == null || b.isEmpty()) {
 			b = "0";
 		}
 		return b;
