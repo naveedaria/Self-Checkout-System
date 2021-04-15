@@ -245,19 +245,6 @@ public class ControlSoftware {
 	}
 	
 	/**
-	 * Boolean to track whether items are all scanned
-	 * @param ooo
-	 * @return
-	 */
-	public boolean doneAddingItems(boolean ooo) {
-		return ooo;
-	}
-	
-	public boolean returnToAddingItems(boolean ooo) {
-		return ooo;
-	}
-	
-	/**
 	 * Class that adds items to the bagging area in hardware
 	 * @param b
 	 * takes in a barcode and searches through the database to find it
@@ -289,24 +276,13 @@ public class ControlSoftware {
 			// Throw Exception
 			throw new Exception("Scale OverLoaded.");
 		}
-		// If flag in not set
 		else if (!electronicScaleStub.isOverload) {
-			// Checking if the new weight is the same as the item weight
 			newWeight = newWeight - weight;
-			//System.out.println("New Weight" + newWeight+ " Weight: " + weight);
-			// New weight should not greater or less than the item weight 
+
 			if(newWeight != item.getWeight()) {
-				// Print statement for the non successful attempt
-				//System.out.println("Weight has changed, item was not successfully added to bagging area.");
-				// Call GUI to prompt the attendant 
-				// Attendant should enter their number and by-pass this prompt 
+
 			}
-			else {
-				// Print statement for the successful attempt
-				//System.out.println("Weight has not changed, item was successfully added to bagging area.");
-				
-				// Successful prompt or do nothing
-			}
+
 		}
 		
 	}

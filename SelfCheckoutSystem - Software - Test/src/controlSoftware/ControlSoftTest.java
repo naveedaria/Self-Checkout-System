@@ -11,10 +11,14 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.lsmr.selfcheckout.Banknote;
 import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.ChipFailureException;
+import org.lsmr.selfcheckout.Coin;
 import org.lsmr.selfcheckout.MagneticStripeFailureException;
+import org.lsmr.selfcheckout.devices.DisabledException;
+import org.lsmr.selfcheckout.devices.OverloadException;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
@@ -156,6 +160,18 @@ public class ControlSoftTest {
 		
 		assertEquals(new BigDecimal("10.1"), control.shoppingCart.getTotalPayment());
 	}
+	
+	@Test
+	public void testSetChange() {
+		double value = 10.50;
+		
+		BigDecimal testedValue = new BigDecimal("10.50");
+		control.setChange(value);
+		BigDecimal expected = control.change;
+		
+		assertEquals(testedValue, expected);
+	}
+
 	
 
 }
