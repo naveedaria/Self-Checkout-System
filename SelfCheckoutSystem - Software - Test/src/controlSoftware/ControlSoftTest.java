@@ -2,7 +2,9 @@ package controlSoftware;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Currency;
 import java.util.Map;
 
@@ -11,6 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
+import org.lsmr.selfcheckout.ChipFailureException;
+import org.lsmr.selfcheckout.MagneticStripeFailureException;
 import org.lsmr.selfcheckout.external.ProductDatabases;
 import org.lsmr.selfcheckout.products.BarcodedProduct;
 
@@ -56,6 +60,81 @@ public class ControlSoftTest {
 		
 		assertEquals(expectedChange, control.change);
 		
+	}
+	
+	@Test
+	public void testSwipeToPay() throws MagneticStripeFailureException, IOException {
+		String type = "Credit Card"; 
+		String number = "24689";
+		String cardholder = "Bob";
+		String cvv = "321";
+		String pin = "1234";
+		boolean isTapEnabled = true;
+		boolean hasChip = false; 
+		Calendar expiry = Calendar.getInstance();
+		expiry.set(Calendar.YEAR, 2023);
+		BigDecimal cardLimit = new BigDecimal(1000);
+		
+		control.swipeToPay(pin, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit, null, hasChip);
+		
+		assertEquals(new BigDecimal(0), control.change);
+	
+	}
+	
+	@Test
+	public void testTapToPay() throws ChipFailureException, IOException {
+		String type = "Credit Card"; 
+		String number = "24689";
+		String cardholder = "Bob";
+		String cvv = "321";
+		String pin = "1234";
+		boolean isTapEnabled = true;
+		boolean hasChip = false; 
+		Calendar expiry = Calendar.getInstance();
+		expiry.set(Calendar.YEAR, 2023);
+		BigDecimal cardLimit = new BigDecimal(1000);
+		
+		control.tapToPay(pin, type, number, cardholder, cvv, pin, isTapEnabled, hasChip, expiry, cardLimit, hasChip);
+		
+		assertEquals(new BigDecimal(0), control.change);
+	}
+	
+	@Test
+	public void testGetAmountGift() {
+		
+		String cardNumber = "123456";
+		BigDecimal expected = control.getAmountOnGiftCard(cardNumber);
+		
+		assertEquals(new BigDecimal(25), expected);
+		
+		
+	}
+	
+	@Test
+	public void testUseGift() throws IOException {
+		String cardNumber = "123456";
+		
+		BigDecimal expected = control.useGiftCard(cardNumber);
+		
+		assertEquals(new BigDecimal(0), expected);
+		
+	}
+	
+	@Test
+	public void testUseMemCard() throws IOException {
+		String cardNumber = "123456";
+		String cardHolder = "Bob";
+		
+		assertEquals(cardNumber, control.useMembershipCard(cardNumber, cardHolder));
+		
+	}
+	
+	@Test
+	public void testGetMemName() {
+		String cardNumber = "123456";
+		String cardHolder = "Bob";
+		
+		assertEquals(cardHolder, control.getMemberName(cardNumber, cardHolder));
 	}
 	
 

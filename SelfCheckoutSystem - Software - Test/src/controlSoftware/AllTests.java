@@ -8,8 +8,9 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ addToScalePromptTest.class, AttendantLogIn_OutTest.class, BaggingAreaTest.class,
 		BankNoteMethodTest.class, CoinMethodTest.class, ControlSoftTest.class, CustomerBagTest.class,
 		DispenseChangeTest.class, FinishedAddingItemsTest.class, PaymentByGiftcardTest.class, receiptTest.class,
-		RemoveItemFromScaleTest.class, ScanMemberShipCardTest.class, ScanProductTest.class, ShoppingCartTest.class,
-		StationControlTest.class, SwipeToPayTest.class, TapToPayTest.class, WeighItemTest.class })
+		RemoveItemFromScaleTest.class, ScanMemberShipCardTest.class, ScanProductTest.class,
+		ScanProductUsingPLUCodeTest.class, ShoppingCartTest.class, StationControlTest.class, SwipeToPayTest.class,
+		TapToPayTest.class, WeighItemTest.class })
 
 public class AllTests {
 
