@@ -537,8 +537,11 @@ public class ControlSoftware {
 		
 		//if the amount returned is not -1 
 		if(amountRemaining.compareTo(new BigDecimal (-1))!=0) {
-			this.paymentTotal = amountRemaining;
+			paymentTotal = amountRemaining;
+			shoppingCart.totalPayment = amountRemaining;
 		}
+		
+		System.out.println("new payment total: " + paymentTotal);
 		
 		return amountRemaining; 
 	}
