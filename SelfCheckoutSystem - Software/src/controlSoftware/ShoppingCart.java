@@ -2,6 +2,7 @@ package controlSoftware;
 
 import java.math.BigDecimal;
 
+import org.lsmr.selfcheckout.Barcode;
 import org.lsmr.selfcheckout.BarcodedItem;
 import org.lsmr.selfcheckout.PLUCodedItem;
 import org.lsmr.selfcheckout.devices.SimulationException;
@@ -30,7 +31,7 @@ public class ShoppingCart {
 	BarcodedItem[] BARCODEDITEM_ARRAY;
 	PLUCodedItem[] PLUCODEDITEM_ARRAY;
 	int i;
-	
+	Barcode[] BARCODE_ARRAY;
 	ElectronicScaleListener baggingAreaScale;
 	
 	/**
@@ -44,6 +45,7 @@ public class ShoppingCart {
 		this.totalNumOfItems = 0;
 		BARCODEDITEM_ARRAY = new BarcodedItem[30];
 		PLUCODEDITEM_ARRAY = new PLUCodedItem[30];
+		BARCODE_ARRAY = new Barcode[30];
 		i = 0;
 			
 	}
@@ -63,6 +65,7 @@ public class ShoppingCart {
 			SHOPPING_CART_ARRAY[i][0] = prod.getDescription();
 			SHOPPING_CART_ARRAY[i][1] = Integer.toString(quantity);
 			BARCODEDITEM_ARRAY[i] = item;
+			BARCODE_ARRAY[i] = prod.getBarcode();
 			updateTotalPayment(item, quantity);
 			
 			totalNumOfItems += quantity;
@@ -133,10 +136,10 @@ public class ShoppingCart {
 					SHOPPING_CART_ARRAY[j][1] = null;
 					totalNumOfItems = totalNumOfItems - quantity;
 					decreaseTotalPayment(item, quantity);
-					
+					BARCODE_ARRAY[j] = null;
+					BARCODEDITEM_ARRAY[j] = null;
 					break;
-				} else 
-					throw new NullPointerException("Item is not on shopping cart");
+				}
 			} 
 		} catch (NullPointerException e) {
 			throw new SimulationException(e);
@@ -281,6 +284,10 @@ public class ShoppingCart {
 		
 		return ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode()).getDescription();
 	}
+	
+	public void updatePayment(BigDecimal price) {
+        this.totalPayment = this.totalPayment.add(price);
+    }
 	
 	
 	

@@ -19,4 +19,18 @@ public final class AttendantProfile {
 		this.password = password;
 		
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		
+		if(o instanceof AttendantProfile) {
+			
+			if(this.username.equals(((AttendantProfile)o).username) && this.password.equals(((AttendantProfile)o).password)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return false;
+	}
 }

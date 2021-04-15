@@ -22,7 +22,7 @@ import org.lsmr.selfcheckout.products.PLUCodedProduct;
 
 import controlSoftware.ControlSoftware;
 
-public class StationControl {
+public class StationControl extends AttendantLogIn_Out{
 	
 	private Currency currency;
 	private int[] banknoteDenominations;
