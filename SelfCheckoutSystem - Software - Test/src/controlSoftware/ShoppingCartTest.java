@@ -112,9 +112,10 @@ public class ShoppingCartTest {
 		}
 	}
 	
-	@Test(expected = SimulationException.class)
+	@Test(expected = NullPointerException.class)
 	public void testRemoveNullItem() {
-		cart.removeFromShoppingCart(bItem, quantity);
+		
+		cart.removeFromShoppingCart(null, quantity);
 		
 	}
 	

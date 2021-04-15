@@ -28,7 +28,7 @@ public class AttendantLogIn_OutTest {
 		profiles.addProfile(profile1);
 		inOut.loadAttendantProfileDatabase(profiles);
 
-		assertFalse(inOut.logIn("attendant1", "password1"));
+		assertTrue(inOut.logIn("attendant1", "password1"));
 		
 	}
 	
@@ -39,7 +39,7 @@ public class AttendantLogIn_OutTest {
 		profiles.addProfile(profile2);
 		inOut.loadAttendantProfileDatabase(profiles);
 		
-		assertFalse(inOut.logOut("attendant2", "password1"));
+		assertTrue(inOut.logOut("attendant2", "password1"));
 		
 	}
 	

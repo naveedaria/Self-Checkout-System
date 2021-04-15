@@ -35,12 +35,14 @@ public class ScanProductTest {
 		
 		Barcode barcode = new Barcode("1234567");
 		BarcodedProduct bp1 = new BarcodedProduct(barcode, "Banana2", new BigDecimal(1.75));
-		Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
-	    db.put(barcode, bp1);
-		
 		BarcodedItem barcodedItem = new BarcodedItem(barcode, 500);
+		Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
+		Map<Barcode, BarcodedItem> barcodedDB = BarcodedItemDatabase.BARCODED_ITEM_DATABASE;
+	    db.put(barcode, bp1);
+		barcodedDB.put(barcode, barcodedItem);
+
 		
-		controlSoft.scanProduct(barcodedItem, 1);
+		controlSoft.scanProduct(barcode, 1);
 		
 		//Assert that 1 item was added to the shopping cart
 		assertEquals(new BigDecimal(1.75), controlSoft.shoppingCart.getTotalPayment());
@@ -52,12 +54,13 @@ public class ScanProductTest {
 		
 		Barcode barcode = new Barcode("1234567");
 		BarcodedProduct bp1 = new BarcodedProduct(barcode, "Banana2", new BigDecimal(1.75));
-		Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
-	    db.put(barcode, bp1);
-		
 		BarcodedItem barcodedItem = new BarcodedItem(barcode, 500);
+		Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
+		Map<Barcode, BarcodedItem> barcodedDB = BarcodedItemDatabase.BARCODED_ITEM_DATABASE;
+	    db.put(barcode, bp1);
+		barcodedDB.put(barcode, barcodedItem);
 		
-		controlSoft.scanProduct(barcodedItem, 2);
+		controlSoft.scanProduct(barcode, 2);
 		
 		//Assert that 1 item was added to the shopping cart
 		assertEquals(new BigDecimal(3.50).setScale(2, RoundingMode.HALF_UP), controlSoft.shoppingCart.getTotalPayment());
@@ -69,12 +72,13 @@ public class ScanProductTest {
 		
 		Barcode barcode = new Barcode("1234567");
 		BarcodedProduct bp1 = new BarcodedProduct(barcode, "Banana2", new BigDecimal(215.78));
-		Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
-	    db.put(barcode, bp1);
-		
 		BarcodedItem barcodedItem = new BarcodedItem(barcode, 500);
+		Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
+		Map<Barcode, BarcodedItem> barcodedDB = BarcodedItemDatabase.BARCODED_ITEM_DATABASE;
+	    db.put(barcode, bp1);
+		barcodedDB.put(barcode, barcodedItem);
 		
-		controlSoft.scanProduct(barcodedItem, 1);
+		controlSoft.scanProduct(barcode, 1);
 		
 		//Assert that 1 item was added to the shopping cart
 		assertEquals(new BigDecimal(215.78).setScale(2, RoundingMode.HALF_UP), controlSoft.shoppingCart.getTotalPayment());
@@ -87,12 +91,13 @@ public class ScanProductTest {
 		
 		Barcode barcode = new Barcode("1234567");
 		BarcodedProduct bp1 = new BarcodedProduct(barcode, "Banana2", new BigDecimal(1.75));
-		Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
-	    db.put(barcode, bp1);
-		
 		BarcodedItem barcodedItem = new BarcodedItem(barcode, 500);
+		Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
+		Map<Barcode, BarcodedItem> barcodedDB = BarcodedItemDatabase.BARCODED_ITEM_DATABASE;
+	    db.put(barcode, bp1);
+		barcodedDB.put(barcode, barcodedItem);
 		
-		controlSoft.scanProduct(barcodedItem, 1);
+		controlSoft.scanProduct(barcode, 1);
 		
 		//Assert that 1 item was added to the shopping cart
 		assertEquals(1, controlSoft.shoppingCart.getTotalQuantity());
@@ -105,12 +110,13 @@ public class ScanProductTest {
 		
 		Barcode barcode = new Barcode("1234567");
 		BarcodedProduct bp1 = new BarcodedProduct(barcode, "Banana2", new BigDecimal(1.75));
-		Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
-	    db.put(barcode, bp1);
-		
 		BarcodedItem barcodedItem = new BarcodedItem(barcode, 500);
+		Map<Barcode, BarcodedProduct> db = ProductDatabases.BARCODED_PRODUCT_DATABASE;
+		Map<Barcode, BarcodedItem> barcodedDB = BarcodedItemDatabase.BARCODED_ITEM_DATABASE;
+	    db.put(barcode, bp1);
+		barcodedDB.put(barcode, barcodedItem);
 		
-		controlSoft.scanProduct(barcodedItem, 3);
+		controlSoft.scanProduct(barcode, 3);
 		
 		//Assert that 1 item was added to the shopping cart
 		assertEquals(3, controlSoft.shoppingCart.getTotalQuantity());
