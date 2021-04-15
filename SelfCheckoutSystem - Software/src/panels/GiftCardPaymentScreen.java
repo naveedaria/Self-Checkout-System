@@ -25,7 +25,7 @@ import org.lsmr.selfcheckout.Barcode;
 
 import controlSoftware.Receipt;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -35,7 +35,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -44,7 +44,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -53,7 +53,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -62,7 +62,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -71,7 +71,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -80,7 +80,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -89,7 +89,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -98,7 +98,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -107,7 +107,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -116,7 +116,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -125,7 +125,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -134,7 +134,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -143,7 +143,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -311,7 +311,7 @@ public class GiftCardPaymentScreen extends JPanel {
             	// amountAvail (String) variable, and then display it 
             	
             	giftcardNum = giftcardNumInput.getText();
-				BigDecimal amountAvailNum= CommandLineDriver.controlSoftware.getAmountOnGiftCard(giftcardNum);
+				BigDecimal amountAvailNum= GUIDriver.controlSoftware.getAmountOnGiftCard(giftcardNum);
 				if(amountAvailNum.compareTo(new BigDecimal(-1))==0) {
 					amountAvail = "Invalid Gift Card";
 				}else {
@@ -329,7 +329,7 @@ public class GiftCardPaymentScreen extends JPanel {
 
 				BigDecimal newBalanceNum;
 				try {
-					newBalanceNum = CommandLineDriver.controlSoftware.useGiftCard(giftcardNum);
+					newBalanceNum = GUIDriver.controlSoftware.useGiftCard(giftcardNum);
 					if(newBalanceNum.compareTo(new BigDecimal(-1))==0) {
 						newBalance = "Invalid Gift Card";
 					}else {
@@ -342,7 +342,7 @@ public class GiftCardPaymentScreen extends JPanel {
 
 				remainingBalanceOutput.setText(newBalance);
 				
-				BigDecimal amountAvailNum= CommandLineDriver.controlSoftware.getAmountOnGiftCard(giftcardNum);
+				BigDecimal amountAvailNum= GUIDriver.controlSoftware.getAmountOnGiftCard(giftcardNum);
 				amountAvail = amountAvailNum.toString();
 				currentAmountAvailOutput.setText(amountAvail);
 			}
@@ -354,14 +354,14 @@ public class GiftCardPaymentScreen extends JPanel {
 	private class GotoPaymentSelector implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CommandLineDriver.goToScreen("pay");
+			GUIDriver.goToScreen("pay");
 		}
 	}
 	
 	private class GotoAttendant implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			CommandLineDriver.goToScreen("attendant");
+			GUIDriver.goToScreen("attendant");
 		}
 	}
 	
@@ -371,10 +371,10 @@ public class GiftCardPaymentScreen extends JPanel {
 			BigDecimal newBalanceBD = new BigDecimal(newBalance);
 			
 			if (newBalanceBD.compareTo(new BigDecimal("0")) == 0){
-				CommandLineDriver.goToScreen("thank");
+				GUIDriver.goToScreen("thank");
 			}
 			else {
-				CommandLineDriver.goToScreen("pay");
+				GUIDriver.goToScreen("pay");
 			}
 			
 		}

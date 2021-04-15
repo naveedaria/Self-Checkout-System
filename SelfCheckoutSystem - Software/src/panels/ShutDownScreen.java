@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 
 import javax.swing.JButton;
 
@@ -64,7 +64,7 @@ public class ShutDownScreen extends JPanel {
 				if(approved) {
 					
 					
-					CommandLineDriver.goToScreen("welcome");
+					GUIDriver.goToScreen("welcome");
 				} else {
 					showIncorrectMessage();
 				}
@@ -88,7 +88,7 @@ public class ShutDownScreen extends JPanel {
                 );
 		
 		if(option == JOptionPane.OK_OPTION) {
-			app = CommandLineDriver.controlSoftware.stationControl.logIn(user.getText().trim(), String.valueOf(pwd.getPassword()));
+			app = GUIDriver.controlSoftware.stationControl.logIn(user.getText().trim(), String.valueOf(pwd.getPassword()));
 		}
 		
 		return app;

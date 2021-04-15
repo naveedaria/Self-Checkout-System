@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -84,7 +84,7 @@ public class CardSelectMethodScreen extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 	
-				CommandLineDriver.goToScreen("swipe");
+				GUIDriver.goToScreen("swipe");
 			}
 			
 		}
@@ -95,7 +95,7 @@ public class CardSelectMethodScreen extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 			
-				CommandLineDriver.goToScreen("tap");
+				GUIDriver.goToScreen("tap");
 			}
 		}
 		
@@ -105,7 +105,7 @@ public class CardSelectMethodScreen extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				CommandLineDriver.goToScreen("pay");
+				GUIDriver.goToScreen("pay");
 			}
 		}
 		

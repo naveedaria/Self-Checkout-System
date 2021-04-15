@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-/controlSoftware/
-=======
-/panels/
->>>>>>> refs/heads/GUI
 /driver/
-/attendant/
+/panels/
+/controlSoftware/

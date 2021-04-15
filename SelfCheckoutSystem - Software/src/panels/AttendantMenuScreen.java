@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import attendant.StationControl;
-import driver.CommandLineDriver;
+import driver.GUIDriver;
 
 
 public class AttendantMenuScreen extends JPanel {
@@ -180,10 +180,10 @@ public class AttendantMenuScreen extends JPanel {
 			// TODO Auto-generated method stub
 			blockStateLbl.setText("Station state: blocked");
 			
-			CommandLineDriver.isBlocked = true;
+			GUIDriver.isBlocked = true;
 			MainScreen.status.setText("Station state: Blocked");
 			MainScreen.status.setForeground(Color.red);
-			CommandLineDriver.blockStation.isBlocked = true;
+			GUIDriver.blockStation.isBlocked = true;
 			
 		}
 		
@@ -196,11 +196,11 @@ public class AttendantMenuScreen extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			blockStateLbl.setText("Station state: unblocked");
-			CommandLineDriver.isBlocked = false;
+			GUIDriver.isBlocked = false;
 			MainScreen.status.setText("Station state: Unblocked");
 			MainScreen.status.setForeground(Color.green);
 			
-			CommandLineDriver.blockStation.isBlocked = false;
+			GUIDriver.blockStation.isBlocked = false;
 			
 		}
 		
@@ -255,7 +255,7 @@ public class AttendantMenuScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			CommandLineDriver.goToScreen("lookup");
+			GUIDriver.goToScreen("lookup");
 			
 		}
 		
@@ -267,7 +267,7 @@ public class AttendantMenuScreen extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			CommandLineDriver.goToScreen("main");
+			GUIDriver.goToScreen("main");
 			
 		}
 		
@@ -281,7 +281,7 @@ public class AttendantMenuScreen extends JPanel {
 			int inkAdded = 10;
 			MainScreen.inkLevel += inkAdded;
 			inkStateLbl.setText("Ink state: " + MainScreen.inkLevel);
-			CommandLineDriver.controlSoftware.stationControl.addInkToStation(inkAdded);
+			GUIDriver.controlSoftware.stationControl.addInkToStation(inkAdded);
 			MainScreen.inkLabel.setText("Ink Level: " + MainScreen.inkLevel);
 			
 		}
@@ -296,7 +296,7 @@ public class AttendantMenuScreen extends JPanel {
 			int paperAdded = 10;
 			MainScreen.paperLevel += paperAdded;
 			paperStateLbl.setText("Paper state: " + MainScreen.paperLevel);
-			CommandLineDriver.controlSoftware.stationControl.addInkToStation(paperAdded);
+			GUIDriver.controlSoftware.stationControl.addInkToStation(paperAdded);
 			MainScreen.paperLabel.setText("Paper Level: " + MainScreen.paperLevel);
 		}
 		
@@ -308,7 +308,7 @@ public class AttendantMenuScreen extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			
-			CommandLineDriver.goToScreen("shutdown");
+			GUIDriver.goToScreen("shutdown");
 		}
 		
 	}
